@@ -87,6 +87,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 **C3 🟠 Phones.** Confirm +91 85760 00083 as the one public number and the WhatsApp number. What is +91 85760 00074 for (bus and tempo pages)?
 - *Until answered:* 0083 everywhere; 0074 not used.
 - **Answer (2026-09-28):** +91 85760 00083 is the only public number, for calls and WhatsApp.
+- **Done in the hotfix:** 8576000074 replaced with 8576000083 on all 8 pages (live after upload).
 
 **C4 🟠 Email.** Which inbox should receive leads: cabtaxiverz@gmail.com (111 pages) or info@taxiverz.com (42 pages)? Does info@taxiverz.com exist?
 - *Until answered:* cabtaxiverz@gmail.com shown; lead email sink not configured.
@@ -166,7 +167,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 **G1 🔴 Where do Web3Forms submissions go today?** Which inbox is the key `160ce8ff…` registered to, and is it checked? Also: **20 legacy forms send nothing** (AUDIT §7), including the wedding and Nepal enquiry forms. Is that a surprise?
 - *Why:* tells us which sink to build first and whether leads have been lost.
 - *Until answered:* the new site falls back to WhatsApp for every lead.
-- **Partial answer (2026-09-28):** all forms move to one new Web3Forms key and one inbox (hotfix). **Still needed: the key and the inbox address** — the instructions contained the placeholders `<KEY>` and `<EMAIL>`.
+- **Answer (2026-09-28):** no new Web3Forms key for now. The dead forms (23 on live — see the AUDIT addendum) open WhatsApp 918576000083 pre-filled with everything typed; the 117 forms that already post to Web3Forms stay as they are. Which inbox the existing key `160ce8ff…` delivers to is still unknown.
 
 **G2 🟠 Lead routing.** Lead email, WhatsApp Business number, optional Telegram alert, when TravelCRM should start receiving website leads, GTM / GA4 / Google Ads IDs.
 - *Until answered:* sinks disabled except WhatsApp fallback; no tracking IDs.
@@ -185,7 +186,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 
 ## I. Fix on the live site now (outside the rebuild)
 
-**Approved 2026-09-28** as the hotfix track (`REBUILD_PLAN.md §7.H`, branch `hotfix/live-site`). I1–I5 are in that hotfix; I6 (noindex on the Vercel prototypes) is done in the Vercel projects, not in this repo.
+**Approved 2026-09-28** as the hotfix track (`REBUILD_PLAN.md §7.H`, branch `hotfix/live-site`). I1–I5 are in that hotfix, built and waiting for the owner's upload (`hotfix-upload.zip`); I6 (noindex on the Vercel prototypes) is done in the Vercel projects, not in this repo.
 
 **I1 🔴** `index.html`, `blog.html`, `hindi.html` canonical → `https://yourwebsite.com`; `car-rental.html` → `https://yourdomain.com`; `og:url`/`og:image`/`twitter:image` on home. `robots.txt` Sitemap line → `yourwebsite.com`.
 **I2 🔴** 20 lead forms that send nothing (list in AUDIT §7).
@@ -200,12 +201,23 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 
 **L1 🔴 Live-site download.** The instructions point to `C:	axiverz-live`, which doesn't exist. Where is the fresh `public_html` download?
 - *Until answered:* no snapshot on `main`, no hotfix.
+- **Answer (2026-09-28):** use the 3 Aug server backup after proving it matches live. Proven: all 295 servable files fetched over HTTPS match byte for byte, and the headers match its `.htaccess`. Committed to `main` as `snapshot: live site 2026-09-28`.
 
 **L2 🟠 Lead data retention.** How long may lead records (name, phone, trip) be kept in the outbox before deletion or anonymisation? Needed for the privacy policy (DPDP Act).
 - *Until answered:* no automatic deletion; the privacy policy says "as long as needed to serve the booking" and is marked for owner review.
+- **Answer (2026-09-28):** 24 months after the last contact, then delete. In `REBUILD_PLAN.md §3.5` and `docs/PRIVACY_POLICY_DRAFT.md` (marked for owner review).
 
 **L3 🟠 Google Maps API key** for `scripts/fetch-distances.ts` (Routes API enabled, billing on the Google Cloud project), in `.env.local` as `GOOGLE_MAPS_API_KEY`. Needed before Phase 4B.
 - *Until answered:* distances stay unverified; no route page is published.
+- **Noted (2026-09-28):** the owner adds it before Phase 4B.
+
+**L4 🔴 `https://www.taxiverz.com` shows a certificate error.** The SSL certificate doesn't cover `www`: `http://www…` redirects to `https://www…`, which then fails with "certificate not valid for this name". The hotfix's www → apex redirect can't run until the certificate covers `www`. Fix in hPanel → Security → SSL: issue or reinstall the certificate for both `taxiverz.com` and `www.taxiverz.com`.
+- *Until answered:* anyone typing `www.taxiverz.com` gets a security warning instead of the site.
+
+**L5 🟠 Hostinger CDN and caching.** Earlier today images came through Hostinger's CDN (losslessly re-compressed); later the origin server answered directly. After uploading the hotfix, purge the CDN cache in hPanel if the CDN is on. With the new caching rules, CSS, JS and images are cached for a year, so any later edit to `script.js`, `style.css`, `whatsapp-forms.js` or an image needs a new file name (or `?v=2` on the reference) plus a CDN purge.
+- *Until answered:* nothing — a reminder for every future upload.
+
+**L6 🟢 `.avif` files are served as `text/plain`** (including the logo `taxiverz.avif`). Most browsers still show them; the proper fix is one `.htaccess` line (`AddType image/avif .avif`). Left out of this hotfix because its scope was fixed — say if you want it.
 
 ---
 

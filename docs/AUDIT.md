@@ -443,3 +443,13 @@ Mapping decisions worth reviewing:
 | Routes to 301 | "25 live route pages" | 156 URLs |
 
 Phase 0 is independent of the stack, so work went ahead. **Phase 1 can't start until one spec is chosen** (OWNER_TODO A1). The URL map follows `REBUILD_PLAN.md §2.1`. Every route, city, fleet and service-×-city target is also valid under the older spec. Only `nepal-taxi`, `shoot-car-rental`, `bus-rental`, `bike-rental` and `/cabs/` are extra hubs the older spec doesn't list.
+
+---
+
+## Addendum (2026-09-28) — corrections from the live snapshot
+
+The live site (now `main`) was re-scanned for the hotfix. Where it differs from this audit, which used the GitHub copy:
+- **Dead forms: 23 on live, not 20.** Besides the 20 in §7, the wedding and airport pages have booking modals that show "Booking request submitted!" and send nothing, and the home page has a booking modal that nothing opens. 117 forms post to Web3Forms with the real key.
+- The helicopter page shows a hard-coded visitor count of **1,24,582**; `taxi-rental-near-me-gorakhpur.html` shows "4.8★ rating"; the S-Class page has "What Makes Us #1".
+- `https://www.taxiverz.com` fails with a certificate error (OWNER_TODO L4). `.avif` files are served as `text/plain` (L6).
+- Earlier today Hostinger's CDN served losslessly re-compressed JPEG/PNG files; the origin files are unchanged.
