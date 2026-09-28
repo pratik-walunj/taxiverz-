@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens — the only place colours, fonts and the type scale are defined.
+ * See docs/DESIGN.md. Font variables (--font-mukta, --font-anek) come from next/font.
+ */
+@theme {
+  --color-ink: #1c1b1d;
+  --color-muted: #5b6270;
+  --color-line: #e3e5ea;
+  --color-mist: #f3f4f6;
+  --color-paper: #ffffff;
+  --color-brand: #f45c0c;
+  --color-brand-deep: #c2410c;
+  --color-whatsapp: #25d366;
+  --color-nh-yellow: #ffd400;
+  --color-night: #0e0f11;
+  --color-ivory: #f4f1ea;
+  --color-champagne: #c8a96a;
+  --color-night-muted: #a8a39a;
+
+  --font-sans: var(--font-mukta), ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-anek), var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(2.25rem, 1.702rem + 2.435vw, 3.5rem);
+  --text-display--line-height: 1.05;
+  --text-h1: clamp(2rem, 1.674rem + 1.449vw, 2.75rem);
+  --text-h1--line-height: 1.1;
+  --text-h2: clamp(1.5rem, 1.283rem + 0.966vw, 2rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: clamp(1.2rem, 1.113rem + 0.386vw, 1.4rem);
+  --text-h3--line-height: 1.25;
+  --text-body: clamp(1rem, 0.973rem + 0.121vw, 1.0625rem);
+  --text-body--line-height: 1.6;
+
+  --radius-control: 6px;
+  --radius-panel: 10px;
+
+  --shadow-lift: 0 1px 2px rgb(28 27 29 / 0.06), 0 8px 24px rgb(28 27 29 / 0.1);
+
+  --container-site: 75rem;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  a {
+    text-underline-offset: 0.18em;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* The one orchestrated moment: home hero rises in on first load (DESIGN.md §9). */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-rise {
+  animation: rise-in 240ms var(--ease-out-soft) both;
+}
