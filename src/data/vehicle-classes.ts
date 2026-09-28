@@ -112,6 +112,13 @@ const input: ClassInput[] = [
   { slug: 'winger', name: 'Winger', representativeModels: ['Tata Winger'], tollClass: 'lcv' },
 ]
 
+/**
+ * Published (owner decision, 2026-09-28): every class the fare widget offers,
+ * so /book/ works end to end — fares read "on request" until RATE_CARD rates exist.
+ * Open 4×4 stays draft: Gypsy/Jeep/Thar are enquiry-only (mostly shoots).
+ */
+const ENQUIRY_ONLY = new Set(['open-4x4'])
+
 export const vehicleClasses: VehicleClass[] = input.map((c, i) => ({
   seats: null,
   luggage: null,
@@ -120,6 +127,6 @@ export const vehicleClasses: VehicleClass[] = input.map((c, i) => ({
   imageFrom: null,
   rates: noRates,
   sortOrder: i + 1,
-  status: 'draft',
+  status: ENQUIRY_ONLY.has(c.slug) ? 'draft' : 'published',
   ...c,
 }))
