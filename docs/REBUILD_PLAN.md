@@ -198,11 +198,11 @@ All policies come from `config/pricing.ts`, so the owner's answers change number
 - Lead types: booking, callback, enquiry-luxury, enquiry-wedding, enquiry-shoot, enquiry-group, enquiry-corporate, enquiry-package, enquiry-bike, partner-attach, partner-driver, contact.
 - Zod validation → honeypot + minimum fill time + per-IP rate limit (no captcha) → server-side fare recompute → reference `TVZ-YYMMDD-XXXX` → **write to the outbox** → fan out to the sinks enabled by env vars.
 - **Outbox (PostgreSQL via Drizzle).** Two tables:
-  - `leads`: id (uuid), ref (unique; idempotency key), type, trip fields, contact, quoted fare + breakdown (json), consent flags, attribution (gclid, gbraid, wbraid, utm_*, landing page, referrer, first-visit time), page, user agent, createdAt.
+  - `leads`: id (uuid), ref (unique; idempotency key), type, trip fields, contact, quoted fare + breakdown (json), consent flags, attribution (gclid, gbraid, wbraid, utm_*, landing page, referrer, first-visit time), page, user agent, createdAt, lastContactAt.
   - `lead_deliveries`: leadId, sink, status (pending|sent|failed), attempts, nextAttemptAt, lastError (no personal data), deliveredAt.
   - Flow: insert lead + one pending delivery per enabled sink in one transaction → attempt delivery immediately → failures back off exponentially (1 min, 5 min, 30 min, 2 h, 12 h) and are retried by `POST /api/leads/retry` (token-protected), called every 5 minutes by a cron on the VPS.
   - **If the database is unreachable**, deliver directly to the sinks and log the failure (no personal data in logs). The lead is never dropped.
-  - Retention of personal data follows the privacy policy (period set by the owner; DPDP Act).
+  - Retention (owner decision 2026-09-28): lead records are kept for **24 months after the last contact**, then deleted. `leads.lastContactAt` starts at `createdAt` and is refreshed on every lead with the same phone number whenever that customer contacts us again (a new lead now; TravelCRM contacts later); a daily job deletes leads (and their deliveries) whose `lastContactAt` is older than 24 months. Stated in the privacy policy (DPDP Act); draft in `docs/PRIVACY_POLICY_DRAFT.md`.
   - The outbox is the source for Google Ads offline-conversion import (gclid + value + conversion time) and the table TravelCRM reads later.
 - Sinks:
   - **Email** (Resend or SMTP). Legacy used Web3Forms; keep it as an interim sink only if server-side submission works on the owner's plan.
@@ -266,7 +266,7 @@ All policies come from `config/pricing.ts`, so the owner's answers change number
 - **Destination guide**: ≥ 400 words; regulatory statements only if owner-verified.
 - **Blog post**: published only when the owner sets it.
 
-**`npm run qa` fails the build on**: placeholder strings · duplicate titles or descriptions · missing or multiple H1 · broken internal links · images without alt text · invalid JSON-LD · near-duplicate pages of the same template (5-word-shingle Jaccard similarity above 0.35 — report the pairs).
+**`npm run qa` fails the build on** (it scans the rendered HTML of every built page — visible text and attribute values, not source comments): placeholder strings (list in `CLAUDE.md`) · `href="#"` or CTAs without a destination · nav entries pointing at the same URL · duplicate titles or descriptions · missing or multiple H1 · broken internal links · images without alt text · invalid JSON-LD · near-duplicate pages of the same template (5-word-shingle Jaccard similarity above 0.35 — report the pairs).
 
 ---
 
@@ -302,7 +302,7 @@ The report always contains: what was done, counts, descriptions or screenshots o
 7. Commit docs only. Report and stop.
 
 ### Phase 1 — Foundation
-1. Move the whole legacy site into `legacy/` with `git mv` (it's on `main` as the live snapshot, and `nextjs-rebuild` is rebased onto `main`), excluded from TypeScript, ESLint, the build and deploys.
+1. Move the whole legacy site into `legacy/` with `git mv` (it's on `main` as the live snapshot and reaches `nextjs-rebuild` by merging `main` in — the first merge needs `--allow-unrelated-histories`), excluded from TypeScript, ESLint, the build and deploys.
 2. Scaffold Next.js 16. create-next-app refuses a non-empty folder: scaffold into a temp folder and move the files in, or set it up by hand. TS strict, App Router, `src/`, Tailwind v4, `@/*` alias.
 3. `next.config.ts`: `trailingSlash: true`, AVIF/WebP images, `output: 'standalone'`, security headers, `poweredByHeader: false`, legacy redirects generated from the JSON (plus `proxy.ts` scoped to `.html` paths only if needed for case or encoding variants).
 4. Tooling: ESLint (`eslint .`), Prettier, Vitest, Playwright, `tsx`, cross-platform npm scripts including `check`, `.gitattributes`, `.editorconfig`, `engines`, `.env.example` documenting every variable (including `DATABASE_URL`, `GOOGLE_MAPS_API_KEY`, `LEADS_RETRY_TOKEN`), Zod-validated `config/env.ts`. `.env.local` is git-ignored.
@@ -317,7 +317,7 @@ Acceptance: `npm run check` green · redirect check passes · home shell and `/s
 ### Phase 2 — Data layer and migration
 1. Zod schemas (§3.1), data files, `lib/content` accessors, `validate:data`. Vehicle classes and rates are migrated from the owner's `docs/RATE_CARD.md` (cells still ending in "?" are unconfirmed → `pricing.status = 'draft'`).
 2. Migrate business facts; all vehicles (cars, group, bikes — plus vehicles mentioned without pages, e.g. Tata Winger, Volvo bus, Ertiga, Etios, Defender); all 56 routes; the 13 services; the service × city allow-list; places (with Hindi names and aliases). Consistent facts only; conflicts → null + OWNER_TODO; every legacy distance starts as `verified: false`.
-3. Run the image migration; fix mismatches by looking at the images; write `IMAGE_MAP.md`.
+3. Run the image migration. **Input: the 2026-08-03 cleanup** (`Downloads/taxiverz.com/public_html/`): its compressed images in `assets/img/` (≤ 1600px, 19 MB instead of 58 MB), its cleaned lowercase-hyphenated filenames (old → new pairs are the `Redirect 301` lines in its `.htaccess`), and its list of vehicles showing `placeholder.svg` (`_dev/README.md`) — those vehicles have no photo and go on the photo list for the owner. Copy that input into `legacy/cleanup-2026-08-03/` first so the migration is reproducible from the repo. Fall back to the originals in `legacy/` only where the cleanup lacks an image. Fix mismatches by looking at the images; write `IMAGE_MAP.md`.
 4. Unit tests for schemas and accessors.
 
 Acceptance: `validate:data` passes · report counts of published vs draft per entity, and why each draft is a draft.
@@ -366,8 +366,8 @@ The legacy site keeps earning (and losing) money until launch, so live defects a
 - `main` mirrors what is live on Hostinger, exactly. It starts as a snapshot of the owner's `public_html` download (logs and server-only folders excluded, checked for secrets).
 - Each fix is a `hotfix/<topic>` branch off `main`: smallest possible change, no redesign, no new features.
 - Deliverable: `hotfix-upload.zip` with only the changed files at their folder paths, plus the list of files, for upload through Hostinger File Manager.
-- After the owner confirms the upload is live: merge the hotfix into `main`, then rebase `nextjs-rebuild` onto `main` (force-push with lease).
-- First hotfix (`hotfix/live-site`): self-canonicals on every page, fixed `og:url`/`og:image`, `robots.txt` Sitemap line, `/index.html` out of `sitemap.xml`; every form submits to Web3Forms with one key (success shown only when the API confirms; on failure WhatsApp opens pre-filled with the same details); fabricated rating, "#1 rated"/"4.8" claims, visitor counter and placeholder testimonials removed; Nepal document advice replaced with owner-approved text; sensible caching in `.htaccess` (HTTPS redirect kept); hotlinked images replaced or removed.
+- After the owner confirms the upload is live: merge the hotfix into `main`, then **merge `main` into `nextjs-rebuild`** (no rebase, no force-push).
+- First hotfix (`hotfix/live-site`): self-canonicals on every page, fixed `og:url`/`og:image`, `robots.txt` Sitemap line, `/index.html` out of `sitemap.xml`; the dead forms open WhatsApp (918576000083) pre-filled with everything the visitor typed, like Quick Booking (forms that already post to Web3Forms stay as they are); 8576000074 replaced with 8576000083; fabricated rating, "#1 rated"/"4.8" claims, visitor counter and placeholder testimonials removed; Nepal document advice replaced with owner-approved text; the 3 Aug cleanup's caching block and www → apex redirect in `.htaccess` (HTTPS redirect kept; its security headers and 404 page are left to the rebuild); the 5 broken internal links fixed; hotlinked images replaced or removed.
 
 ---
 
