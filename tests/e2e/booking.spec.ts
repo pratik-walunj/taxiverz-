@@ -91,7 +91,10 @@ test('the fare widget works from the keyboard', async ({ page }) => {
   await oneWay.focus()
   await page.keyboard.press('ArrowRight')
   await expect(page.getByRole('tab', { name: 'Round trip' })).toBeFocused()
-  await expect(page.getByRole('tab', { name: 'Round trip' })).toHaveAttribute('aria-selected', 'true')
+  await expect(page.getByRole('tab', { name: 'Round trip' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
 
   const pickup = page.getByRole('combobox', { name: 'Pickup' })
   await pickup.fill('Gorakh')

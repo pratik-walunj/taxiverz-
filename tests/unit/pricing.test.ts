@@ -45,7 +45,14 @@ const route: RouteCosts = {
   borderCharges: 0,
   isInternational: false,
 }
-const base: FareInput = { tripType: 'one-way', classSlug: 'sedan', rates, tollClass: 'car', route, config }
+const base: FareInput = {
+  tripType: 'one-way',
+  classSlug: 'sedan',
+  rates,
+  tollClass: 'car',
+  route,
+  config,
+}
 const fare = (over: Partial<FareInput>) => computeFare({ ...base, ...over })
 const priced = (over: Partial<FareInput>) => {
   const q = fare(over)
@@ -73,8 +80,12 @@ describe('one way', () => {
   it('adds a night charge only for a night pickup', () => {
     expect(priced({ pickupTime: '23:30' }).lines.some((l) => l.label === 'Night charge')).toBe(true)
     expect(priced({ pickupTime: '05:59' }).lines.some((l) => l.label === 'Night charge')).toBe(true)
-    expect(priced({ pickupTime: '06:00' }).lines.some((l) => l.label === 'Night charge')).toBe(false)
-    expect(priced({}).assumptions).toContain('A night charge is added if pickup is between 22:00 and 06:00.')
+    expect(priced({ pickupTime: '06:00' }).lines.some((l) => l.label === 'Night charge')).toBe(
+      false,
+    )
+    expect(priced({}).assumptions).toContain(
+      'A night charge is added if pickup is between 22:00 and 06:00.',
+    )
   })
 
   it('lists tolls as excluded when they are paid on the way', () => {
@@ -84,7 +95,9 @@ describe('one way', () => {
   })
 
   it('adds Nepal permits and border charges on international routes', () => {
-    const q = priced({ route: { ...route, isInternational: true, permitCharges: 1000, borderCharges: 500 } })
+    const q = priced({
+      route: { ...route, isInternational: true, permitCharges: 1000, borderCharges: 500 },
+    })
     expect(q.lines.find((l) => l.label === 'Nepal permits')?.amount).toBe(1000)
     expect(q.lines.find((l) => l.label === 'Border charges')?.amount).toBe(500)
     expect(q.included).toContain('Nepal permits and border charges')
@@ -139,7 +152,10 @@ describe('local and airport', () => {
 
   it('is on request for a package the class has no price for', () => {
     const q = fare({ tripType: 'local', localPackage: { hours: 12, km: 120 } })
-    expect(q).toMatchObject({ status: 'on-request', reason: 'missing price for the 12 h / 120 km package' })
+    expect(q).toMatchObject({
+      status: 'on-request',
+      reason: 'missing price for the 12 h / 120 km package',
+    })
   })
 
   it('uses a fixed airport fare when configured, else one way with the airport minimum', () => {
@@ -162,11 +178,26 @@ describe('missing data is never guessed', () => {
     [{ config: { ...config, tollsIncluded: null } }, 'missing toll policy'],
     [{ route: { ...route, tolls: null } }, 'missing toll amount for this route'],
     [{ pickupTime: '23:00', rates: { ...rates, nightCharge: null } }, 'missing night charge'],
-    [{ pickupTime: '23:00', config: { ...config, nightWindow: null } }, 'missing night-charge hours'],
-    [{ route: { ...route, isInternational: true, permitCharges: null } }, 'missing Nepal permit charges'],
-    [{ tripType: 'round-trip' as const, config: { ...config, maxDrivingKmPerDay: null } }, 'missing maximum driving km per day'],
+    [
+      { pickupTime: '23:00', config: { ...config, nightWindow: null } },
+      'missing night-charge hours',
+    ],
+    [
+      { route: { ...route, isInternational: true, permitCharges: null } },
+      'missing Nepal permit charges',
+    ],
+    [
+      { tripType: 'round-trip' as const, config: { ...config, maxDrivingKmPerDay: null } },
+      'missing maximum driving km per day',
+    ],
     [{ tripType: 'local' as const }, 'missing local package'],
-    [{ tripType: 'airport' as const, config: { ...config, airport: { fixedFares: null, minKm: null } } }, 'missing airport minimum distance'],
+    [
+      {
+        tripType: 'airport' as const,
+        config: { ...config, airport: { fixedFares: null, minKm: null } },
+      },
+      'missing airport minimum distance',
+    ],
   ])('%#: %j → on request', (over, reason) => {
     const q = fare(over as Partial<FareInput>)
     expect(q.status).toBe('on-request')
@@ -215,15 +246,79 @@ describe('helpers', () => {
 describe('quotes from the fare index', () => {
   const index: FareIndex = {
     places: [
-      { id: 'gorakhpur', name: 'Gorakhpur', nameHi: null, aliases: [], type: 'city', code: null, city: 'gorakhpur', country: 'IN' },
-      { id: 'kathmandu', name: 'Kathmandu', nameHi: null, aliases: [], type: 'city', code: null, city: 'kathmandu', country: 'NP' },
-      { id: 'kathmandu-airport', name: 'Tribhuvan International Airport', nameHi: null, aliases: [], type: 'airport', code: 'KTM', city: 'kathmandu', country: 'NP' },
+      {
+        id: 'gorakhpur',
+        name: 'Gorakhpur',
+        nameHi: null,
+        aliases: [],
+        type: 'city',
+        code: null,
+        city: 'gorakhpur',
+        country: 'IN',
+      },
+      {
+        id: 'kathmandu',
+        name: 'Kathmandu',
+        nameHi: null,
+        aliases: [],
+        type: 'city',
+        code: null,
+        city: 'kathmandu',
+        country: 'NP',
+      },
+      {
+        id: 'kathmandu-airport',
+        name: 'Tribhuvan International Airport',
+        nameHi: null,
+        aliases: [],
+        type: 'airport',
+        code: 'KTM',
+        city: 'kathmandu',
+        country: 'NP',
+      },
     ],
-    routes: [{ origin: 'gorakhpur', destination: 'kathmandu', distanceKm: 300, tolls: route.tolls!, permitCharges: 0, borderCharges: 0, isInternational: true }],
+    routes: [
+      {
+        origin: 'gorakhpur',
+        destination: 'kathmandu',
+        distanceKm: 300,
+        tolls: route.tolls!,
+        permitCharges: 0,
+        borderCharges: 0,
+        isInternational: true,
+      },
+    ],
     classes: [
-      { slug: 'suv', name: 'SUV', representativeModels: ['Scorpio'], seats: null, luggage: null, tollClass: 'car', rates: { ...rates, oneWayPerKm: 16 }, sortOrder: 2 },
-      { slug: 'sedan', name: 'Sedan', representativeModels: ['Dzire', 'Etios'], seats: 4, luggage: 3, tollClass: 'car', rates, sortOrder: 1 },
-      { slug: 'muv', name: 'MUV', representativeModels: ['Ertiga'], seats: 6, luggage: 4, tollClass: 'car', rates: { ...rates, oneWayPerKm: null }, sortOrder: 0 },
+      {
+        slug: 'suv',
+        name: 'SUV',
+        representativeModels: ['Scorpio'],
+        seats: null,
+        luggage: null,
+        tollClass: 'car',
+        rates: { ...rates, oneWayPerKm: 16 },
+        sortOrder: 2,
+      },
+      {
+        slug: 'sedan',
+        name: 'Sedan',
+        representativeModels: ['Dzire', 'Etios'],
+        seats: 4,
+        luggage: 3,
+        tollClass: 'car',
+        rates,
+        sortOrder: 1,
+      },
+      {
+        slug: 'muv',
+        name: 'MUV',
+        representativeModels: ['Ertiga'],
+        seats: 6,
+        luggage: 4,
+        tollClass: 'car',
+        rates: { ...rates, oneWayPerKm: null },
+        sortOrder: 0,
+      },
     ],
     config,
   }
@@ -236,7 +331,10 @@ describe('quotes from the fare index', () => {
   })
 
   it('lists priced classes cheapest first and "on request" last', () => {
-    const quotes = quoteTrip(index, resolveTrip(index, { type: 'one-way', from: 'gorakhpur', to: 'kathmandu' }))
+    const quotes = quoteTrip(
+      index,
+      resolveTrip(index, { type: 'one-way', from: 'gorakhpur', to: 'kathmandu' }),
+    )
     expect(quotes.map((q) => [q.vehicleClass.slug, q.quote.status])).toEqual([
       ['sedan', 'priced'],
       ['suv', 'priced'],
@@ -245,24 +343,50 @@ describe('quotes from the fare index', () => {
   })
 
   it('keeps unknown places as free text and quotes them on request', () => {
-    const trip = resolveTrip(index, { type: 'one-way', from: 'gorakhpur', to: null, toText: 'Bettiah' })
+    const trip = resolveTrip(index, {
+      type: 'one-way',
+      from: 'gorakhpur',
+      to: null,
+      toText: 'Bettiah',
+    })
     expect(trip.toLabel).toBe('Bettiah')
     expect(quoteTrip(index, trip).every((q) => q.quote.status === 'on-request')).toBe(true)
   })
 
   it('round-trips trip requests through URL params', () => {
-    const t = tripFromParams({ type: 'local', from: 'gorakhpur', pkg: '8-80', days: '99', time: '7pm' })
-    expect(t).toEqual({ type: 'local', from: 'gorakhpur', to: null, fromText: undefined, toText: undefined, pkg: '8-80', days: undefined, pickupTime: undefined })
+    const t = tripFromParams({
+      type: 'local',
+      from: 'gorakhpur',
+      pkg: '8-80',
+      days: '99',
+      time: '7pm',
+    })
+    expect(t).toEqual({
+      type: 'local',
+      from: 'gorakhpur',
+      to: null,
+      fromText: undefined,
+      toText: undefined,
+      pkg: '8-80',
+      days: undefined,
+      pickupTime: undefined,
+    })
     expect(tripToParams(t!)).toBe('type=local&from=gorakhpur&pkg=8-80')
-    expect(tripToParams({ type: 'one-way', from: null, fromText: 'GIDA', to: 'kathmandu' })).toBe('type=one-way&fromq=GIDA&to=kathmandu')
+    expect(tripToParams({ type: 'one-way', from: null, fromText: 'GIDA', to: 'kathmandu' })).toBe(
+      'type=one-way&fromq=GIDA&to=kathmandu',
+    )
     expect(tripFromParams({ type: 'boat' })).toBeNull()
-    expect(tripFromParams({ type: 'round-trip', from: ['gorakhpur', 'x'], days: '3', time: '23:15' })).toMatchObject({ from: 'gorakhpur', days: 3, pickupTime: '23:15' })
+    expect(
+      tripFromParams({ type: 'round-trip', from: ['gorakhpur', 'x'], days: '3', time: '23:15' }),
+    ).toMatchObject({ from: 'gorakhpur', days: 3, pickupTime: '23:15' })
   })
 
   it('parses local packages and labels classes', () => {
     expect(parsePackage('12-120')).toEqual({ hours: 12, km: 120 })
     expect(parsePackage('abc')).toBeNull()
-    expect(classLabel({ name: 'Sedan', representativeModels: ['Dzire', 'Etios'] })).toBe('Sedan — Dzire, Etios or similar')
+    expect(classLabel({ name: 'Sedan', representativeModels: ['Dzire', 'Etios'] })).toBe(
+      'Sedan — Dzire, Etios or similar',
+    )
   })
 })
 
