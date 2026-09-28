@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Helicopter Charter - Taxiverz</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandTeal: '#986236',
+                        brandMustard: '#C08950',
+                        brandGrey: '#1F1F1F',
+                        brandLight: '#B5B1B2',
+                        darkNavy: '#08050E',
+                        deepGrey: '#141217'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        .sticky-nav {
+            background: #1F1F1F;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .logo-img { height: 45px; }
+        .nav-menu { display: flex; gap: 20px; align-items: center; }
+        .nav-link { color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; font-size: 14px; text-transform: uppercase; }
+        .nav-link:hover, .nav-link.active { color: #C08950; }
+        
+        .nav-dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #1F1F1F;
+            min-width: 260px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+            z-index: 10;
+            border-top: 3px solid #C08950;
+            top: 100%;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dropdown-content a:hover { background-color: #2a2a2a; color: #C08950; }
+        .nav-dropdown:hover .dropdown-content { display: block; }
+
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; background-color: white; transition: 0.3s; }
+
+        @media (max-width: 1024px) {
+            .nav-toggle { display: flex; }
+            .nav-menu {
+                position: absolute;
+                left: -100%;
+                top: 75px;
+                flex-direction: column;
+                background-color: #1F1F1F;
+                width: 100%;
+                transition: 0.4s;
+                padding: 40px 0;
+                height: 100vh;
+                align-items: flex-start;
+                padding-left: 30px;
+            }
+            .nav-menu.active { left: 0; }
+            .nav-dropdown { width: 100%; }
+            .dropdown-content { position: static; display: none; background: #262626; width: 90%; }
+            .nav-dropdown.active .dropdown-content { display: block; }
+        }
+
+        .feature-card:hover { transform: translateY(-8px); transition: all .4s ease; }
+        .faq-content { transition: max-height 0.4s ease-in-out; }
+    </style>
+</head>
+
+<body class="font-sans antialiased text-gray-200 bg-darkNavy overflow-x-hidden">
+
+    <nav class="navbar sticky-nav" id="sticky-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="./taxiverz.avif" alt="Taxiverz Logo" class="logo-img">
+            </div>
+            <div class="nav-menu" id="nav-menu-sticky">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Taxi Service <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="local-taxi-booking-gorakhpur.html">Local Taxi Booking In Gorakhpur</a>
+                        <a href="outstation-cab-rental-gorakhpur.html">Outstation Cab Rental in Gorakhpur</a>
+                        <a href="airport-taxi-service-gorakhpur.html">Airport Taxi Service in Gorakhpur</a>
+                        <a href="taxi-rental-near-me-gorakhpur.html">Taxi Rental Near Me in Gorakhpur</a>
+                        <a href="cab-booking-online-gorakhpur.html">Cab Booking Online in Gorakhpur</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Car Rental <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="car-rental-service-in-gorakhpur.html">Car Rental Services in Gorakhpur</a>
+                        <a href="self-drive-car-rental-in-gorakhpur.html">Self-Drive Car Rental in Gorakhpur</a>
+                        <a href="luxury-car-rental-in-gorakhpur.html">Luxury Car Rental in Gorakhpur</a>
+                        <a href="car-rental.html">SUV Car Rental in Gorakhpur</a>
+                        <a href="car-rental.html">Car Hire with Driver in Gorakhpur</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Wedding Cars Rental <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="wedding.html">Luxury Wedding Car Rental in Gorakhpur</a>
+                        <a href="wedding.html">Vintage Car Rental for Weddings in Gorakhpur</a>
+                        <a href="wedding.html">Wedding Car Hire with Chauffeur in Gorakhpur</a>
+                        <a href="wedding.html">Luxury Car Rental for Events in Gorakhpur</a>
+                        <a href="wedding.html">Wedding Transportation Services in Gorakhpur</a>
+                    </div>
+                </div>
+                <a href="video-shooting.html" class="nav-link">Video Shooting</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu-sticky">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="bg-brandTeal py-20 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="z-10">
+                <h1 class="text-5xl md:text-6xl font-black mb-6 leading-tight">Luxury Helicopter Service</h1>
+                <p class="text-lg opacity-95 mb-8 leading-relaxed max-w-xl">
+                    Experience the future of premium travel with Taxiverz. Avoid traffic, save time, and enjoy breathtaking views with our luxury fleet designed for VIPs, Weddings, and Pilgrimage tours.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#features" class="bg-deepGrey text-brandMustard px-8 py-4 rounded-xl font-bold hover:bg-black transition shadow-xl">View Features</a>
+                    <a href="tel:+918576000083" class="bg-brandMustard text-white px-8 py-4 rounded-xl font-bold hover:bg-opacity-90 transition shadow-xl">
+                        <i class="fas fa-phone mr-2"></i>Book Helicopter
+                    </a>
+                </div>
+            </div>
+           <div class="flex justify-center">
+  <img src="helicopterhero.png"
+       class="w-full max-w-2xl aspect-[16/10] object-cover rounded-2xl shadow-2xl border-4 border-brandGrey">
+</div>
+        </div>
+    </section>
+
+    <section id="features" class="py-24 bg-darkNavy">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black uppercase tracking-widest text-white">Helicopter Specifications & Services</h2>
+                <div class="h-1.5 w-32 bg-brandMustard mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-deepGrey p-8 rounded-3xl border-l-4 border-brandTeal feature-card shadow-lg">
+                    <i class="fas fa-users text-brandMustard text-4xl mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4">Passenger Capacity</h3>
+                    <ul class="text-brandLight space-y-3 font-medium">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> 4 – 6 VIP Passengers</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Luxury Leather Seating</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Panoramic Window View</li>
+                    </ul>
+                </div>
+
+                <div class="bg-deepGrey p-8 rounded-3xl border-l-4 border-brandMustard feature-card shadow-lg">
+                    <i class="fas fa-gauge-high text-brandMustard text-4xl mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4">Speed & Performance</h3>
+                    <ul class="text-brandLight space-y-3 font-medium">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Cruise 220–260 km/h</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Long Distance Capability</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Smooth Air Stability</li>
+                    </ul>
+                </div>
+
+                <div class="bg-deepGrey p-8 rounded-3xl border-l-4 border-brandTeal feature-card shadow-lg">
+                    <i class="fas fa-star text-brandMustard text-4xl mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4">Premium Services</h3>
+                    <ul class="text-brandLight space-y-3 font-medium">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Grand Wedding Entry</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Corporate VIP Travel</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i> Chardham Tours</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-brandTeal text-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="bg-deepGrey/40 p-10 md:p-16 rounded-[3rem] text-center backdrop-blur-md border border-white/10 shadow-2xl">
+                <h2 class="text-3xl md:text-4xl font-black mb-10 uppercase">Why Choose Taxiverz?</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-left max-w-2xl mx-auto font-bold text-lg">
+                    <p><i class="fas fa-circle-check text-brandMustard mr-3"></i> Luxury Aerial Travel</p>
+                    <p><i class="fas fa-circle-check text-brandMustard mr-3"></i> Professional Crew</p>
+                    <p><i class="fas fa-circle-check text-brandMustard mr-3"></i> VIP & Celebrity Choice</p>
+                    <p><i class="fas fa-circle-check text-brandMustard mr-3"></i> 24/7 Charter Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-darkNavy border-t border-brandGrey">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 uppercase">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-deepGrey rounded-2xl overflow-hidden border border-gray-800">
+                    <button class="w-full p-6 text-left flex justify-between items-center" onclick="toggleFAQ(this)">
+                        <span class="font-bold text-lg">How many passengers can travel?</span>
+                        <i class="fas fa-chevron-down text-brandMustard transition-transform"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden bg-brandGrey/30">
+                        <p class="p-6 text-brandLight border-t border-gray-800">Our helicopters accommodate 4 to 6 VIP passengers depending on weight limits.</p>
+                    </div>
+                </div>
+                <div class="bg-deepGrey rounded-2xl overflow-hidden border border-gray-800">
+                    <button class="w-full p-6 text-left flex justify-between items-center" onclick="toggleFAQ(this)">
+                        <span class="font-bold text-lg">How many days in advance should I book?</span>
+                        <i class="fas fa-chevron-down text-brandMustard transition-transform"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden bg-brandGrey/30">
+                        <p class="p-6 text-brandLight border-t border-gray-800">We recommend booking 3–5 days in advance for permissions and clearances.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-form" class="py-24 bg-darkNavy relative">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="bg-deepGrey p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-gray-800">
+                <h2 class="text-3xl md:text-4xl font-black text-center mb-10 text-white uppercase">Reserve Your Mission</h2>
+                <form class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <input type="text" placeholder="Full Name" class="p-4 rounded-xl bg-brandGrey border border-gray-700 w-full text-white outline-none focus:border-brandMustard">
+                        <input type="tel" placeholder="Contact Number" class="p-4 rounded-xl bg-brandGrey border border-gray-700 w-full text-white outline-none focus:border-brandMustard">
+                         <input type="tel" placeholder="Pickup Location & Destination" class="p-4 rounded-xl bg-brandGrey border border-gray-700 w-full text-white outline-none focus:border-brandMustard">
+
+                   
+                    </div>
+                    <textarea rows="4" placeholder="Flight Date & Special Requests..." class="p-4 rounded-xl bg-brandGrey border border-gray-700 w-full text-white outline-none focus:border-brandMustard"></textarea>
+                    <button class="w-full bg-brandMustard text-white py-5 rounded-xl font-black text-xl hover:scale-105 transition shadow-2xl uppercase">Get Instant Quote</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+  <footer class="relative bg-black text-[#efefef] pt-16 pb-20 md:pb-10 overflow-hidden">
+    
+    <div class="absolute bottom-4 right-4 md:bottom-10 md:right-8 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-2xl z-10">
+        <div class="flex items-center gap-4">
+            <div class="bg-[#ff5800]/20 p-2 rounded-lg">
+                <i class="fas fa-users text-[#ff5800] text-xl"></i>
+            </div>
+            <div>
+                <div class="text-[10px] text-gray-400 uppercase tracking-widest leading-none mb-1">Total Visitors</div>
+                <div id="visitor-count" class="text-2xl font-bold text-white font-mono leading-none">1,24,582</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            
+            <div class="space-y-4">
+                <img src="taxiverz.avif" alt="Taxiverz Logo" class="h-14 mb-4">
+                <h3 class="text-[#d88d0e] text-2xl font-black uppercase tracking-tighter">Taxiverz</h3>
+                <p class="text-sm leading-relaxed text-gray-400">
+                    Your trusted travel partner for comfortable and safe journeys across India and Nepal.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-[#d88d0e] text-lg font-bold mb-6 uppercase tracking-wider border-l-4 border-[#d88d0e] pl-3">Quick Links</h3>
+                <ul class="space-y-3">
+                    <li><a href="index.html" class="text-gray-300 hover:text-[#d88d0e] transition-colors duration-300 text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Home</a></li>
+                    <li><a href="car-rental.html" class="text-gray-300 hover:text-[#d88d0e] transition-colors duration-300 text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Car Rental</a></li>
+                    <li><a href="wedding.html" class="text-gray-300 hover:text-[#d88d0e] transition-colors duration-300 text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Wedding Cars</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-[#d88d0e] transition-colors duration-300 text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-[#d88d0e] text-lg font-bold mb-6 uppercase tracking-wider border-l-4 border-[#d88d0e] pl-3">Our Network</h3>
+                <ul class="space-y-3">
+                    <li><a href="https://nepaltoursandtravels.com/" target="_blank" class="text-gray-300 hover:text-[#d88d0e] transition-colors duration-300 text-sm flex items-center gap-2"><i class="fas fa-external-link-alt text-[10px]"></i> Nepal Tours & Travels</a></li>
+                    <li><a href="https://luxurycarrentalss.com/" target="_blank" class="text-gray-300 hover:text-[#d88d0e] transition-colors duration-300 text-sm flex items-center gap-2"><i class="fas fa-external-link-alt text-[10px]"></i> Luxury Car Rentals</a></li>
+                </ul>
+            </div>
+
+            <div class="lg:text-left">
+                <h3 class="text-[#d88d0e] text-lg font-bold mb-6 uppercase tracking-wider border-l-4 border-[#d88d0e] pl-3">Contact Info</h3>
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-start gap-3 group">
+                        <i class="fas fa-phone mt-1 text-[#d88d0e]"></i>
+                        <a href="tel:+918576000083" class="text-gray-300 group-hover:text-white transition-colors">+91-8576000083</a>
+                    </div>
+                    <div class="flex items-start gap-3 group">
+                        <i class="fas fa-envelope mt-1 text-[#d88d0e]"></i>
+                        <a href="mailto:cabtaxiverz@gmail.com" class="text-gray-300 group-hover:text-white transition-colors">cabtaxiverz@gmail.com</a>
+                    </div>
+                    <div class="flex items-start gap-3 text-gray-400">
+                        <i class="fas fa-map-marker-alt mt-1 text-[#d88d0e] shrink-0"></i>
+                        <p>Railway Station Gate No-1, Gorakhpur, UP-273001</p>
+                    </div>
+                    <div class="flex items-start gap-3 text-gray-400">
+                        <i class="fas fa-map-marker-alt mt-1 text-[#d88d0e] shrink-0"></i>
+                        <p>Shop No-4 Chaudhari Heights, Above Swarna Hotel, Warje, Pune, MH-411058</p>
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <a href="https://www.facebook.com/share/1Bpqo1dubB/" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-lg hover:bg-[#d88d0e] hover:text-white transition-all duration-300 transform hover:-translate-y-1"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-lg hover:bg-[#d88d0e] hover:text-white transition-all duration-300 transform hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/travel_nepal_club?igsh=cGI0czA0Y2s0MzJm" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-lg hover:bg-[#d88d0e] hover:text-white transition-all duration-300 transform hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-gray-800 text-center">
+            <p class="text-[11px] text-gray-500 uppercase tracking-[0.3em] font-bold">
+                &copy; 2026 Taxiverz. All rights reserved. 
+                <span class="block md:inline md:ml-2">Crafted for Luxury Travel.</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu-sticky');
+        const navMenu = document.getElementById('nav-menu-sticky');
+        const dropdowns = document.querySelectorAll('.nav-dropdown');
+
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('click', () => {
+                if(window.innerWidth <= 1024) dropdown.classList.toggle('active');
+            });
+        });
+
+        function toggleFAQ(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            if (content.style.maxHeight === '0px' || content.style.maxHeight === '') {
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.classList.add('rotate-180');
+            } else {
+                content.style.maxHeight = '0px';
+                icon.classList.remove('rotate-180');
+            }
+        }
+    </script>
+</body>
+</html>

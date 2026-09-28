@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13 Seater Tempo Traveller - Taxiverz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandTeal: '#5F9EA6',    // Teal / Blue-Green
+                        brandMustard: '#BE8E32', // Mustard / Golden Orange
+                        brandGrey: '#A19FA0',    // Grey
+                        brandLight: '#D9D9D9',   // Light Grey
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .nav-link { @apply text-gray-700 hover:text-brandTeal font-medium transition-colors duration-300; }
+        .feature-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        
+        /* Dropdown Animation */
+        .group:hover .group-hover\:block {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Menu Side-slide Transition */
+        #mobile-menu-container {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+        #mobile-menu-container.open {
+            transform: translateX(0);
+        }
+
+        /* Gallery Styles */
+        .gallery-thumb {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .gallery-thumb:hover {
+            border-color: #BE8E32;
+            opacity: 1;
+        }
+        .gallery-thumb.active {
+            border-color: #BE8E32;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800 overflow-x-hidden">
+
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0">
+                    <img src="taxiverz.avif" alt="Taxiverz Logo" class="h-12 w-auto">
+                </div>
+
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link">Home</a>
+                    
+                    <div class="relative group py-7">
+                        <button class="nav-link flex items-center outline-none">
+                            Taxi Services <i class="fas fa-chevron-down ml-2 text-[10px]"></i>
+                        </button>
+                        <div class="absolute top-full left-0 w-64 bg-white border-t-4 border-brandTeal shadow-2xl hidden group-hover:block transition-all duration-300 rounded-b-lg overflow-hidden">
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-brandLight hover:text-brandTeal border-b border-gray-100">Local City Taxi</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-brandLight hover:text-brandTeal border-b border-gray-100">Outstation Rentals</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-brandLight hover:text-brandTeal">Airport Transfers</a>
+                        </div>
+                    </div>
+
+                    <div class="relative group py-7">
+                        <button class="text-brandTeal font-bold flex items-center border-b-2 border-brandTeal pb-1 outline-none">
+                            Tempo Traveller <i class="fas fa-chevron-down ml-2 text-[10px]"></i>
+                        </button>
+                        <div class="absolute top-full left-0 w-64 bg-white border-t-4 border-brandMustard shadow-2xl hidden group-hover:block rounded-b-lg overflow-hidden">
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-brandLight">13 Seater Premium</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-brandLight">17 Seater Executive</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-700 hover:bg-brandLight">20 Seater Luxury</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link">About Us</a>
+                    
+                    <a href="#booking-form" class="bg-brandMustard text-white px-7 py-3 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-md transform hover:scale-105 active:scale-95">
+                        Book Now
+                    </a>
+                </div>
+
+                <div class="lg:hidden">
+                    <button class="text-brandTeal p-2 focus:outline-none" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+        <div id="mobile-menu-container" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white z-50 shadow-2xl lg:hidden overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-10">
+                    <img src="taxiverz.avif" alt="Taxiverz Logo" class="h-10 w-auto">
+                    <button id="close-menu-btn" class="text-brandGrey text-3xl focus:outline-none">&times;</button>
+                </div>
+                
+                <div class="flex flex-col space-y-6">
+                    <a href="index.html" class="text-xl font-bold border-b pb-2 text-gray-800">Home</a>
+                    
+                    <div>
+                        <span class="text-brandTeal font-black uppercase text-xs tracking-widest">Taxi Services</span>
+                        <div class="flex flex-col pl-4 mt-3 space-y-3">
+                            <a href="#" class="text-gray-600 border-l-2 border-brandLight pl-2">Local City Taxi</a>
+                            <a href="#" class="text-gray-600 border-l-2 border-brandLight pl-2">Outstation Rentals</a>
+                            <a href="#" class="text-gray-600 border-l-2 border-brandLight pl-2">Airport Transfers</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-brandTeal font-black uppercase text-xs tracking-widest">Tempo Traveller</span>
+                        <div class="flex flex-col pl-4 mt-3 space-y-3">
+                            <a href="#" class="text-gray-600 border-l-2 border-brandLight pl-2 font-bold text-brandMustard">13 Seater Premium</a>
+                            <a href="#" class="text-gray-600 border-l-2 border-brandLight pl-2">17 Seater Executive</a>
+                            <a href="#" class="text-gray-600 border-l-2 border-brandLight pl-2">20 Seater Luxury</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="text-xl font-bold border-b pb-2 text-gray-800">About Us</a>
+                    
+                    <div class="pt-6">
+                        <a href="tel:+918576000083" class="flex items-center justify-center bg-brandMustard text-white py-4 rounded-xl font-bold shadow-lg">
+                            <i class="fas fa-phone-alt mr-3"></i> Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-gray-500 py-20 text-white">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">13-Seater Tempo Traveller</h1>
+                <p class="text-lg opacity-90 mb-8 leading-relaxed">The 13 Seater Tempo Traveller is a comfortable and spacious passenger vehicle specially designed for small group travel. It is ideal for family trips, corporate tours, airport transfers, wedding functions, and outstation journeys.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#features" class="bg-white text-brandTeal px-8 py-3 rounded-lg font-bold shadow-lg">View Features</a>
+                    <a href="tel:+918576000083" class="bg-brandMustard text-white px-8 py-3 rounded-lg font-bold shadow-lg"><i class="fas fa-phone mr-2"></i>Book Now</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="relative w-full order-1 md:order-1">
+                    <img id="mainVehicleImage" src="13_seater (1).webp" alt="13 Seater Tempo Traveller" class="w-full rounded-2xl shadow-2xl border-4 border-brandLight transition-all duration-500">
+                    <div class="absolute -bottom-6 -left-6 bg-brandMustard p-6 rounded-xl hidden md:block">
+                       <p class="text-2xl font-black italic uppercase">₹....</p>
+                        <p class="text-xs uppercase font-bold">Best Market Rates</p>
+                    </div>
+                </div>
+                <div class="flex flex-row md:flex-col gap-3 order-2 md:order-2">
+                    <img src="13_seater (1).webp" alt="Front View" class="gallery-thumb active w-20 h-20 object-cover rounded-lg shadow-md border-2 border-brandMustard" onclick="updateMainImage(this)">
+                    <img src="13inside (2).png" alt="Inside View" class="gallery-thumb w-20 h-20 object-cover rounded-lg shadow-md opacity-70" onclick="updateMainImage(this)">
+                    <img src="13seatingside.png" alt="Seating View" class="gallery-thumb w-20 h-20 object-cover rounded-lg shadow-md opacity-70" onclick="updateMainImage(this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-gray-800">Premium Specifications</h2>
+            <div class="h-1 w-24 bg-brandMustard mx-auto mt-4 mb-16"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-brandLight/30 p-8 rounded-2xl border-l-4 border-brandTeal feature-card text-left">
+                    <div class="text-brandTeal text-3xl mb-4"><i class="fas fa-bus"></i></div>
+                    <h3 class="text-xl font-bold mb-4">Seating Capacity</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>13 passengers + 1 driver</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Pushback seats available</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Individual armrests</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Comfortable leg space</li>
+                    </ul>
+                </div>
+
+                <div class="bg-brandLight/30 p-8 rounded-2xl border-l-4 border-brandMustard feature-card text-left">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-snowflake"></i></div>
+                    <h3 class="text-xl font-bold mb-4">Comfort & Interior</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Fully Air-Conditioned (AC)</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>High roof for easy movement</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Reading lights & Music system</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Charging points</li>
+                    </ul>
+                </div>
+
+                <div class="bg-brandLight/30 p-8 rounded-2xl border-l-4 border-brandTeal feature-card text-left">
+                    <div class="text-brandTeal text-3xl mb-4"><i class="fas fa-suitcase-rolling"></i></div>
+                    <h3 class="text-xl font-bold mb-4">Luggage Space</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Rear luggage carrier</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Roof carrier available</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Space for medium bags</li>
+                    </ul>
+                </div>
+
+                <div class="bg-brandLight/30 p-8 rounded-2xl border-l-4 border-brandMustard feature-card text-left">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-cogs"></i></div>
+                    <h3 class="text-xl font-bold mb-4">Engine & Performance</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Powerful diesel engine</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Smooth manual transmission</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Good mileage for long routes</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Strong suspension for roads</li>
+                    </ul>
+                </div>
+
+                <div class="bg-brandLight/30 p-8 rounded-2xl border-l-4 border-brandTeal feature-card text-left">
+                    <div class="text-brandTeal text-3xl mb-4"><i class="fas fa-star"></i></div>
+                    <h3 class="text-xl font-bold mb-4">Best For</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Family tours & Pilgrimages</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Corporate & Wedding travel</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Airport pickup & Local sightseeing</li>
+                    </ul>
+                </div>
+
+                <div class="bg-brandLight/30 p-8 rounded-2xl border-l-4 border-brandMustard feature-card text-left">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-xl font-bold mb-4">Safety Features</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Secure Seat belts</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Strong body structure</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Experienced driver handling</li>
+                        <li><i class="fas fa-check text-brandTeal mr-2"></i>Reliable braking system</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-form" class="py-20 bg-brandLight">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="bg-white p-10 rounded-3xl shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brandMustard opacity-10 rounded-bl-full"></div>
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Book 13-Seater Now</h2>
+                <form class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <input type="text" placeholder="Your Name" class="w-full p-4 rounded-xl border border-brandLight outline-none focus:border-brandTeal">
+                        <input type="tel" placeholder="Mobile Number" class="w-full p-4 rounded-xl border border-brandLight outline-none focus:border-brandTeal">
+                    </div>
+                    <input type="text" placeholder="Destination" class="w-full p-4 rounded-xl border border-brandLight outline-none focus:border-brandTeal">
+                    <textarea placeholder="Message (Travel Date, Days, etc.)" rows="4" class="w-full p-4 rounded-xl border border-brandLight outline-none focus:border-brandTeal"></textarea>
+                    <button class="w-full bg-brandMustard text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition shadow-lg">Book Now</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brandGrey text-white pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12">
+            <div class="space-y-6">
+                <img src="taxiverz.avif" alt="Footer Logo" class="h-10 w-auto brightness-200">
+                <p class="text-brandLight text-sm leading-relaxed">Taxiverz is India's leading travel partner providing luxurious 13-seater Tempo Travellers. We focus on comfort, safety, and punctual service for every journey.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brandMustard transition-all"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brandMustard transition-all"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brandMustard transition-all"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-l-4 border-brandMustard pl-3 uppercase tracking-wider">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-brandLight">
+                    <li><a href="#" class="hover:text-brandMustard transition">Home Page</a></li>
+                    <li><a href="#" class="hover:text-brandMustard transition">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-l-4 border-brandMustard pl-3 uppercase tracking-wider">Fleet Services</h4>
+                <ul class="space-y-3 text-sm text-brandLight">
+                    <li><a href="#" class="hover:text-brandMustard transition font-bold text-white">13 Seater Traveller</a></li>
+                    <li><a href="#" class="hover:text-brandMustard transition">17 Seater Traveller</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-l-4 border-brandMustard pl-3 uppercase tracking-wider">Contact Details</h4>
+                <ul class="space-y-4 text-sm text-brandLight">
+                    <li class="flex items-center"><i class="fas fa-phone-alt mr-3 text-brandMustard"></i><span>+91 8576000083</span></li>
+                    <li class="flex items-center"><i class="fas fa-envelope mr-3 text-brandMustard"></i><span>info@taxiverz.com</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-black/20 py-6 border-t border-white/5 text-center text-xs text-brandLight">
+            <p>&copy; 2026 TAXIVERZ TRAVEL SOLUTIONS. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Gallery Logic
+        function updateMainImage(element) {
+            document.getElementById('mainVehicleImage').src = element.src;
+            document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+                thumb.classList.remove('active', 'border-brandMustard');
+                thumb.classList.add('opacity-70');
+            });
+            element.classList.add('active', 'border-brandMustard');
+            element.classList.remove('opacity-70');
+        }
+
+        // Mobile Nav Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const menuContainer = document.getElementById('mobile-menu-container');
+        const menuOverlay = document.getElementById('mobile-menu-overlay');
+
+        function toggleMenu() {
+            menuContainer.classList.toggle('open');
+            menuOverlay.classList.toggle('hidden');
+            if(menuContainer.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+    </script>
+</body>
+</html>

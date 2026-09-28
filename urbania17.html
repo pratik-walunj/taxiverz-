@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17 Seater Urbania Tempo Traveller - Taxiverz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandTeal: '#986236',    // Warm Brown
+                        brandMustard: '#C08950', // Golden Tan
+                        brandGrey: '#1F1F1F',    // Dark Charcoal
+                        brandLight: '#B5B1B2',   // Soft Grey
+                        darkNavy: '#08050E',     // Deep Black-Navy
+                        deepGrey: '#141217'      // Very Dark Grey
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .nav-link { @apply text-gray-300 hover:text-brandMustard font-medium transition-colors duration-300; }
+        .feature-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        
+        .group:hover .group-hover\:block {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #mobile-menu-container {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+        #mobile-menu-container.open {
+            transform: translateX(0);
+        }
+
+        .gallery-thumb {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .gallery-thumb:hover {
+            border-color: #C08950;
+            opacity: 1;
+        }
+        .gallery-thumb.active {
+            border-color: #C08950;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-200 bg-darkNavy overflow-x-hidden">
+
+    <header class="bg-brandGrey shadow-lg sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0">
+                    <img src="taxiverz.avif" alt="Taxiverz Logo" class="h-12 w-auto brightness-125">
+                </div>
+
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link">Home</a>
+                    
+                    <div class="relative group py-7">
+                        <button class="nav-link flex items-center outline-none">
+                            Taxi Services <i class="fas fa-chevron-down ml-2 text-[10px]"></i>
+                        </button>
+                        <div class="absolute top-full left-0 w-64 bg-deepGrey border-t-4 border-brandTeal shadow-2xl hidden group-hover:block rounded-b-lg overflow-hidden">
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-300 hover:bg-brandTeal hover:text-white border-b border-white/5">Local City Taxi</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-300 hover:bg-brandTeal hover:text-white border-b border-white/5">Outstation Rentals</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-300 hover:bg-brandTeal hover:text-white">Airport Transfers</a>
+                        </div>
+                    </div>
+
+                    <div class="relative group py-7">
+                        <button class="text-brandMustard font-bold flex items-center border-b-2 border-brandMustard pb-1 outline-none">
+                            Tempo Traveller <i class="fas fa-chevron-down ml-2 text-[10px]"></i>
+                        </button>
+                        <div class="absolute top-full left-0 w-64 bg-deepGrey border-t-4 border-brandMustard shadow-2xl hidden group-hover:block rounded-b-lg overflow-hidden">
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-300 hover:bg-brandTeal hover:text-white">13 Seater Urbania</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-300 hover:bg-brandTeal hover:text-white font-bold">17 Seater Urbania</a>
+                            <a href="#" class="block px-6 py-3 text-sm text-gray-300 hover:bg-brandTeal hover:text-white">26 Seater Mini Bus</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link">About Us</a>
+                    <a href="#booking-form" class="bg-brandMustard text-white px-7 py-3 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-md transform hover:scale-105 active:scale-95">Book Now</a>
+                </div>
+
+                <div class="lg:hidden">
+                    <button class="text-brandMustard p-2 focus:outline-none" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden"></div>
+        <div id="mobile-menu-container" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-deepGrey z-50 shadow-2xl lg:hidden overflow-y-auto">
+            <div class="p-6 text-left">
+                <div class="flex justify-between items-center mb-10">
+                    <img src="taxiverz.avif" alt="Taxiverz Logo" class="h-10 w-auto">
+                    <button id="close-menu-btn" class="text-brandLight text-3xl focus:outline-none">&times;</button>
+                </div>
+                <div class="flex flex-col space-y-6">
+                    <a href="index.html" class="text-xl font-bold border-b border-gray-700 pb-2 text-white">Home</a>
+                    <a href="about.html" class="text-xl font-bold border-b border-gray-700 pb-2 text-white">About Us</a>
+                    <a href="tel:+918576000083" class="bg-brandMustard text-white py-4 rounded-xl font-bold text-center">Call Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-brandTeal py-20 text-white">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">17-Seater Urbania</h1>
+                <p class="text-lg opacity-90 mb-8 leading-relaxed">The 17-seater Force Urbania represents the pinnacle of high-capacity luxury travel. Featuring a long wheelbase for maximum legroom and the iconic monocoque design, it is perfectly suited for executive delegations and premium family excursions.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#features" class="bg-deepGrey text-brandMustard px-8 py-3 rounded-lg font-bold shadow-lg">View Features</a>
+                    <a href="tel:+918576000083" class="bg-brandMustard text-white px-8 py-3 rounded-lg font-bold shadow-lg"><i class="fas fa-phone mr-2"></i>Book Now</a>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="relative w-full">
+                    <img id="mainVehicleImage" src="17urbaniafrontside.png" alt="17 Seater Urbania" class="w-full rounded-2xl shadow-2xl border-4 border-brandGrey transition-all duration-500">
+                    <div class="absolute -bottom-6 -left-6 bg-brandMustard p-6 rounded-xl hidden md:block shadow-2xl text-center">
+                        <p class="text-2xl font-black italic uppercase text-white">₹....</p>
+                        <p class="text-xs uppercase font-bold text-deepGrey">Best Market Rates</p>
+                    </div>
+                </div>
+                <div class="flex flex-row md:flex-col gap-3">
+                    <img src="17urbaniafrontside.png" alt="Front" class="gallery-thumb active w-20 h-20 object-cover rounded-lg shadow-md border-2 border-brandMustard" onclick="updateMainImage(this)">
+                    <img src="17urbania inside.png" alt="Inside" class="gallery-thumb w-20 h-20 object-cover rounded-lg shadow-md opacity-70" onclick="updateMainImage(this)">
+                    <img src="17urbaniasetingside.png" alt="Cabin" class="gallery-thumb w-20 h-20 object-cover rounded-lg shadow-md opacity-70" onclick="updateMainImage(this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 bg-darkNavy">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-16 uppercase tracking-widest">Premium Specifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                <div class="bg-deepGrey p-8 rounded-2xl border-l-4 border-brandTeal feature-card">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-bus"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Seating Capacity</h3>
+                    <ul class="space-y-2 text-brandLight">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>17 Passengers + 1 Driver</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Executive Semi-Sleeper Seats</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Extended Legroom Design</li>
+                    </ul>
+                </div>
+                <div class="bg-deepGrey p-8 rounded-2xl border-l-4 border-brandMustard feature-card">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-snowflake"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Comfort & Interior</h3>
+                    <ul class="space-y-2 text-brandLight">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>High-Flow Dual AC Unit</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Zero NVH (Ultra Quiet) Cabin</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Individual AC Louvers & Lights</li>
+                    </ul>
+                </div>
+                <div class="bg-deepGrey p-8 rounded-2xl border-l-4 border-brandTeal feature-card">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-suitcase-rolling"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Luggage Space</h3>
+                    <ul class="space-y-2 text-brandLight">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Massive Rear Cargo Area</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Overhead Parcel Shelves</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Under-seat bag provision</li>
+                    </ul>
+                </div>
+                <div class="bg-deepGrey p-8 rounded-2xl border-l-4 border-brandMustard feature-card">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Engine & Performance</h3>
+                    <ul class="space-y-2 text-brandLight">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>FM 2.6 Common Rail Engine</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Transverse Leaf Suspension</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Top Speed Speed-Lock Safety</li>
+                    </ul>
+                </div>
+                <div class="bg-deepGrey p-8 rounded-2xl border-l-4 border-brandTeal feature-card">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-gem"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Best For</h3>
+                    <ul class="space-y-2 text-brandLight">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Foreign Delegate Travel</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Premium Wedding Shuttles</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Long Distance Pilgrimages</li>
+                    </ul>
+                </div>
+                <div class="bg-deepGrey p-8 rounded-2xl border-l-4 border-brandMustard feature-card">
+                    <div class="text-brandMustard text-3xl mb-4"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Safety Features</h3>
+                    <ul class="space-y-2 text-brandLight">
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Monocoque Crash-Tested Body</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>All-Wheel Disc Brakes + ABS</li>
+                        <li><i class="fas fa-check text-brandMustard mr-2"></i>Dual Airbags for Front Cabin</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-brandTeal text-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="bg-deepGrey/30 backdrop-blur-md p-10 rounded-3xl border border-white/10 shadow-2xl">
+                <h2 class="text-3xl font-bold text-center mb-10">Why Choose 17 Seater Urbania?</h2>
+                <div class="grid md:grid-cols-2 gap-8 text-left">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-brandMustard p-3 rounded-full flex-shrink-0"><i class="fas fa-check text-white"></i></div>
+                        <p class="text-xl font-medium">Largest possible Urbania capacity</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-brandMustard p-3 rounded-full flex-shrink-0"><i class="fas fa-check text-white"></i></div>
+                        <p class="text-xl font-medium">High roof (No need to duck while walking)</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-brandMustard p-3 rounded-full flex-shrink-0"><i class="fas fa-check text-white"></i></div>
+                        <p class="text-xl font-medium">European safety standards compliance</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-brandMustard p-3 rounded-full flex-shrink-0"><i class="fas fa-check text-white"></i></div>
+                        <p class="text-xl font-medium">Superior stability at high speeds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-form" class="py-20 bg-darkNavy">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="bg-deepGrey p-10 rounded-3xl shadow-2xl relative overflow-hidden border border-gray-800">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brandMustard opacity-10 rounded-bl-full"></div>
+                <h2 class="text-3xl font-bold text-center mb-8 text-white">Reserve Your 17 Seater</h2>
+                <form class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <input type="text" placeholder="Your Name" class="w-full p-4 rounded-xl bg-brandGrey border border-gray-700 text-white outline-none focus:border-brandMustard">
+                        <input type="tel" placeholder="Mobile Number" class="w-full p-4 rounded-xl bg-brandGrey border border-gray-700 text-white outline-none focus:border-brandMustard">
+                    </div>
+                    <input type="text" placeholder="Destination / Trip Details" class="w-full p-4 rounded-xl bg-brandGrey border border-gray-700 text-white outline-none focus:border-brandMustard">
+                    <textarea placeholder="Message (Dates, Passenger count, etc.)" rows="4" class="w-full p-4 rounded-xl bg-brandGrey border border-gray-700 text-white outline-none focus:border-brandMustard"></textarea>
+                    <button class="w-full bg-brandMustard text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition shadow-lg uppercase">Get A Quote</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brandGrey text-white pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 text-left">
+            <div class="space-y-6">
+                <img src="taxiverz.avif" alt="Footer Logo" class="h-10 w-auto brightness-200">
+                <p class="text-brandLight text-sm leading-relaxed">Taxiverz is India's leading travel partner providing luxurious 17-seater Tempo Travellers. We focus on comfort, safety, and punctual service.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-darkNavy flex items-center justify-center hover:bg-brandMustard transition-all"><i class="fab fa-facebook-f text-white"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-darkNavy flex items-center justify-center hover:bg-brandMustard transition-all"><i class="fab fa-instagram text-white"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-l-4 border-brandMustard pl-3 uppercase tracking-wider text-white">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-brandLight">
+                    <li><a href="#" class="hover:text-brandMustard transition">Home Page</a></li>
+                    <li><a href="#" class="hover:text-brandMustard transition">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-brandMustard transition">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-l-4 border-brandMustard pl-3 uppercase tracking-wider text-white">Fleet Services</h4>
+                <ul class="space-y-3 text-sm text-brandLight">
+                    <li><a href="#" class="hover:text-brandMustard transition font-bold text-white">13 Seater Traveller</a></li>
+                    <li><a href="#" class="hover:text-brandMustard transition font-bold text-brandMustard">17 Seater Urbania</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-l-4 border-brandMustard pl-3 uppercase tracking-wider text-white">Contact Info</h4>
+                <ul class="space-y-4 text-sm text-brandLight">
+                    <li class="flex items-center"><i class="fas fa-phone-alt mr-3 text-brandMustard"></i><span>+91 8576000083</span></li>
+                    <li class="flex items-center"><i class="fas fa-envelope mr-3 text-brandMustard"></i><span>info@taxiverz.com</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="bg-black/20 py-6 border-t border-white/5 text-center text-xs text-brandLight">
+            <p>&copy; 2026 TAXIVERZ TRAVEL SOLUTIONS. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateMainImage(element) {
+            document.getElementById('mainVehicleImage').src = element.src;
+            document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+                thumb.classList.remove('active');
+                thumb.style.opacity = "0.7";
+            });
+            element.classList.add('active');
+            element.style.opacity = "1";
+        }
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const menuContainer = document.getElementById('mobile-menu-container');
+        const menuOverlay = document.getElementById('mobile-menu-overlay');
+
+        function toggleMenu() {
+            menuContainer.classList.toggle('open');
+            menuOverlay.classList.toggle('hidden');
+            document.body.style.overflow = menuContainer.classList.contains('open') ? 'hidden' : 'auto';
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+    </script>
+</body>
+</html>

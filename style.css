@@ -1,0 +1,4332 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation */
+.navbar {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+}
+
+.nav-logo h2 {
+    color: #ff5800;
+    font-size: 1.8rem;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #ff5800;
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background: #000;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+/* Carousel Section */
+.carousel-section {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+/* Sticky Navigation */
+.sticky-nav {
+    position: fixed;
+    top: -100px;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    transition: top 0.3s ease;
+}
+
+.sticky-nav.show {
+    top: 0;
+}
+
+.carousel-nav-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    background: transparent;
+    backdrop-filter: none;
+    margin-top: 0;
+}
+
+.carousel-container {
+    position: relative;
+    height: 100%;
+    margin-top: 0;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.slide-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-1 {
+    background: linear-gradient(135deg, #ff5800 0%, #cc4a00 100%);
+}
+
+.slide-2 {
+    background: linear-gradient(135deg, #ff5800 0%, #cc4a00 100%);
+}
+
+.slide-3 {
+    background: linear-gradient(135deg, #000 0%, #333 100%);
+}
+
+.slide-content {
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.slide-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.slide-content p {
+    font-size: 1.2rem;
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.nav-dot.active {
+    background: white;
+}
+
+/* Hero Main Section */
+.hero-main {
+    padding: 80px 0;
+    background: white;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-description h1 {
+    font-size: 3rem;
+    color: #000;
+    margin-bottom: 1.5rem;
+}
+
+.hero-description p {
+    font-size: 1.1rem;
+    color: #000;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-features {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feature-item i {
+    color: #ff5800;
+    font-size: 1.2rem;
+}
+
+.feature-item span {
+    color: #000;
+    font-weight: 500;
+}
+
+.hero-form {
+    display: flex;
+    justify-content: center;
+}
+
+.booking-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    width: 100%;
+    max-width: 400px;
+}
+
+.booking-form h3 {
+    color: #000;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.trip-type {
+    display: flex;
+    margin-bottom: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.trip-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #000;
+}
+
+.trip-btn.active {
+    background: #ff5800;
+    color: white;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input-field {
+    padding: 15px;
+    border: 2px solid white;
+    border-radius: 8px;
+    font-size: 1rem;
+    flex: 1;
+    color: #000;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #ff5800;
+}
+
+.booking-form select.input-field {
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #ff5800;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background: #cc4a00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 88, 0, 0.3);
+}
+
+/* Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Services Section */
+.services {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+.service-icon {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    padding: 2rem;
+    text-align: center;
+}
+
+.service-icon i {
+    font-size: 3rem;
+    color: white;
+}
+
+.service-content {
+    padding: 2rem;
+}
+
+.service-content h3 {
+    font-size: 1.5rem;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.service-content p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.service-features {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.service-features li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: #000;
+}
+
+.service-features li i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.service-price {
+    background: #ff5800;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.service-btn {
+    background: #ff5800;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.service-btn:hover {
+    background: #cc4a00;
+    transform: translateY(-2px);
+}
+
+/* Tour Packages Section */
+.tour-packages {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.tour-packages h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #000;
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.package-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 2px solid #ff5800;
+}
+
+.package-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.package-image {
+    width: 80px;
+    height: 80px;
+    background: #ff5800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.package-image i {
+    font-size: 2rem;
+    color: white;
+}
+
+.package-card h4 {
+    font-size: 1.3rem;
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.package-card p {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.package-price {
+    background: #ff5800;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 1.1rem;
+}
+
+/* Why Choose Section */
+.why-choose {
+    padding: 80px 0;
+    background: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    border: 1px solid #f0f0f0;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.feature-icon i {
+    font-size: 2rem;
+    color: #000;
+}
+
+.feature-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.stars {
+    margin-bottom: 1rem;
+}
+
+.stars i {
+    color: #ff5800;
+    margin-right: 0.2rem;
+}
+
+.testimonial-content p {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.customer-info h5 {
+    color: #000;
+    margin-bottom: 0.2rem;
+}
+
+.customer-info span {
+    color: #ff5800;
+    font-size: 0.9rem;
+}
+
+/* About Section */
+.about {
+    padding: 80px 0;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #000;
+}
+
+.about-text ul {
+    list-style: none;
+}
+
+.about-text li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.about-text li i {
+    color: #ff5800;
+}
+
+.about-image {
+    display: flex;
+    justify-content: center;
+}
+
+.image-placeholder {
+    width: 300px;
+    height: 300px;
+    background: #ff5800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.about-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 2rem;
+    color: #ff5800;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Contact Section */
+.contact {
+    padding: 80px 0;
+    background: white;
+}
+
+.contact h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #000;
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.contact-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.contact-item i {
+    font-size: 2.5rem;
+    color: #FF6600;
+    margin-bottom: 0.5rem;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.office-locations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.office-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.office-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.office-item i {
+    font-size: 2.5rem;
+    color: #ff5800;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px;
+    border: 2px solid #ff5800;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Footer */
+.footer {
+    background: #000;
+    color: white;
+    padding: 40px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-logo {
+    margin-bottom: 1rem;
+}
+
+.footer-logo-img {
+    height: 60px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: #ff5800;
+}
+
+.footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: #ff5800;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid white;
+    color: white;
+}
+
+.nav-link.active {
+    color: #ff5800;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #ff5800 0%, #cc4a00 100%);
+    color: white;
+    padding: 120px 0 60px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* About Page Styles */
+.about-content {
+    padding: 80px 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-text h2, .about-text h3 {
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+}
+
+.about-text h3 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    color: #ff5800;
+}
+
+.about-text p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.stats-section {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.stat-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+    font-size: 2.5rem;
+    color: #ff5800;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.team-section {
+    padding: 80px 0;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.team-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.team-image {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+}
+
+.team-card h4 {
+    color: #000;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.team-card p {
+    color: #ff5800;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.team-card span {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.values-section {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.value-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 1px solid #ff5800;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.value-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.value-card h4 {
+    color: #000;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.value-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Contact Page Styles */
+.contact-main {
+    padding: 80px 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.contact-info h2 {
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.contact-info p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.contact-items {
+    margin-top: 2rem;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.contact-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.contact-item i {
+    font-size: 2.5rem;
+    color: #ff5800;
+    margin-bottom: 0.5rem;
+}
+
+.contact-item h4 {
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.contact-form h3 {
+    color: #000;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.contact-form input, .contact-form select, .contact-form textarea {
+    padding: 15px;
+    border: 2px solid #ff5800;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
+    outline: none;
+    border-color: #ff5800;
+    box-shadow: 0 0 10px rgba(255, 88, 0, 0.2);
+}
+
+.branches {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.branches h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.branches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.branch-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-left: 4px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.branch-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.branch-card h4 {
+    color: #ff5800;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.branch-card p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.branch-card i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+}
+
+.faq-section {
+    padding: 80px 0;
+}
+
+.faq-section h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.faq-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-left: 4px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.faq-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.faq-item h4 {
+    color: #ff5800;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.faq-item p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Tours Page Styles */
+.tour-categories {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.tour-categories h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.category-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 2px solid #ff5800;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    border-color: #ff5800;
+}
+
+.category-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.category-card h3 {
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.category-card p {
+    color: #666;
+}
+
+.popular-tours {
+    padding: 80px 0;
+}
+
+.popular-tours h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.tour-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 1px solid #ff5800;
+}
+
+.tour-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+
+.tour-image {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    padding: 3rem;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.tour-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ff5800;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.tour-content {
+    padding: 2rem;
+}
+
+.tour-content h3 {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.tour-duration {
+    color: #ff5800;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.tour-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.tour-includes {
+    list-style: none;
+    margin: 1.5rem 0;
+}
+
+.tour-includes li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.tour-includes i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+}
+
+.tour-price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.tour-price span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.custom-tour {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.custom-tour h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.custom-tour p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.custom-features {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.custom-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.custom-feature i {
+    font-size: 1.2rem;
+}
+
+/* Car Rental Styles */
+.rental-options {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.rental-options h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.option-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 2px solid #ff5800;
+}
+
+.option-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.option-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.option-card h3 {
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.option-card p {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.option-card .price {
+    background: #ff5800;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-top: 1rem;
+    display: inline-block;
+    font-size: 1.1rem;
+}
+
+.car-fleet {
+    padding: 80px 0;
+}
+
+.car-fleet h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.fleet-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+}
+
+.car-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 1px solid #ff5800;
+    max-width: 280px;
+}
+
+.car-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+
+.car-image {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+}
+
+.car-details {
+    padding: 1.2rem;
+}
+
+.car-details h3 {
+    color: #000;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.car-models {
+    color: #ff5800;
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.car-features {
+    list-style: none;
+    margin: 1.5rem 0;
+}
+
+.car-features li {
+    margin-bottom: 0.5rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.car-features i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+    width: 20px;
+}
+
+.car-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.rental-booking {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 80px 0;
+}
+
+.booking-section {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+}
+
+.booking-section h2 {
+    text-align: center;
+    color: #000;
+    margin-bottom: 2rem;
+}
+
+.rental-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.rental-features {
+    padding: 80px 0;
+}
+
+.rental-features h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Wedding Page Styles */
+.wedding-header {
+    background: linear-gradient(135deg, #ff5800 0%, #cc4a00 100%);
+    color: white;
+}
+
+.wedding-services {
+    padding: 80px 0;
+}
+
+.services-intro {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.services-intro h2 {
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.services-intro p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.wedding-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.wedding-service {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.wedding-service:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.wedding-service i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.wedding-service h3 {
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.wedding-service p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.wedding-fleet {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.wedding-fleet h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.wedding-cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.wedding-car-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 1px solid #ff5800;
+}
+
+.wedding-car-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+
+.wedding-car-card .car-image {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+    position: relative;
+}
+
+.car-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ff5800;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.car-info {
+    padding: 2rem;
+}
+
+.car-info h3 {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.wedding-packages {
+    padding: 80px 0;
+}
+
+.wedding-packages h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.wedding-packages .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.wedding-packages .package-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: relative;
+    border: 1px solid #ff5800;
+}
+
+.package-card.popular {
+    border: 3px solid #ff5800;
+    transform: scale(1.05);
+}
+
+.package-header {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.popular-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff5800;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.package-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.package-price {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.package-features {
+    list-style: none;
+    padding: 2rem;
+}
+
+.package-features li {
+    margin-bottom: 1rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.package-features i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+}
+
+.wedding-booking {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 80px 0;
+}
+
+.booking-form-section {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+}
+
+.booking-form-section h2 {
+    text-align: center;
+    color: #000;
+    margin-bottom: 2rem;
+}
+
+.wedding-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.wedding-features {
+    padding: 80px 0;
+}
+
+.wedding-features h2 {
+    text-align: center;
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Floating Buttons */
+.floating-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.whatsapp-btn {
+    width: 60px;
+    height: 60px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.whatsapp-btn:hover {
+    background: #128C7E;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(37, 211, 102, 0.8);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -200px;
+        top: 70px;
+        flex-direction: column;
+        background-color: white;
+        width: 200px;
+        text-align: left;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        padding: 0.5rem 0;
+        z-index: 9999;
+        border-radius: 0 0 10px 0;
+        border-right: 2px solid #ff5800;
+    }
+
+    .nav-menu .nav-link {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+        display: block;
+    }
+
+
+
+    .nav-menu .nav-link:hover {
+        background: #f8f9fa;
+        padding-left: 1.2rem;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+    
+
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .hero-description h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-features {
+        justify-content: center;
+    }
+
+    .slide-content h2 {
+        font-size: 2rem;
+    }
+
+    .carousel-section {
+        height: 300px;
+    }
+
+    .booking-form {
+        margin: 0 10px;
+        padding: 1.5rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .office-locations {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .contact-form-wrapper {
+        margin-top: 2rem;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .packages-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tours-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .fleet-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .wedding-cars-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .wedding-services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .branches-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .custom-features {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-container iframe {
+        height: 300px;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .page-header p {
+        font-size: 1rem;
+    }
+    
+    .rental-form .form-row {
+        flex-direction: column;
+    }
+    
+    .wedding-form .form-row {
+        flex-direction: column;
+    }
+    
+    .floating-buttons {
+        right: 15px;
+        bottom: 15px;
+    }
+    
+    .whatsapp-btn, .scroll-top-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Ultra Small Mobile Devices (320px) */
+@media screen and (max-width: 320px) {
+    .container {
+        padding: 0 10px !important;
+    }
+    
+    .hero-description h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    .car-fleet h2 {
+        font-size: 1.4rem !important;
+    }
+    
+    .btn-primary {
+        font-size: 14px !important;
+        padding: 10px 16px !important;
+    }
+    
+    .car-card {
+        margin: 0 5px 1rem 5px !important;
+    }
+}
+
+/* Landscape Mobile Orientation */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .page-header {
+        min-height: 200px !important;
+        padding: 60px 0 30px !important;
+    }
+    
+    .page-header h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    .carousel-section {
+        height: 250px !important;
+    }
+}
+/* Carousel Image Styling */
+.carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+}
+
+.slide-content {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    padding: 2rem;
+    border-radius: 10px;
+}
+/* Chatbot Styles */
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    background: #ff5800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 88, 0, 0.4);
+    transition: all 0.3s;
+}
+
+.chatbot-toggle:hover {
+    background: #cc4a00;
+    transform: scale(1.1);
+}
+
+.chatbot-toggle i {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.chatbot-window {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 300px;
+    height: 400px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+}
+
+.chatbot-window.active {
+    display: flex;
+}
+
+.chatbot-header {
+    background: #ff5800;
+    color: white;
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bot-message, .user-message {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.bot-message {
+    background: #f0f0f0;
+    align-self: flex-start;
+}
+
+.user-message {
+    background: #ff5800;
+    color: white;
+    align-self: flex-end;
+}
+
+.chatbot-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+}
+
+.chatbot-input button {
+    background: #ff5800;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+}
+/* Floating Buttons */
+.floating-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 9998;
+}
+
+.whatsapp-btn {
+    width: 60px;
+    height: 60px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.whatsapp-btn:hover {
+    background: #128C7E;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(37, 211, 102, 0.8);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+}
+
+/* Wedding Page Styles */
+.wedding-header {
+    background: linear-gradient(135deg, #ff5800 0%, #cc4a00 100%);
+}
+
+.wedding-services {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.services-intro {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.services-intro h2 {
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.wedding-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.wedding-service {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.wedding-service:hover {
+    transform: translateY(-5px);
+}
+
+.wedding-service i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.wedding-fleet {
+    padding: 80px 0;
+}
+
+.wedding-fleet h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+.wedding-cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.wedding-car-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+}
+
+.wedding-car-card:hover {
+    transform: translateY(-5px);
+}
+
+.car-image {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.car-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    color: #ff5800;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.car-info {
+    padding: 2rem;
+}
+
+.car-info h3 {
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.car-models {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.car-features {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.car-features li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.car-features i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+}
+
+.car-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.car-price span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.wedding-packages {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.wedding-packages h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.package-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.package-card.popular {
+    border-color: #ff5800;
+    transform: scale(1.05);
+}
+
+.package-header {
+    background: #f8f9fa;
+    padding: 2rem;
+    text-align: center;
+}
+
+.package-card.popular .package-header {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+}
+
+.package-price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff5800;
+}
+
+.package-card.popular .package-price {
+    color: white;
+}
+
+.popular-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff5800;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.package-features {
+    list-style: none;
+    padding: 2rem;
+}
+
+.package-features li {
+    margin-bottom: 0.8rem;
+    color: #666;
+}
+
+.package-features i {
+    color: #28a745;
+    margin-right: 0.5rem;
+}
+
+.wedding-booking {
+    padding: 80px 0;
+}
+
+.booking-form-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+.wedding-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.wedding-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input-field {
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #ff5800;
+}
+
+.wedding-features {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.wedding-features h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .wedding-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .wedding-cars-grid,
+    .packages-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .package-card.popular {
+        transform: none;
+    }
+}
+/* Global Container Fix */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* About Page Alignment Fixes */
+.about-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.stats-grid,
+.team-grid,
+.values-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-section h2,
+.values-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .about-grid,
+    .contact-grid,
+    .about-content,
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .stats-grid,
+    .team-grid,
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* About Text Alignment Fix */
+.about-text {
+    text-align: left;
+    max-width: 100%;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #000;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.about-text h3 {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 1rem 0;
+    color: #ff5800;
+    line-height: 1.3;
+    text-align: left;
+    clear: both;
+}
+
+.about-text p {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    text-align: justify;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+/* Fix about grid to prevent text overflow */
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-text h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .about-text h3 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .about-text p {
+        text-align: left;
+    }
+}
+/* About Text Specific Fixes */
+.about-text {
+    display: block;
+    width: 100%;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #000;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+}
+
+.about-text h3 {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 1rem 0;
+    color: #ff5800;
+    line-height: 1.3;
+    display: block;
+    width: 100%;
+    clear: both;
+}
+
+.about-text p {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    text-align: justify;
+    display: block;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Ensure proper grid layout */
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.about-content {
+    padding: 80px 0;
+    width: 100%;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-text h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .about-text h3 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+/* Tours Grid - 4 columns per row */
+.tours-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* Mobile responsive for tours */
+@media (max-width: 1200px) {
+    .tours-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .tours-grid,
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tours-grid,
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+/* Tour Card Height Fix - Keep all content */
+.tour-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+}
+
+.tour-content {
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tour-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.tour-description {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+}
+
+.tour-includes li {
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+}
+
+.tour-image {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tour-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    color: #ff5800;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.tour-price {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    color: #ff5800;
+    display: block;
+}
+
+.view-details-btn {
+    background: #ff5800;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.view-details-btn:hover {
+    background: #cc4a00;
+}
+
+.tour-bottom {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tour-card .tour-price {
+    margin: 0;
+}
+
+.btn-primary {
+    background: #ff5800;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background: #cc4a00;
+    transform: translateY(-2px);
+}
+
+.tour-duration {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.tour-duration i {
+    color: #ff5800;
+    margin-right: 0.5rem;
+}
+
+.tour-includes {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.tour-includes li {
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.tour-includes i {
+    color: #28a745;
+    margin-right: 0.5rem;
+    width: 12px;
+}
+
+/* Tour Details Page Styles */
+.tour-details {
+    padding: 80px 0;
+}
+
+.tour-info h2 {
+    color: #000;
+    margin-bottom: 2rem;
+}
+
+.route-details {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.route-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #ff5800;
+}
+
+.route-item i {
+    color: #ff5800;
+    font-size: 1.2rem;
+}
+
+.service-features {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+.service-features li {
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    color: #666;
+}
+
+.service-features i {
+    color: #28a745;
+    margin-right: 0.8rem;
+    width: 16px;
+}
+
+.booking-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.booking-section h3 {
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.booking-section p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.booking-section a {
+    color: #ff5800;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .route-details {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Route Pages Styles */
+.route-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.route-data {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.data-item {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #ff5800;
+}
+
+.fare-table {
+    margin: 2rem 0;
+}
+
+.fare-header h3 {
+    color: #000;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.fare-table-wrapper {
+    overflow-x: auto;
+}
+
+.fare-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.fare-table th {
+    background: #ff5800;
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.fare-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.vehicle-name {
+    font-weight: 600;
+    color: #000;
+}
+
+.rate {
+    color: #ff5800;
+    font-weight: 600;
+}
+
+.cost {
+    color: #28a745;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.trip-type {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-item i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.booking-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    outline: none;
+    border-color: #ff5800;
+}
+
+.booking-form textarea {
+    grid-column: 1 / -1;
+    resize: vertical;
+    min-height: 100px;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .fare-table-wrapper {
+        font-size: 0.9rem;
+    }
+    
+    .fare-table th,
+    .fare-table td {
+        padding: 0.5rem;
+    }
+}
+
+/* Footer Styles - Compatible with Hostinger */
+.footer {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+    padding: 40px 0 20px !important;
+    margin-top: 50px;
+}
+
+.footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.footer-section {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+
+.footer-section h4 {
+    color: #ff5800 !important;
+    margin-bottom: 15px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+.footer-logo {
+    margin-bottom: 15px;
+}
+
+.footer-logo-img {
+    max-width: 120px !important;
+    height: auto !important;
+    display: block;
+}
+
+.footer-section p {
+    color: #cccccc !important;
+    line-height: 1.6 !important;
+    margin-bottom: 8px !important;
+    font-size: 14px !important;
+}
+
+.footer-section p i {
+    color: #ff5800 !important;
+    margin-right: 8px !important;
+    width: 16px !important;
+    display: inline-block;
+}
+
+.footer-section ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px !important;
+}
+
+.footer-section ul li a {
+    color: #cccccc !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    -webkit-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ff5800 !important;
+}
+
+.social-links {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 36px !important;
+    height: 36px !important;
+    background-color: #ff5800 !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    text-decoration: none !important;
+    font-size: 16px !important;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #cc4a00 !important;
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    border-top: 1px solid #555555;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: #999999 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .footer-content {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-section {
+        min-width: 100%;
+        margin-bottom: 25px;
+    }
+    
+    .social-links {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .footer {
+        padding: 30px 0 15px !important;
+    }
+    
+    .footer-section {
+        padding: 0 10px;
+    }
+}
+
+/* Car Rental Page Styles - Hostinger Compatible */
+.car-fleet {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.car-fleet h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+.fleet-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 2rem;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+@media screen and (min-width: 769px) {
+    .fleet-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 2rem !important;
+        -webkit-box-pack: unset;
+        -ms-flex-pack: unset;
+        justify-content: unset;
+    }
+}
+
+.car-card {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    border: 2px solid #ff5800 !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 400px !important;
+}
+
+.car-card:hover {
+    -webkit-transform: translateY(-5px) !important;
+    transform: translateY(-5px) !important;
+}
+
+.car-image-real {
+    width: 100% !important;
+    height: 200px !important;
+    -o-object-fit: cover !important;
+    object-fit: cover !important;
+    display: block !important;
+    border: none !important;
+    background-color: #f0f0f0 !important;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjBGMEYwIi8+CjxwYXRoIGQ9Ik0xNTAgMTAwTDE3MCA4MEgxMzBMMTUwIDEwMFoiIGZpbGw9IiNDQ0MiLz4KPHN2Zz4K') !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 50px 50px !important;
+}
+
+.car-details {
+    padding: 1.5rem !important;
+    text-align: center !important;
+}
+
+.car-details h3 {
+    color: #000 !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+}
+
+.car-models {
+    color: #666 !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.car-price {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: #ff5800 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Rental Options Styles */
+.rental-options {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+.options-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 2rem;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.option-card {
+    background: #ffffff !important;
+    padding: 2rem !important;
+    border-radius: 15px !important;
+    text-align: center !important;
+    -webkit-box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border: 2px solid #ff5800 !important;
+    -webkit-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+    width: 250px !important;
+    max-width: 100% !important;
+}
+
+.option-card:hover {
+    -webkit-transform: translateY(-5px) !important;
+    transform: translateY(-5px) !important;
+}
+
+.option-card i {
+    font-size: 3rem !important;
+    color: #ff5800 !important;
+    margin-bottom: 1rem !important;
+}
+
+.option-card h3 {
+    color: #000 !important;
+    margin-bottom: 1rem !important;
+    font-size: 1.3rem !important;
+}
+
+.option-card p {
+    color: #666 !important;
+    margin-bottom: 1rem !important;
+}
+
+.price {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: #ff5800 !important;
+}
+
+/* Enhanced Mobile Responsive for Car Rental */
+@media screen and (max-width: 1024px) {
+    .fleet-grid {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+        -webkit-box-pack: center !important;
+        -ms-flex-pack: center !important;
+        justify-content: center !important;
+        gap: 1.5rem !important;
+    }
+    
+    .car-card {
+        width: 45% !important;
+        min-width: 280px !important;
+        max-width: 320px !important;
+    }
+}
+
+/* Mobile Button Touch Optimization */
+@media screen and (max-width: 768px) {
+    .btn-primary {
+        min-height: 44px !important;
+        padding: 12px 20px !important;
+        font-size: 16px !important;
+        touch-action: manipulation;
+    }
+    
+    .option-card .btn-primary {
+        min-height: 44px !important;
+        padding: 12px 20px !important;
+    }
+    
+    .nav-toggle {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        padding: 8px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .car-fleet {
+        padding: 40px 0 !important;
+    }
+    
+    .car-fleet h2 {
+        font-size: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    .fleet-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1.5rem !important;
+        width: 100% !important;
+    }
+    
+    .options-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1.5rem !important;
+    }
+    
+    .car-card {
+        width: 95% !important;
+        max-width: 350px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        border-radius: 15px !important;
+    }
+    
+    .option-card {
+        width: 95% !important;
+        max-width: 350px !important;
+        margin: 0 auto !important;
+    }
+    
+    .car-image-real {
+        width: 100% !important;
+        height: 200px !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block !important;
+        border-radius: 15px 15px 0 0 !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .car-details {
+        padding: 1.2rem !important;
+        flex-grow: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .car-details h3 {
+        font-size: 1.1rem !important;
+    }
+    
+    .car-price {
+        font-size: 1.3rem !important;
+    }
+    
+    .rental-options {
+        padding: 40px 0 !important;
+    }
+    
+    .option-card {
+        padding: 1.5rem !important;
+    }
+    
+    .option-card i {
+        font-size: 2.5rem !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0 15px !important;
+    }
+    
+    .page-header h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    .car-fleet h2 {
+        font-size: 1.6rem !important;
+    }
+    
+    .car-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto 1.5rem auto !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        min-height: 350px !important;
+    }
+    
+    .option-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto 1.5rem auto !important;
+        box-sizing: border-box !important;
+    }
+    
+    .car-image-real {
+        height: 180px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: 15px 15px 0 0 !important;
+        flex-shrink: 0 !important;
+        min-height: 180px !important;
+        max-height: 180px !important;
+        display: block !important;
+    }
+    
+    .car-details {
+        padding: 1rem !important;
+        flex-grow: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .car-details h3 {
+        font-size: 1rem !important;
+    }
+    
+    .car-models {
+        font-size: 0.8rem !important;
+    }
+    
+    .car-price {
+        font-size: 1.2rem !important;
+    }
+    
+    .btn-primary {
+        padding: 8px 16px !important;
+        font-size: 0.9rem !important;
+        width: 100% !important;
+        margin-top: auto !important;
+    }
+    
+    .option-card {
+        padding: 1.2rem !important;
+    }
+    
+    .option-card h3 {
+        font-size: 1.1rem !important;
+    }
+    
+    .option-card p {
+        font-size: 0.9rem !important;
+    }
+    
+    .price {
+        font-size: 1.3rem !important;
+    }
+    
+    .fleet-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        padding: 0 10px !important;
+        width: 100% !important;
+    }
+}
+/* Car Image Styling - Fixed for Mobile */
+.car-image-real {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 15px 15px 0 0 !important;
+    background: #f0f0f0 !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+    min-height: 200px !important;
+    max-height: 200px !important;
+}
+
+/* Mobile Car Image Fix - Complete Solution */
+@media screen and (max-width: 768px) {
+    .car-image-real {
+        width: 100% !important;
+        height: 200px !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block !important;
+        border-radius: 15px 15px 0 0 !important;
+        flex-shrink: 0 !important;
+        background-size: cover !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .car-card {
+        width: 100% !important;
+        max-width: 350px !important;
+        margin: 0 auto 1.5rem auto !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        border-radius: 15px !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+    }
+    
+    .fleet-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1.5rem !important;
+        width: 100% !important;
+        padding: 0 15px !important;
+    }
+    
+    /* Ensure car details don't overlap image */
+    .car-details {
+        position: relative !important;
+        z-index: 2 !important;
+        background: white !important;
+        border-radius: 0 0 15px 15px !important;
+    }
+}
+
+.car-image-real:not([src]), .car-image-real[src=""] {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+}
+
+.car-image-real:not([src])::before, .car-image-real[src=""]::before {
+    content: "🚗";
+    font-size: 3rem;
+}
+
+/* Desktop Fleet Grid - Horizontal Scroll */
+@media screen and (min-width: 769px) {
+    .fleet-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        gap: 1.5rem !important;
+        margin-top: 2rem !important;
+        padding: 10px 0 20px 0 !important;
+        scroll-behavior: smooth !important;
+        align-items: stretch !important;
+    }
+    
+    .fleet-grid .car-card {
+        flex: 0 0 300px !important;
+        min-width: 300px !important;
+        max-width: 300px !important;
+        height: auto !important;
+    }
+}
+
+/* Mobile Fleet Grid - Vertical Stack */
+@media screen and (max-width: 768px) {
+    .fleet-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1.5rem !important;
+        margin-top: 2rem !important;
+        padding: 0 15px !important;
+        overflow: visible !important;
+    }
+    
+    .fleet-grid .car-card {
+        width: 100% !important;
+        max-width: 350px !important;
+        flex: none !important;
+    }
+}
+
+.fleet-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.fleet-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.fleet-grid::-webkit-scrollbar-thumb {
+    background: #ff5800;
+    border-radius: 10px;
+}
+
+.fleet-grid::-webkit-scrollbar-thumb:hover {
+    background: #cc4a00;
+}
+
+
+/* Booking Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: modalSlideIn 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content h2 {
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    color: white;
+    padding: 20px;
+    margin: 0;
+    border-radius: 15px 15px 0 0;
+    font-size: 1.5rem;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 5px 10px;
+    border-radius: 50%;
+    line-height: 1;
+    user-select: none;
+}
+
+.close:hover {
+    color: #ccc;
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-50%) scale(1.1);
+}
+
+#bookingForm {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ff5800;
+}
+
+.form-group input[readonly] {
+    background-color: #f8f9fa;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+    }
+}
+/* Self Drive Cars Section */
+.self-drive-cars {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.self-drive-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
+    padding: 10px 0 20px 0 !important;
+    scroll-behavior: smooth !important;
+    align-items: stretch !important;
+}
+
+.self-drive-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.self-drive-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.self-drive-grid::-webkit-scrollbar-thumb {
+    background: #ff5800;
+    border-radius: 10px;
+}
+
+.self-drive-grid::-webkit-scrollbar-thumb:hover {
+    background: #cc4a00;
+}
+
+.self-drive-card {
+    background: white;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+    flex: 0 0 300px !important;
+    min-width: 300px !important;
+    max-width: 300px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 400px !important;
+}
+
+.self-drive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.self-drive-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.self-drive-card h3 {
+    color: #000;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.self-drive-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.self-drive-card .price {
+    color: #ff5800;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .self-drive-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .self-drive-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+/* Luxurious Tempo and AC Bus Section */
+.tempo-bus-section {
+    padding: 80px 0;
+    background: white;
+}
+
+.tempo-bus-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
+    padding: 10px 0 20px 0 !important;
+    scroll-behavior: smooth !important;
+    align-items: stretch !important;
+}
+
+.tempo-bus-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tempo-bus-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.tempo-bus-grid::-webkit-scrollbar-thumb {
+    background: #ff5800;
+    border-radius: 10px;
+}
+
+.tempo-bus-grid::-webkit-scrollbar-thumb:hover {
+    background: #cc4a00;
+}
+
+.tempo-bus-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #ff5800;
+    transition: all 0.3s;
+    flex: 0 0 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 420px !important;
+    overflow: hidden;
+}
+
+.tempo-bus-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.tempo-bus-card .car-details {
+    padding: 1.5rem;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tempo-bus-card h3 {
+    color: #000;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.tempo-bus-card p {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.vehicle-specs {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.vehicle-specs .spec-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+}
+
+.vehicle-specs .spec-item i {
+    margin-right: 6px;
+    color: #ff5800;
+}
+
+.tempo-bus-card .price {
+    color: #ff5800;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.tempo-bus-card .btn-primary {
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .tempo-bus-card {
+        flex: 0 0 300px !important;
+        min-width: 300px !important;
+        max-width: 300px !important;
+    }
+}
+/* Bus Image Specific Styling */
+.bus-image {
+    width: 100% !important;
+    height: 160px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 15px 15px 0 0 !important;
+    display: block !important;
+    background: #f0f0f0 !important;
+}
+/* Tour destination image styling - Desktop Photo, Mobile Icon */
+.tour-destination-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px 8px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: #f8f9fa;
+}
+
+.tour-image {
+    position: relative;
+    overflow: hidden;
+    height: 120px;
+    background: linear-gradient(135deg, #ff5800, #cc4a00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tour-fallback-icon {
+    color: rgba(255,255,255,0.9);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    display: none;
+}
+
+/* Mobile view - Hide photos, show icons only */
+@media (max-width: 768px) {
+    .tour-destination-img {
+        display: none !important;
+    }
+    
+    .tour-fallback-icon {
+        display: block !important;
+        font-size: 3rem !important;
+        color: rgba(255,255,255,0.9) !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+    }
+    
+    .tour-image {
+        height: 120px !important;
+        background: linear-gradient(135deg, #ff5800, #cc4a00) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .tour-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tour-image {
+        height: 100px !important;
+    }
+    
+    .tour-fallback-icon {
+        font-size: 2.5rem !important;
+    }
+}

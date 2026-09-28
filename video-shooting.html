@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Shooting Services - Taxiverz</title>
+    <link rel="stylesheet" href="style.css">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Dropdown CSS Fix */
+        /* Dropdown Menu Styles */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .nav-dropdown .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ff5800;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+        }
+        
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #e04900;
+        }
+        
+        .dropdown-content .view-all {
+            background-color: #ff5800;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .dropdown-content .view-all:hover {
+            background-color: #e04900;
+        }
+        
+        .dropdown-content hr {
+            margin: 0;
+            border: none;
+            border-top: 1px solid #e04900;
+        }
+        
+        .nav-dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .nav-dropdown:hover .nav-link i {
+            transform: rotate(180deg);
+            transition: transform 0.3s;
+        }
+    </style></head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="taxiverz.avif" alt="Taxiverz Logo" class="logo-img">
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="tours.html" class="nav-link">Local Taxi</a>
+ <div class="nav-dropdown">
+                    <a href="car-rental.html" class="nav-link active">Car Rental <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="car-rental-service-in-gorakhpur.html">Car Rental Services in Gorakhpur</a>
+                        <a href="self-drive-car-rental-in-gorakhpur.html">Self-Drive Car Rental in Gorakhpur</a>
+                        <a href="luxury-car-rental-in-gorakhpur.html">Luxury Car Rental in Gorakhpur</a>
+                        <a href="car-rental.html">SUV Car Rental in Gorakhpur</a>
+                        <a href="car-rental.html">Car Hire with Driver in Gorakhpur</a>
+
+                    </div>
+                </div>                <div class="nav-dropdown">
+                    <a href="wedding.html" class="nav-link active">Wedding Cars Rental <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="wedding.html">Luxury Wedding Car Rental in Gorakhpur</a>
+                        <a href="wedding.html">Vintage Car Rental for Weddings in Gorakhpur</a>
+                        <a href="wedding.html">Wedding Car Hire with Chauffeur in Gorakhpur</a>
+                        <a href="wedding.html">Luxury Car Rental for Events in Gorakhpur</a>
+                        <a href="wedding.html">Wedding Transportation Services in Gorakhpur</a>
+                    </div>
+                </div>
+                <a href="video-shooting.html" class="nav-link active">Video Shooting</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background-image: url('carrental.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; min-height: 400px;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6);"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <h1>Professional Video Shooting Services</h1>
+            <p>Premium cars for YouTube, Pre-Wedding, Post-Wedding & Commercial shoots</p>
+        </div>
+    </section>
+
+    <!-- YouTube Shooting Section -->
+    <section class="youtube-shooting" style="padding: 80px 0; background: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2>YouTube Content Shooting</h2>
+                <p>Professional cars for your YouTube videos and content creation</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Luxury Car Shoots</h3>
+                        <p>High-end luxury cars for premium YouTube content</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> BMW, Mercedes, Audi</li>
+                            <li><i class="fas fa-check"></i> 4K Video Ready</li>
+                            <li><i class="fas fa-check"></i> Professional Setup</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Luxury-Car-Shoots.html'">View Details</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Music Video Shoots</h3>
+                        <p>Stylish cars for music videos and artistic content</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Sports Cars Available</li>
+                            <li><i class="fas fa-check"></i> Multiple Angles</li>
+                            <li><i class="fas fa-check"></i> Location Flexibility</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Music-Video-Shoots.html'">View Details</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Vlog Shooting</h3>
+                        <p>Comfortable cars for travel vlogs and lifestyle content</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Interior Shots</li>
+                            <li><i class="fas fa-check"></i> Travel Friendly</li>
+                            <li><i class="fas fa-check"></i> Long Duration Support</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Vlog-Shooting.html'">View Details</button>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="youtube-shooting.html" style="display: inline-block; background: #ff5800; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">View YouTube Shooting Details</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Wedding Shooting Section -->
+    <section class="prewedding-shooting" style="padding: 80px 0; background: #f8f9fa;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pre-Wedding Shooting</h2>
+                <p>Romantic and elegant cars for your pre-wedding photography</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Romantic Convertibles</h3>
+                        <p>Open-top luxury cars for romantic pre-wedding shoots</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> BMW Z4, Audi A5</li>
+                            <li><i class="fas fa-check"></i> Sunset Shoots</li>
+                            <li><i class="fas fa-check"></i> Decorated Setup</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                        <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Romantic-Convertibles.html'">View Details</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Vintage Classic Cars</h3>
+                        <p>Classic vintage cars for timeless pre-wedding photos</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Ambassador, Vintage Jeep</li>
+                            <li><i class="fas fa-check"></i> Retro Styling</li>
+                            <li><i class="fas fa-check"></i> Unique Backdrops</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                        <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Vintage-Classic-Cars.html'">View Details</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Royal Luxury Cars</h3>
+                        <p>Premium luxury cars for royal-themed pre-wedding shoots</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Rolls Royce, Bentley</li>
+                            <li><i class="fas fa-check"></i> Royal Treatment</li>
+                            <li><i class="fas fa-check"></i> Professional Chauffeur</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                        <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Royal-Luxury-Cars.html'">View Details</button>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="prewedding-shooting.html" style="display: inline-block; background: #ff5800; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">View Pre-Wedding Shooting Details</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Post-Wedding Shooting Section -->
+    <section class="postwedding-shooting" style="padding: 80px 0; background: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Post-Wedding Shooting</h2>
+                <p>Celebrate your new journey with elegant post-wedding car shoots</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-rings-wedding"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Couple Portrait Cars</h3>
+                        <p>Elegant cars for beautiful couple portraits after wedding</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Mercedes, BMW Series</li>
+                            <li><i class="fas fa-check"></i> Couple Friendly Setup</li>
+                            <li><i class="fas fa-check"></i> Multiple Locations</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                        <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Couple-Portrait-Cars.html'">View Details</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-champagne-glasses"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Celebration Shoots</h3>
+                        <p>Fun and vibrant cars for celebration-themed shoots</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Colorful Decorations</li>
+                            <li><i class="fas fa-check"></i> Party Props Included</li>
+                            <li><i class="fas fa-check"></i> Group Photo Support</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                        <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Celebration-Shoots.html'">View Details</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Journey Themed Shoots</h3>
+                        <p>Cars for "new journey" themed post-wedding photography</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> SUVs, Adventure Cars</li>
+                            <li><i class="fas fa-check"></i> Travel Props</li>
+                            <li><i class="fas fa-check"></i> Scenic Route Support</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Journey-Themed-Shoots.html'">View Details</button>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="postwedding-shooting.html" style="display: inline-block; background: #ff5800; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">View Post-Wedding Shooting Details</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commercial Shooting Section -->
+    <section class="commercial-shooting" style="padding: 80px 0; background: #f8f9fa;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Commercial Video Shooting</h2>
+                <p>Professional cars for advertisements and commercial projects</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Advertisement Shoots</h3>
+                        <p>High-end cars for TV commercials and brand advertisements</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Brand Specific Cars</li>
+                            <li><i class="fas fa-check"></i> Professional Crew Support</li>
+                            <li><i class="fas fa-check"></i> Multiple Takes Allowed</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Advertisement-Shoots.html'">View Details</button> 
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Movie/Web Series</h3>
+                        <p>Cars for movie scenes and web series productions</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Period Specific Cars</li>
+                            <li><i class="fas fa-check"></i> Action Sequence Ready</li>
+                            <li><i class="fas fa-check"></i> Long Duration Rental</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Movie-Web-Series-Car.html'">View Details</button> 
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-camera-retro"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Fashion Shoots</h3>
+                        <p>Stylish cars for fashion photography and modeling shoots</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Fashion Forward Cars</li>
+                            <li><i class="fas fa-check"></i> Studio Quality Setup</li>
+                            <li><i class="fas fa-check"></i> Model Friendly</li>
+                        </ul>
+                        <div class="service-price">...</div>
+                        <!-- <button class="service-btn">Book Now</button> -->
+                         <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='Fashion-Shoots.html'">View Details</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-video" style="padding: 80px 0; background: linear-gradient(135deg, #ff5800, #cc4a00); color: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: white;">Why Choose Taxiverz for Video Shooting?</h2>
+                <p style="color: #fff;">Professional service with premium cars for all your shooting needs</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <div class="feature-icon">
+                        <i class="fas fa-car" style="color: #fff;"></i>
+                    </div>
+                    <h4>Premium Car Collection</h4>
+                    <p>Wide range of luxury, vintage, and sports cars for every shoot requirement</p>
+                </div>
+                <div class="feature-card" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <div class="feature-icon">
+                        <i class="fas fa-users" style="color: #fff;"></i>
+                    </div>
+                    <h4>Professional Support</h4>
+                    <p>Experienced team to assist with your shooting requirements and setup</p>
+                </div>
+                <div class="feature-card" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock" style="color: #fff;"></i>
+                    </div>
+                    <h4>Flexible Timing</h4>
+                    <p>Available for shoots at any time - day, night, or extended duration projects</p>
+                </div>
+                <div class="feature-card" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt" style="color: #fff;"></i>
+                    </div>
+                    <h4>Location Support</h4>
+                    <p>Cars delivered to your preferred shooting location across the region</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+       <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="taxiverz.avif" alt="Taxiverz Logo" class="footer-logo-img">
+                    </div>
+                    <p><i class="fas fa-map-marker-alt"></i>Railway Station Gate No-1, Gorakhpur, UP-273001</p>
+                    <p><i class="fas fa-phone"></i>+91-8576000083</p>
+                    <p><i class="fas fa-envelope"></i>cabtaxiverz@gmail.com</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1Bpqo1dubB/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/travel_nepal_club?igsh=cGI0czA0Y2s0MzJm" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="car-rental.html">Car Rental</a></li>
+                        <li><a href="tours.html">Local Taxi</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="wedding.html">Wedding Cars</a></li>
+<div class="nav-dropdown">
+                    <a href="#" class="nav-link active">Services <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="video-shooting.html">Video Shooting</a>
+                        <a href="bike-rental.html">Bike Rental</a>
+                    </div>
+                </div>                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="youtube-shooting.html">YouTube Shooting</a></li>
+                        <li><a href="prewedding-shooting.html">Pre-Wedding Shoots</a></li>
+                        <li><a href="postwedding-shooting.html">Post-Wedding Shoots</a></li>
+                        <li><a href="#">Commercial Videos</a></li>
+                        <li><a href="#">Fashion Shoots</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Taxiverz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

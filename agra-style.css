@@ -1,0 +1,100 @@
+/* Agra Route CSS - Purple Theme */
+.route-details {
+    padding: 60px 0;
+    background: #faf5ff;
+}
+
+.route-card, .pricing-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border: 1px solid #f3e8ff;
+}
+
+.route-card h2, .pricing-card h2 {
+    color: #7c3aed;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+}
+
+.data-item strong {
+    color: #7c3aed;
+    font-weight: 600;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #faf5ff;
+    border-radius: 8px;
+    border-left: 4px solid #7c3aed;
+    transition: all 0.3s ease;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #7c3aed;
+}
+
+.places-to-visit h2, .service-features h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #7c3aed;
+    font-size: 2rem;
+}
+
+.place-item i, .feature-item i {
+    font-size: 2.5rem;
+    color: #7c3aed;
+    margin-bottom: 15px;
+}
+
+.booking-section {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border: 2px solid #7c3aed;
+}
+
+.booking-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #7c3aed;
+    font-size: 2rem;
+}
+
+.form-row input:focus, .form-row select:focus, .booking-form textarea:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 5px rgba(124, 58, 237, 0.3);
+}
+
+.btn-primary {
+    background: #7c3aed;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Taxiverz | Best Taxi Service in Gorakhpur</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .navbar { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-img { height: 50px; width: auto; max-width: 150px; object-fit: contain; }
+        .nav-menu { display: flex; gap: 2rem; }
+        .nav-link { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #ff5800; }
+        .nav-toggle { display: none; flex-direction: column; cursor: pointer; }
+        .bar { width: 25px; height: 3px; background: #000; margin: 3px 0; transition: 0.3s; }
+        .page-header { background: url('carrental.jpg') center/cover; position: relative; min-height: 400px; display: flex; align-items: center; justify-content: center; margin-top: 80px; }
+        .page-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); }
+        .page-header .container { position: relative; z-index: 2; text-align: center; color: white; }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; font-weight: 700; }
+        .page-header p { font-size: 1.2rem; opacity: 0.9; }
+        .contact-section { padding: 80px 0; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .contact-info h2 { font-size: 2.5rem; color: #000; margin-bottom: 1rem; }
+        .contact-info p { color: #666; margin-bottom: 2rem; font-size: 1.1rem; }
+        .contact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .contact-card { background: white; padding: 2rem; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid #ff5800; transition: all 0.3s; }
+        .contact-card:hover { transform: translateY(-5px); }
+        .contact-card i { font-size: 3rem; color: #ff5800; margin-bottom: 1rem; }
+        .contact-card h3 { color: #000; margin-bottom: 0.5rem; }
+        .contact-card p { color: #666; }
+        .contact-form { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .contact-form h3 { color: #000; margin-bottom: 1.5rem; text-align: center; font-size: 1.8rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .contact-form input, .contact-form select, .contact-form textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; transition: border-color 0.3s; box-sizing: border-box; }
+        .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: none; border-color: #ff5800; }
+        .contact-form textarea { grid-column: 1 / -1; resize: vertical; min-height: 120px; }
+        .btn-primary { background: #ff5800; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; width: 100%; }
+        .btn-primary:hover { background: #cc4a00; transform: translateY(-2px); }
+        .map-section { padding: 60px 0; background: #f8f9fa; }
+        .map-section h2 { text-align: center; font-size: 2.5rem; color: #000; margin-bottom: 3rem; }
+        .map-container { border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .footer { background: #000; color: white; padding: 40px 0 20px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-logo-img { height: 60px; width: auto; max-width: 180px; object-fit: contain; background: white; padding: 10px; border-radius: 8px; }
+        .footer-section h4 { margin-bottom: 1rem; color: #ff5800; }
+        .footer-section p { color: #ccc; margin-bottom: 0.5rem; }
+        .footer-section i { color: #ff5800; margin-right: 0.5rem; }
+        @media (max-width: 768px) {
+            .nav-menu { position: fixed; left: -200px; top: 70px; flex-direction: column; background: white; width: 200px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); padding: 0.5rem 0; z-index: 9999; border-radius: 0 0 10px 0; border-right: 2px solid #ff5800; }
+            .nav-menu .nav-link { padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0f0; display: block; }
+            .nav-menu.active { left: 0; }
+            .nav-toggle { display: flex; }
+            .page-header h1 { font-size: 2rem; }
+            .page-header p { font-size: 1rem; }
+            .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-cards { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .container { padding: 0 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="taxiverz.avif" alt="Taxiverz Logo" class="logo-img">
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="tours.html" class="nav-link">Taxi Service</a>
+                <a href="car-rental.html" class="nav-link">Car Rental</a>
+                <a href="wedding.html" class="nav-link">Wedding Cars</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link active">Contact</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with our professional team</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Get In Touch</h2>
+                    <p>We're here to help you with all your transportation needs. Contact us anytime for reliable taxi service in Gorakhpur.</p>
+                    
+                    <div class="contact-cards">
+                        <div class="contact-card">
+                            <i class="fas fa-phone"></i>
+                            <h3>Call Us</h3>
+                            <p><a href="tel:+918576000083" style="color: #ff5800; text-decoration: none;">+91-8576000083</a></p>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email Us</h3>
+                            <p><a href="mailto:cabtaxiverz@gmail.com" style="color: #ff5800; text-decoration: none;">cabtaxiverz@gmail.com</a></p>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h3>Head Office</h3>
+                            <p>Gorakhpur, UP-273001</p>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-clock"></i>
+                            <h3>24/7 Service</h3>
+                            <p>Available Round the Clock</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send Message</h3>
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="160ce8ff-c9a7-4e52-84b3-c3415c3cc08d">
+                        <div class="form-row">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="tel" name="phone" placeholder="Your Phone" required>
+                            <select name="service" required>
+                                <option value="">Select Service</option>
+                                <option value="local">Local Taxi</option>
+                                <option value="outstation">Outstation</option>
+                                <option value="airport">Airport Transfer</option>
+                                <option value="rental">Car Rental</option>
+                            </select>
+                        </div>
+                        <textarea name="message" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2>Find Our Location</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3563.8234567890123!2d83.3732!3d26.7606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991446a0c179b89%3A0x93cc6f0b8b8b8b8b!2sGorakhpur%20Railway%20Station!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="400" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="taxiverz.avif" alt="Taxiverz Logo" class="footer-logo-img">
+                    </div>
+                    <p>Your trusted travel partner</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> +91-8576000083</p>
+                    <p><i class="fas fa-envelope"></i> cabtaxiverz@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileMenu && navMenu) {
+                mobileMenu.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

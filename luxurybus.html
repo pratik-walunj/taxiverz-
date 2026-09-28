@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Luxury 2/2 Bus - Taxiverz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            DEFAULT: '#ff5800',
+                            dark: '#e04d00',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Dropdown Animation */
+        .group:hover .group-hover\:block {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="taxiverz.avif" alt="Taxiverz Logo" class="h-12 w-auto">
+                </div>
+                
+                <div class="hidden lg:flex space-x-6 items-center">
+                    
+                    <a href="index.html" class="text-gray-700 hover:text-brand font-medium transition">Home</a>
+
+                    <div class="relative group h-full flex items-center">
+                        <a href="tours.html" class="text-gray-700 hover:text-brand font-medium flex items-center cursor-pointer">
+                            Taxi Service <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute top-20 left-0 w-72 bg-white shadow-xl border-t-4 border-brand hidden group-hover:block rounded-b-lg p-2 z-50">
+                            <a href="local-taxi-booking-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Local Taxi Booking In Gorakhpur</a>
+                            <a href="outstation-cab-rental-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Outstation Cab Rental in Gorakhpur</a>
+                            <a href="airport-taxi-service-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Airport Taxi Service in Gorakhpur</a>
+                            <a href="taxi-rental-near-me-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Taxi Rental Near Me in Gorakhpur</a>
+                            <a href="cab-booking-online-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Cab Booking Online in Gorakhpur</a>
+                        </div>
+                    </div>
+
+                    <div class="relative group h-full flex items-center">
+                        <a href="car-rental.html" class="text-brand font-bold flex items-center cursor-pointer border-b-2 border-brand pb-1">
+                            Car Rental <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute top-20 left-0 w-72 bg-white shadow-xl border-t-4 border-brand hidden group-hover:block rounded-b-lg p-2 z-50">
+                            <a href="car-rental-service-in-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Car Rental Services in Gorakhpur</a>
+                            <a href="self-drive-car-rental-in-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Self-Drive Car Rental in Gorakhpur</a>
+                            <a href="luxury-car-rental-in-gorakhpur.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Luxury Car Rental in Gorakhpur</a>
+                            <a href="car-rental.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">SUV Car Rental in Gorakhpur</a>
+                            <a href="car-rental.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Car Hire with Driver in Gorakhpur</a>
+                        </div>
+                    </div>
+
+                    <div class="relative group h-full flex items-center">
+                        <a href="wedding.html" class="text-gray-700 hover:text-brand font-medium flex items-center cursor-pointer">
+                            Wedding Cars Rental <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </a>
+                        <div class="absolute top-20 right-0 w-80 bg-white shadow-xl border-t-4 border-brand hidden group-hover:block rounded-b-lg p-2 z-50">
+                            <a href="wedding.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Luxury Wedding Car Rental in Gorakhpur</a>
+                            <a href="wedding.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Vintage Car Rental for Weddings in Gorakhpur</a>
+                            <a href="wedding.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Wedding Car Hire with Chauffeur in Gorakhpur</a>
+                            <a href="wedding.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Luxury Car Rental for Events in Gorakhpur</a>
+                            <a href="wedding.html" class="block px-4 py-2 hover:bg-orange-50 text-gray-700 hover:text-brand rounded text-sm">Wedding Transportation Services in Gorakhpur</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="text-gray-700 hover:text-brand font-medium transition">About</a>
+                    <a href="contact.html" class="bg-brand text-white px-5 py-2 rounded-full hover:bg-brand-dark transition shadow-md">Contact</a>
+                </div>
+
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t overflow-y-auto max-h-screen">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 font-bold border-b">Home</a>
+                
+                <div class="block px-3 py-2 text-gray-700 border-b">
+                    <span class="font-bold text-brand block mb-2">Taxi Service</span>
+                    <div class="pl-4 space-y-2 text-sm text-gray-600 border-l-2 border-gray-200">
+                        <a href="local-taxi-booking-gorakhpur.html" class="block">Local Taxi Booking</a>
+                        <a href="outstation-cab-rental-gorakhpur.html" class="block">Outstation Cab</a>
+                        <a href="airport-taxi-service-gorakhpur.html" class="block">Airport Taxi</a>
+                    </div>
+                </div>
+
+                <div class="block px-3 py-2 text-gray-700 border-b">
+                    <span class="font-bold text-brand block mb-2">Car Rental</span>
+                    <div class="pl-4 space-y-2 text-sm text-gray-600 border-l-2 border-gray-200">
+                        <a href="car-rental-service-in-gorakhpur.html" class="block">Rental Services</a>
+                        <a href="luxury-car-rental-in-gorakhpur.html" class="block">Luxury Cars</a>
+                        <a href="self-drive-car-rental-in-gorakhpur.html" class="block">Self Drive</a>
+                    </div>
+                </div>
+
+                <div class="block px-3 py-2 text-gray-700 border-b">
+                    <span class="font-bold text-brand block mb-2">Wedding Cars</span>
+                    <div class="pl-4 space-y-2 text-sm text-gray-600 border-l-2 border-gray-200">
+                        <a href="wedding.html" class="block">Luxury Wedding Cars</a>
+                        <a href="wedding.html" class="block">Vintage Cars</a>
+                    </div>
+                </div>
+
+                <a href="about.html" class="block px-3 py-2 text-gray-700 font-bold border-b">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-brand font-bold">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+    <section class="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6"> 2x2 Luxury  Bus</h1>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    Experience the ultimate comfort with our **2x2 Luxury Bus Rental**. Designed for long-distance travel, weddings, and corporate tours, our 2x2 configuration ensures every passenger gets a wide, individual pushback seat with ample armrest space, just like a flight.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative group">
+                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Luxury AC Bus" 
+                         class="w-full rounded-2xl shadow-2xl transform transition duration-500 group-hover:scale-[1.02]">
+                </div>
+
+                <div class="space-y-8">
+                    <h2 class="text-3xl font-semibold border-l-4 border-brand pl-4">2x2 Premium Specifications</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-brand">
+                            <i class="fas fa-couch text-brand mb-2 text-xl"></i>
+                            <div class="font-bold">Configuration</div>
+                            <div class="text-gray-400">2 + 2 Seating Layout</div>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-brand">
+                            <i class="fas fa-bus text-brand mb-2 text-xl"></i>
+                            <div class="font-bold">Type</div>
+                            <div class="text-gray-400">Volvo / Luxury Coach</div>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-brand">
+                            <i class="fas fa-snowflake text-brand mb-2 text-xl"></i>
+                            <div class="font-bold">Climate</div>
+                            <div class="text-gray-400">Individual AC Vents</div>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-brand">
+                            <i class="fas fa-chair text-brand mb-2 text-xl"></i>
+                            <div class="font-bold">Comfort</div>
+                            <div class="text-gray-400">135° Pushback Recliner</div>
+                        </div>
+                    </div>
+
+                    <button onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'})" 
+                            class="bg-brand text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-brand-dark transition shadow-lg shadow-orange-500/30">
+                        Book 2x2 Bus Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-4">Bus Rental Packages Designed For You</h2>
+                <p class="text-gray-600">
+                    Hire our Luxury AC Buses for an unparalleled group travel experience. We offer flexible packages for weddings, pilgrimages, corporate events, and school trips.
+                </p>
+            </div>
+
+            <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 mb-16 shadow-sm">
+                <h3 class="text-xl font-bold text-brand mb-6">Rental Options:</h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start pb-4 border-b border-gray-200">
+                        <i class="fas fa-clock text-brand mt-1 mr-4"></i>
+                        <div>
+                            <strong>Local Hourly Rentals:</strong> Perfect for city sightseeing or transporting guests between hotels and venues.
+                        </div>
+                    </li>
+                    <li class="flex items-start pb-4 border-b border-gray-200">
+                        <i class="fas fa-map-marked-alt text-brand mt-1 mr-4"></i>
+                        <div>
+                            <strong>Outstation Trips:</strong> Long-distance travel to religious sites, hill stations, or other cities with utmost comfort.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-glass-cheers text-brand mt-1 mr-4"></i>
+                        <div>
+                            <strong>Wedding & Events:</strong> Bulk transportation for baraat or guests, ensuring everyone arrives on time and together.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 border-2 border-gray-100 hover:border-brand hover:shadow-2xl hover:-translate-y-2 transition duration-300">
+                    <h3 class="text-2xl font-bold text-gray-800">Local Rental</h3>
+                    <div class="text-4xl font-bold text-brand my-4">₹12,000<span class="text-sm text-gray-500 font-normal">+</span></div>
+                    <ul class="space-y-3 mb-8 text-gray-600">
+                        <li><i class="fas fa-check text-brand mr-2"></i> 8 Hours / 80 KM</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Professional Driver</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Cleaner Assistant</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Fuel Included</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Extra Hr: ₹1500/hr</li>
+                    </ul>
+                    <a href="tel:+918576000083" class="block w-full text-center bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">Call to Book</a>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border-2 border-gray-100 hover:border-brand hover:shadow-2xl hover:-translate-y-2 transition duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand text-white text-xs font-bold px-3 py-1 rounded-bl-lg">POPULAR</div>
+                    <h3 class="text-2xl font-bold text-gray-800">Outstation</h3>
+                    <div class="text-4xl font-bold text-brand my-4">₹65<span class="text-xl text-gray-500 font-normal">/km</span></div>
+                    <ul class="space-y-3 mb-8 text-gray-600">
+                        <li><i class="fas fa-check text-brand mr-2"></i> Min 300 KM/Day</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Garage to Garage</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Driver Allowance Inc.</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Night Charges Extra</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Toll/Tax Extra</li>
+                    </ul>
+                    <a href="tel:+918576000083" class="block w-full text-center bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">Call to Book</a>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border-2 border-gray-100 hover:border-brand hover:shadow-2xl hover:-translate-y-2 transition duration-300">
+                    <h3 class="text-2xl font-bold text-gray-800">Wedding/Bulk</h3>
+                    <div class="text-4xl font-bold text-brand my-4">Custom</div>
+                    <ul class="space-y-3 mb-8 text-gray-600">
+                        <li><i class="fas fa-check text-brand mr-2"></i> Full Day Booking</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Decoration on Request</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Multiple Pickups</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Uniformed Staff</li>
+                        <li><i class="fas fa-check text-brand mr-2"></i> Luggage Assistance</li>
+                    </ul>
+                    <a href="tel:+918576000083" class="block w-full text-center bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">Call to Book</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-100 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-4">Why Choose Our 2x2 Luxury Bus?</h2>
+                <p class="text-gray-600">The 2x2 configuration (two seats on the left, aisle, two seats on the right) offers superior comfort compared to standard 3x2 buses.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl text-center shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-couch text-4xl text-brand mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Spacious 2x2 Seating</h3>
+                    <p class="text-gray-600">No middle seat! Every passenger enjoys a wide seat with personal armrests and ample shoulder room.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl text-center shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-user-shield text-4xl text-brand mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Expert Drivers</h3>
+                    <p class="text-gray-600">Heavy-vehicle certified drivers with years of experience on highways and hill stations.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl text-center shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-suitcase-rolling text-4xl text-brand mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Ample Luggage Space</h3>
+                    <p class="text-gray-600">Large under-carriage storage to accommodate luggage for all 45+ passengers comfortably.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl text-center shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-tv text-4xl text-brand mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Entertainment</h3>
+                    <p class="text-gray-600">LED TVs and high-quality Sound Systems to keep the group entertained.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl text-center shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-shield-alt text-4xl text-brand mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Safety First</h3>
+                    <p class="text-gray-600">Equipped with First Aid kits, Fire Extinguishers, and GPS tracking.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl text-center shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-bolt text-4xl text-brand mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Charging Points</h3>
+                    <p class="text-gray-600">Individual USB charging points at every seat for passenger convenience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Our Easy Booking Process</h2>
+                <p class="text-gray-600">Booking a bus for 50 people shouldn't be hard. We make it simple.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 relative">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">1</div>
+                    <h4 class="font-bold text-lg mb-2">Visit Website</h4>
+                    <p class="text-sm text-gray-500">Select your travel dates.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">2</div>
+                    <h4 class="font-bold text-lg mb-2">Select Bus</h4>
+                    <p class="text-sm text-gray-500">Choose seat capacity.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">3</div>
+                    <h4 class="font-bold text-lg mb-2">Enter Details</h4>
+                    <p class="text-sm text-gray-500">Route & Passenger info.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">4</div>
+                    <h4 class="font-bold text-lg mb-2">Confirm</h4>
+                    <p class="text-sm text-gray-500">Pay small advance.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">5</div>
+                    <h4 class="font-bold text-lg mb-2">Enjoy Ride</h4>
+                    <p class="text-sm text-gray-500">Bus arrives at doorstep.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl font-bold mb-8 text-center">Terms & Conditions</h2>
+            <div class="bg-white p-8 rounded-xl shadow-sm">
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <i class="fas fa-info-circle text-brand mt-1 mr-3"></i>
+                        <span class="text-gray-700">Kilometers and hours will be calculated from garage to garage.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-info-circle text-brand mt-1 mr-3"></i>
+                        <span class="text-gray-700">Driver Allowance covers food and stay arrangements for the driver.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-info-circle text-brand mt-1 mr-3"></i>
+                        <span class="text-gray-700">GST, Toll taxes, Parking charges, and Interstate permits are extra.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-info-circle text-brand mt-1 mr-3"></i>
+                        <span class="text-gray-700">AC may be turned off in hilly areas for engine safety.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-info-circle text-brand mt-1 mr-3"></i>
+                        <span class="text-gray-700">Night charges applicable between 22:00 hrs and 06:00 hrs.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-form" class="py-20 bg-gray-100">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-2">Book Your Luxury Bus</h2>
+                <p class="text-gray-600">Fill the form below or call us at <a href="tel:+918576000074" class="text-brand font-bold hover:underline">+91-8576000074</a></p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                    <input type="hidden" name="subject" value="Luxury Bus Booking Request">
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                        <input type="text" name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand focus:border-brand outline-none transition" placeholder="John Doe">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" name="phone" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand focus:border-brand outline-none transition" placeholder="+91 98765 43210">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand focus:border-brand outline-none transition" placeholder="john@example.com">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Pickup Date</label>
+                            <input type="date" name="pickup_date" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand focus:border-brand outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Bus Type Request</label>
+                            <select name="bus_type" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand focus:border-brand outline-none transition">
+                                <option value="45_seater">45 Seater Volvo/AC</option>
+                                <option value="50_seater">50 Seater AC Bus</option>
+                                <option value="tempo_traveller">Tempo Traveller (Small Group)</option>
+                                <option value="sleeper">AC Sleeper Bus</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Travel Details / Message</label>
+                        <textarea name="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand focus:border-brand outline-none transition" placeholder="E.g., Trip from Pune to Goa, 3 Days, Wedding Party..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand text-white font-bold py-4 rounded-lg hover:bg-brand-dark transition shadow-lg transform hover:-translate-y-1">
+                        Submit Booking Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-brand">Taxiverz</h3>
+                    <p class="text-gray-400 leading-relaxed">Your trusted travel partner for comfortable and safe group journeys across India and Nepal. We specialize in luxury bus and car rentals.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-brand transition">Home</a></li>
+                        <li><a href="#" class="hover:text-brand transition">Bus Rental</a></li>
+                        <li><a href="#" class="hover:text-brand transition">Car Rental</a></li>
+                        <li><a href="#" class="hover:text-brand transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Info</h3>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-phone text-brand mt-1 mr-3"></i>
+                            <span>+91 8576000083</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-brand mt-1 mr-3"></i>
+                            <span>info@taxiverz.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-brand mt-1 mr-3"></i>
+                            <span>Shop No-4 Chaudhari Heights, Warje, Pune, Maharashtra</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 Taxiverz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

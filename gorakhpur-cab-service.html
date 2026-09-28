@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cab in Gorakhpur | Best Taxi Service in Gorakhpur - Taxiverz</title>
+    <meta name="description" content="Book reliable cab in Gorakhpur with Taxiverz. 24/7 taxi service, airport transfers, local rides & outstation trips. Best rates guaranteed. Call +91-8576000083">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #ff5800 0%, #cc4a00 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .cab-services {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .service-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ff5800;
+            transition: all 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 88, 0, 0.2);
+        }
+        
+        .service-card i {
+            font-size: 3rem;
+            color: #ff5800;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .booking-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        .booking-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid #ff5800;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff5800;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 88, 0, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-cta {
+            background: linear-gradient(135deg, #ff5800, #cc4a00);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .pricing-tables {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .pricing-table {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #ff5800;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: linear-gradient(135deg, #ff5800, #cc4a00);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .table-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .fare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .fare-table th {
+            background: #f8f9fa;
+            color: #333;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .fare-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        .fare-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .route-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .km-info {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .fare-price {
+            color: #ff5800;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .contact-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .btn-white {
+            background: white;
+            color: #ff5800;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-white:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar sticky-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="./taxiverz.avif" alt="Taxiverz Logo" class="logo-img">
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <a href="tours.html" class="nav-link active">Taxi Service<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="local-taxi-booking-gorakhpur.html">Local Taxi Booking In Gorakhpur</a>
+                        <a href="outstation-cab-rental-gorakhpur.html">Outstation Cab Rental in Gorakhpur</a>
+                        <a href="airport-taxi-service-gorakhpur.html">Airport Taxi Service in Gorakhpur</a>
+                        <a href="taxi-rental-near-me-gorakhpur.html">Taxi Rental Near Me in Gorakhpur</a>
+                        <a href="cab-booking-online-gorakhpur.html">Cab Booking Online in Gorakhpur</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="car-rental.html" class="nav-link active">Car Rental <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="car-rental-service-in-gorakhpur.html">Car Rental Services in Gorakhpur</a>
+                        <a href="self-drive-car-rental-in-gorakhpur.html">Self-Drive Car Rental in Gorakhpur</a>
+                        <a href="luxury-car-rental-in-gorakhpur.html">Luxury Car Rental in Gorakhpur</a>
+                        <a href="car-rental.html">SUV Car Rental in Gorakhpur</a>
+                        <a href="car-rental.html">Car Hire with Driver in Gorakhpur</a>
+                    </div>
+                </div>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Cab in Gorakhpur</h1>
+            <p>Reliable, Safe & Affordable Taxi Service 24/7 - Book Now!</p>
+        </div>
+    </section>
+
+    <!-- Cab Services -->
+    <section class="cab-services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Cab Services in Gorakhpur</h2>
+                <p>Choose from our wide range of taxi services designed to meet all your transportation needs</p>
+            </div>
+            <div class="service-grid">
+                <div class="service-card">
+                    <i class="fas fa-city"></i>
+                    <h3>Local Taxi Service</h3>
+                    <p>Quick and convenient rides within Gorakhpur city. Perfect for daily commutes, shopping trips, and local travel.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-plane"></i>
+                    <h3>Airport Transfer</h3>
+                    <p>Reliable airport pickup and drop services. Never miss your flight with our punctual and professional drivers.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-train"></i>
+                    <h3>Railway Station Pickup</h3>
+                    <p>Convenient pickup and drop services from Gorakhpur Railway Station. Available 24/7 for all train timings.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-route"></i>
+                    <h3>Outstation Trips</h3>
+                    <p>Comfortable long-distance travel to nearby cities and tourist destinations. One-way and round-trip options available.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-calendar-day"></i>
+                    <h3>Hourly Rental</h3>
+                    <p>Flexible hourly cab rental for multiple stops, business meetings, or city tours at affordable rates.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Wedding & Events</h3>
+                    <p>Special occasion transportation with decorated cars for weddings, parties, and other celebrations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose Taxiverz for Cab in Gorakhpur?</h2>
+                <p>We are committed to providing the best taxi service experience in Gorakhpur</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h4>Verified Drivers</h4>
+                    <p>All our drivers are thoroughly verified with proper licenses and background checks for your safety.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h4>Well-Maintained Fleet</h4>
+                    <p>Our vehicles are regularly serviced and maintained to ensure comfortable and safe journeys.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>24/7 Availability</h4>
+                    <p>Round-the-clock cab service available 365 days a year for all your transportation needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <h4>Transparent Pricing</h4>
+                    <p>No hidden charges, upfront pricing with the most competitive rates in Gorakhpur.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Tables -->
+    <section class="pricing-tables">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cab Fare from Gorakhpur</h2>
+                <p>Transparent pricing for all popular routes from Gorakhpur</p>
+            </div>
+            
+            <!-- From Gorakhpur Table -->
+            <div class="pricing-table">
+                <div class="table-header">
+                    <h3>Top Cab Routes from Gorakhpur</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="fare-table">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Distance & Extra Fare</th>
+                                <th>Sedan</th>
+                                <th>SUV/XUV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Lucknow</td>
+                                <td class="km-info">269 Km Included<br>Extra fare Rs. 12/km after 269 km</td>
+                                <td class="fare-price">₹1,700</td>
+                                <td class="fare-price">₹2,200</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Kanpur</td>
+                                <td class="km-info">359 Km Included<br>Extra fare Rs. 12/km after 359 km</td>
+                                <td class="fare-price">₹3,200</td>
+                                <td class="fare-price">₹4,000</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Ayodhya</td>
+                                <td class="km-info">134 Km Included<br>Extra fare Rs. 12/km after 134 km</td>
+                                <td class="fare-price">₹3,999</td>
+                                <td class="fare-price">₹5,500</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Allahabad</td>
+                                <td class="km-info">287 Km Included<br>Extra fare Rs. 12/km after 287 km</td>
+                                <td class="fare-price">₹5,700</td>
+                                <td class="fare-price">₹6,500</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Varanasi</td>
+                                <td class="km-info">224 Km Included<br>Extra fare Rs. 12/km after 224 km</td>
+                                <td class="fare-price">₹5,999</td>
+                                <td class="fare-price">₹7,400</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Delhi</td>
+                                <td class="km-info">822 Km Included<br>Extra fare Rs. 12/km after 822 km</td>
+                                <td class="fare-price">₹5,800</td>
+                                <td class="fare-price">₹7,800</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Noida</td>
+                                <td class="km-info">780 Km Included<br>Extra fare Rs. 12/km after 780 km</td>
+                                <td class="fare-price">₹5,800</td>
+                                <td class="fare-price">₹7,800</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Bareilly</td>
+                                <td class="km-info">517 Km Included<br>Extra fare Rs. 12/km after 517 km</td>
+                                <td class="fare-price">₹5,800</td>
+                                <td class="fare-price">₹7,800</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Ghaziabad</td>
+                                <td class="km-info">797 Km Included<br>Extra fare Rs. 12/km after 797 km</td>
+                                <td class="fare-price">₹5,700</td>
+                                <td class="fare-price">₹8,000</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Sitapur</td>
+                                <td class="km-info">350 Km Included<br>Extra fare Rs. 12/km after 350 km</td>
+                                <td class="fare-price">₹2,500</td>
+                                <td class="fare-price">₹3,600</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Gorakhpur To Agra</td>
+                                <td class="km-info">603 Km Included<br>Extra fare Rs. 12/km after 603 km</td>
+                                <td class="fare-price">₹4,500</td>
+                                <td class="fare-price">₹6,200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- To Gorakhpur Table -->
+            <div class="pricing-table">
+                <div class="table-header">
+                    <h3>Top Cab Routes to Gorakhpur</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="fare-table">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Distance & Extra Fare</th>
+                                <th>Sedan</th>
+                                <th>SUV/XUV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="route-name">Lucknow to Gorakhpur</td>
+                                <td class="km-info">269 km included<br>Extra fare Rs. 12/km after 269 km</td>
+                                <td class="fare-price">₹1,700</td>
+                                <td class="fare-price">₹2,200</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Kanpur to Gorakhpur</td>
+                                <td class="km-info">359 km included<br>Extra fare Rs. 12/km after 359 km</td>
+                                <td class="fare-price">₹3,200</td>
+                                <td class="fare-price">₹4,200</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Ayodhya to Gorakhpur</td>
+                                <td class="km-info">134 km included<br>Extra fare Rs. 12/km after 134 km</td>
+                                <td class="fare-price">₹4,700</td>
+                                <td class="fare-price">₹6,200</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Allahabad to Gorakhpur</td>
+                                <td class="km-info">301 km included<br>Extra fare Rs. 12/km after 301 km</td>
+                                <td class="fare-price">₹4,500</td>
+                                <td class="fare-price">₹5,500</td>
+                            </tr>
+                            <tr>
+                                <td class="route-name">Varanasi to Gorakhpur</td>
+                                <td class="km-info">225 km included<br>Extra fare Rs. 12/km after 225 km</td>
+                                <td class="fare-price">₹4,999</td>
+                                <td class="fare-price">₹6,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="booking-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Book Your Cab in Gorakhpur</h2>
+                <p>Fill out the form below and we'll get back to you with the best quote</p>
+            </div>
+            <form class="booking-form-container" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="160ce8ff-c9a7-4e52-84b3-c3415c3cc08d">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pickup">Pickup Location</label>
+                        <input type="text" id="pickup" name="pickup" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="drop">Drop Location</label>
+                        <input type="text" id="drop" name="drop" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Travel Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Travel Time</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="service">Service Type</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select Service</option>
+                        <option value="local">Local Taxi</option>
+                        <option value="airport">Airport Transfer</option>
+                        <option value="railway">Railway Station</option>
+                        <option value="outstation">Outstation Trip</option>
+                        <option value="hourly">Hourly Rental</option>
+                        <option value="wedding">Wedding/Events</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Book Now - Get Quote</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="contact-cta">
+        <div class="container">
+            <h2>Ready to Book Your Cab?</h2>
+            <p>Call us now or book online for the best cab service in Gorakhpur</p>
+            <div class="cta-buttons">
+                <a href="tel:+918576000083" class="btn-white">
+                    <i class="fas fa-phone"></i> Call +91-8576000083
+                </a>
+                <a href="https://wa.me/918576000083" class="btn-white" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Booking
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="./taxiverz.avif" alt="Taxiverz Logo" class="footer-logo-img">
+                    </div>
+                    <p>Your trusted cab service in Gorakhpur</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+918576000083">+91-8576000083</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:cabtaxiverz@gmail.com">cabtaxiverz@gmail.com</a></p>
+                    <p><i class="fas fa-map-marker-alt"></i> Railway Station Gate No-1, Gorakhpur, UP-273001</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1Bpqo1dubB/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/travel_nepal_club?igsh=cGI0czA0Y2s0MzJm" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Taxiverz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/918576000083" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Mobile Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileMenu && navMenu) {
+                mobileMenu.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gorakhpur to Lucknow Taxi | Best Cab Service - Taxiverz</title>
+    <meta name="description" content="Book Gorakhpur to Lucknow taxi with Taxiverz. 269 km journey starting at ₹1,700. 24/7 service, professional drivers. Call +91-8576000083">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .route-hero {
+            background: linear-gradient(135deg, #ff5800, #cc4a00);
+            color: white;
+            padding: 120px 0 60px;
+            margin-top: 80px;
+        }
+        
+        .route-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .info-box i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .fare-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .car-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .car-image-real {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .car-details {
+            padding: 1.5rem;
+        }
+        
+        .car-details h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .car-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: linear-gradient(135deg, #fff3e0, #fffde7);
+            border-radius: 8px;
+            border-left: 4px solid #ff5800;
+        }
+        
+        .spec-item {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .spec-item i {
+            margin-right: 6px;
+            color: #ff5800;
+            width: 14px;
+        }
+        
+        .discount-badge {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .car-price {
+            color: #ff5800;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin: 1rem 0;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+        
+        .highlights {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .highlight-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .highlight-card i {
+            font-size: 2.5rem;
+            color: #ff5800;
+            margin-bottom: 1rem;
+        }
+        
+        .about-route {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .about-route p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            text-align: justify;
+        }
+        
+        .faq-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .faq-booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .booking-form-side {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .booking-form-side h3 {
+            color: #ff5800;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .faq-container {
+            max-width: 100%;
+            margin: 0;
+        }
+        
+        .faq-item {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            border-color: #ff5800;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .faq-question:hover {
+            background: #fff3e0;
+        }
+        
+        .faq-question i {
+            color: #ff5800;
+            transition: transform 0.3s;
+        }
+        
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+            background: white;
+        }
+        
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+        
+        .faq-answer p {
+            color: #666;
+            line-height: 1.8;
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .route-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .car-image-real {
+                height: 180px;
+            }
+            
+            .faq-question {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+            
+            .faq-answer.active {
+                padding: 1rem;
+            }
+            
+            .faq-booking-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .cars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar sticky-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="./taxiverz.avif" alt="Taxiverz Logo" class="logo-img">
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="tours.html" class="nav-link">Services</a>
+                <a href="car-rental.html" class="nav-link">Car Rental</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Route Hero -->
+    <section class="route-hero">
+        <div class="container">
+            <h1>Gorakhpur to Lucknow Taxi Service, Gorakhpur to Lucknow Cabs with Taxiverz & Get Upto ₹500 Off Use "TAXIVERZ100"</h1>
+            <p>Comfortable and affordable cab service from Gorakhpur to Lucknow</p>
+            <div class="route-info">
+                <div class="info-box">
+                    <i class="fas fa-route"></i>
+                    <h3>269 KM</h3>
+                    <p>Total Distance</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-clock"></i>
+                    <h3>5-6 Hours</h3>
+                    <p>Travel Time</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-rupee-sign"></i>
+                    <h3>₹1,700</h3>
+                    <p>Starting Fare</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Route -->
+    <section class="about-route">
+        <div class="container">
+            <p>Are you planning to book a cab from Gorakhpur to Lucknow? Taxiverz is the best option for Gorakhpur to Lucknow cab booking with the lowest fare starting at just ₹1,700. The Gorakhpur to Lucknow journey distance covers around 269 km, and the time takes 5-6 hours. Taxiverz believes in making travel extremely affordable for customers, and we totally understand that taxi fare plays an important role when you make the decision to book a taxi. Taxiverz provides various car types like Sedan, Hatchback, and SUV running on CNG, Petrol, Diesel and Electric. All our cabs are clean, safe, and comfortable and driven by verified professionals.</p>
+        </div>
+    </section>
+
+    <!-- Fare Section -->
+    <section class="fare-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Gorakhpur to Lucknow Cab Fare</h2>
+                <p>Choose from our wide range of vehicles</p>
+            </div>
+            <div class="cars-grid">
+                <!-- Dzire Card -->
+                <div class="car-card">
+                    <img src="car10.jpeg" alt="Dzire" class="car-image-real">
+                    <div class="car-details">
+                        <h3>Dzire Or Similar</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fas fa-users"></i> 04+01 Seater</div>
+                            <div class="spec-item"><i class="fas fa-gas-pump"></i> CNG</div>
+                            <div class="spec-item"><i class="fas fa-suitcase"></i> 3 Luggage</div>
+                            <div class="spec-item"><i class="fas fa-snowflake"></i> AC Cabs</div>
+                        </div>
+                        <span class="discount-badge">Flat 10% Off</span>
+                        <div class="car-price">₹1,700 <span class="old-price">₹1,870</span></div>
+                        <button class="btn-primary" onclick="window.location.href='#booking-section'">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Ertiga Card -->
+                <div class="car-card">
+                    <img src="car5.jpeg" alt="Ertiga" class="car-image-real">
+                    <div class="car-details">
+                        <h3>Ertiga Or Similar</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fas fa-users"></i> 06+01 Seater</div>
+                            <div class="spec-item"><i class="fas fa-gas-pump"></i> CNG</div>
+                            <div class="spec-item"><i class="fas fa-suitcase"></i> 4 Luggage</div>
+                            <div class="spec-item"><i class="fas fa-snowflake"></i> AC Cabs</div>
+                        </div>
+                        <span class="discount-badge">Flat 10% Off</span>
+                        <div class="car-price">₹2,200 <span class="old-price">₹2,420</span></div>
+                        <button class="btn-primary" onclick="window.location.href='#booking-section'">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Etios Card -->
+                <div class="car-card">
+                    <img src="etios1.jpeg" alt="Toyota Etios" class="car-image-real">
+                    <div class="car-details">
+                        <h3>Toyota Etios</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fas fa-users"></i> 04+01 Seater</div>
+                            <div class="spec-item"><i class="fas fa-gas-pump"></i> Diesel</div>
+                            <div class="spec-item"><i class="fas fa-suitcase"></i> 3 Luggage</div>
+                            <div class="spec-item"><i class="fas fa-snowflake"></i> AC Cabs</div>
+                        </div>
+                        <span class="discount-badge">Flat 10% Off</span>
+                        <div class="car-price">₹2,800 <span class="old-price">₹3,080</span></div>
+                        <button class="btn-primary" onclick="window.location.href='#booking-section'">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Innova Crysta Card -->
+                <div class="car-card">
+                    <img src="car7.jpeg" alt="Innova Crysta" class="car-image-real">
+                    <div class="car-details">
+                        <h3>Innova Crysta</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fas fa-users"></i> 06+01 Seater</div>
+                            <div class="spec-item"><i class="fas fa-gas-pump"></i> Diesel</div>
+                            <div class="spec-item"><i class="fas fa-suitcase"></i> 4 Luggage</div>
+                            <div class="spec-item"><i class="fas fa-snowflake"></i> AC Cabs</div>
+                        </div>
+                        <span class="discount-badge">Flat 10% Off</span>
+                        <div class="car-price">₹4,340 <span class="old-price">₹4,774</span></div>
+                        <button class="btn-primary" onclick="window.location.href='#booking-section'">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights -->
+    <section class="highlights">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose Our Gorakhpur to Lucknow Taxi?</h2>
+                <p>Best cab service for your journey</p>
+            </div>
+            <div class="highlights-grid">
+                <div class="highlight-card">
+                    <i class="fas fa-user-check"></i>
+                    <h4>Verified Drivers</h4>
+                    <p>Professional and experienced drivers for safe journey</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-car"></i>
+                    <h4>Clean Vehicles</h4>
+                    <p>Well-maintained and sanitized cars</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>On-Time Pickup</h4>
+                    <p>Punctual service guaranteed</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Safe Travel</h4>
+                    <p>GPS tracking and 24/7 support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Book Your Cab & Get Answers</h2>
+                <p>Fill the form and check frequently asked questions</p>
+            </div>
+            <div class="faq-booking-grid">
+                <!-- Left Side - Booking Form -->
+                <div class="booking-form-side">
+                    <h3>Book Gorakhpur to Lucknow Cab</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Fill the form below to book your taxi</p>
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="160ce8ff-c9a7-4e52-84b3-c3415c3cc08d">
+                        <input type="hidden" name="route" value="Gorakhpur to Lucknow">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Full Name</label>
+                            <input type="text" name="name" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Phone Number</label>
+                            <input type="tel" name="phone" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Travel Date</label>
+                            <input type="date" name="date" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Travel Time</label>
+                            <input type="time" name="time" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Car Type</label>
+                            <select name="car_type" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                                <option value="">Select Car Type</option>
+                                <option value="sedan">Sedan - ₹1,700</option>
+                                <option value="ertiga">Ertiga - ₹2,200</option>
+                                <option value="etios">Toyota Etios - ₹2,800</option>
+                                <option value="innova">Innova Crysta - ₹4,340</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 15px; background: #ff5800; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">Book Now</button>
+                    </form>
+                </div>
+
+                <!-- Right Side - FAQ -->
+                <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q1. What is the cab fare from Gorakhpur to Lucknow with Taxiverz?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The cab fare from Gorakhpur to Lucknow with Taxiverz starts from ₹12/Km for a sedan. The final price depends on the cab type, travel date, and whether you choose a one-way or round-trip service.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q2. What is the distance from Gorakhpur to Lucknow by road?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The distance from Gorakhpur to Lucknow by road is approximately 269 km, and it takes around 5-6 hours to complete the journey depending on traffic conditions.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q3. What type of cab options are available from Gorakhpur to Lucknow?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Taxiverz offers various cab options including Sedan (Dzire), Ertiga, Kia Carens, and Innova Crysta. All vehicles are well-maintained, AC equipped, and driven by professional drivers.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q4. Does Taxiverz provide one-way cabs from Gorakhpur to Lucknow?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, Taxiverz provides both one-way and round-trip cab services from Gorakhpur to Lucknow at affordable rates with no hidden charges.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q5. What charges are included in the Gorakhpur to Lucknow cab fare?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The cab fare includes driver allowance, fuel charges, and toll taxes. There are no hidden charges. Any parking fees or state taxes (if applicable) are extra.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q6. How can I book a cab from Gorakhpur to Lucknow with Taxiverz?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can book a cab by calling us at +91-8576000083, through WhatsApp, or by filling the booking form on our website. Our team will confirm your booking instantly.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q7. Is advance booking available for Gorakhpur to Lucknow cabs?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, advance booking is available. We recommend booking at least 24 hours in advance to ensure vehicle availability, especially during peak seasons.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q8. Are Taxiverz drivers verified and experienced for Gorakhpur to Lucknow trip?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, all our drivers are thoroughly verified, licensed, and experienced. They have excellent knowledge of the Gorakhpur to Lucknow route and ensure a safe, comfortable journey.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q9. What payment options are accepted by Taxiverz for Gorakhpur to Lucknow journey?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept multiple payment options including Cash, UPI, Credit/Debit Cards, Google Pay, PhonePe, and Paytm for your convenience.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q10. Is customer support available during the Gorakhpur to Lucknow trip?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, our 24/7 customer support team is always available to assist you during your journey. You can reach us anytime at +91-8576000083.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q11. Are Taxiverz cabs suitable for family travel from Gorakhpur to Lucknow?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! Our spacious vehicles like Ertiga and Innova Crysta are perfect for family travel with ample luggage space and comfortable seating for 6-7 passengers.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q12. Why choose Taxiverz for Gorakhpur to Lucknow travel?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Taxiverz offers the best rates, verified drivers, well-maintained vehicles, 24/7 service, transparent pricing, and excellent customer support making us the preferred choice for Gorakhpur to Lucknow travel.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q13. How much are night charges for Gorakhpur to Lucknow taxi?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Night charges (10 PM to 6 AM) are minimal and will be communicated at the time of booking. We maintain transparent pricing with no hidden costs.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q14. Can the driver speak the local language during the journey from Gorakhpur to Lucknow?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, our drivers are fluent in Hindi and local languages. They can communicate effectively and provide helpful information about the route and destinations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="./taxiverz.avif" alt="Taxiverz Logo" class="footer-logo-img">
+                    </div>
+                    <p>Your trusted taxi service</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+918576000083">+91-8576000083</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:cabtaxiverz@gmail.com">cabtaxiverz@gmail.com</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1Bpqo1dubB/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/travel_nepal_club?igsh=cGI0czA0Y2s0MzJm" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Taxiverz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/918576000083" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileMenu && navMenu) {
+                mobileMenu.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+            
+            // FAQ Accordion
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const isActive = answer.classList.contains('active');
+                    
+                    // Close all answers
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        ans.classList.remove('active');
+                    });
+                    document.querySelectorAll('.faq-question').forEach(q => {
+                        q.classList.remove('active');
+                    });
+                    
+                    // Open clicked answer if it wasn't active
+                    if (!isActive) {
+                        answer.classList.add('active');
+                        this.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

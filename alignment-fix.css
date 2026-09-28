@@ -1,0 +1,271 @@
+/* Alignment Fix CSS */
+
+/* Global Container Fix */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* Section Spacing */
+section {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Fleet Grid Fix */
+.fleet-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 1.5rem !important;
+    padding: 10px 0 20px 0 !important;
+    scroll-behavior: smooth !important;
+}
+
+.fleet-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.fleet-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.fleet-grid::-webkit-scrollbar-thumb {
+    background: #ff5800;
+    border-radius: 10px;
+}
+
+/* Car Card Fix */
+.car-card {
+    flex: 0 0 300px !important;
+    min-width: 300px !important;
+    max-width: 300px !important;
+    background: white !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    border: 2px solid #ff5800 !important;
+    transition: all 0.3s ease !important;
+}
+
+.car-card:hover {
+    transform: translateY(-5px) !important;
+}
+
+/* Car Image Fix */
+.car-image-real {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    background: #f0f0f0 !important;
+}
+
+/* Car Details Fix */
+.car-details {
+    padding: 1.5rem !important;
+    text-align: center !important;
+}
+
+.car-details h3 {
+    color: #000 !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 1.3rem !important;
+}
+
+/* Car Specs Grid */
+.car-specs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    margin: 1rem 0 !important;
+    padding: 1rem !important;
+    background: linear-gradient(135deg, #fff3e0, #fffde7) !important;
+    border-radius: 8px !important;
+    border-left: 4px solid #ff5800 !important;
+}
+
+.spec-item {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 12px !important;
+    color: #666 !important;
+}
+
+.spec-item i {
+    margin-right: 6px !important;
+    color: #ff5800 !important;
+    width: 14px !important;
+}
+
+/* Car Price */
+.car-price {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: #ff5800 !important;
+    margin: 1rem 0 !important;
+}
+
+/* Button Fix */
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff5800, #e04900) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Self Drive Grid */
+.self-drive-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 1.5rem !important;
+    padding: 10px 0 20px 0 !important;
+    scroll-behavior: smooth !important;
+}
+
+.self-drive-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.self-drive-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.self-drive-grid::-webkit-scrollbar-thumb {
+    background: #ff5800;
+    border-radius: 10px;
+}
+
+.self-drive-card {
+    flex: 0 0 300px !important;
+    min-width: 300px !important;
+    max-width: 300px !important;
+}
+
+/* Tempo Bus Grid */
+.tempo-bus-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 1.5rem !important;
+    padding: 10px 0 20px 0 !important;
+    scroll-behavior: smooth !important;
+}
+
+.tempo-bus-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tempo-bus-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.tempo-bus-grid::-webkit-scrollbar-thumb {
+    background: #ff5800;
+    border-radius: 10px;
+}
+
+.tempo-bus-card {
+    flex: 0 0 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+}
+
+/* Options Grid Fix */
+.options-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 2rem !important;
+}
+
+.option-card {
+    background: white !important;
+    padding: 2rem !important;
+    border-radius: 15px !important;
+    text-align: center !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border: 2px solid #ff5800 !important;
+    transition: all 0.3s ease !important;
+}
+
+.option-card:hover {
+    transform: translateY(-5px) !important;
+}
+
+/* Tours Grid Fix */
+.tours-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 2rem !important;
+}
+
+.tour-card {
+    background: white !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border: 2px solid #ff5800 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .fleet-grid,
+    .self-drive-grid,
+    .tempo-bus-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        overflow-x: visible !important;
+        gap: 1.5rem !important;
+    }
+    
+    .car-card,
+    .self-drive-card,
+    .tempo-bus-card {
+        width: 100% !important;
+        max-width: 350px !important;
+        flex: none !important;
+    }
+    
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+    
+    .tours-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .options-grid,
+    .tours-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    .car-card,
+    .self-drive-card,
+    .tempo-bus-card {
+        max-width: 100% !important;
+    }
+}
