@@ -135,6 +135,6 @@ describe('gates', () => {
 describe('publishing', () => {
   it('publishes nothing from data until entities pass their gates', () => {
     expect(contentPaths()).toEqual([])
-    expect(getPublishedPaths()).toEqual(['/'])
+    expect(getPublishedPaths()).toEqual(['/', '/book/'])
   })
 })

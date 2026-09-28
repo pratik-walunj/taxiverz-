@@ -52,8 +52,8 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 
 ## Commands (created in Phase 1)
 
-`npm run dev | build | start | lint | format | format:check | typecheck | test | test:e2e | validate:data | qa | redirects:check | images:migrate | check`
-`check` = lint + format:check + typecheck + test + validate:data + build + qa (qa runs last because it scans the rendered HTML of the build). `test:e2e` and `redirects:check` run against `next start` after a build. Nothing is "done" until `check` passes.
+`npm run dev | build | start | lint | format | format:check | typecheck | test | test:e2e | validate:data | qa | redirects:check | images:migrate | db:generate | db:migrate | check`
+`check` = lint + format:check + typecheck + test + validate:data + build + qa (qa runs last because it scans the rendered HTML of the build). `test:e2e` and `redirects:check` run against `next start` after a build. Nothing is "done" until `check` passes. `db:generate` writes SQL migrations to `drizzle/` from `src/server/db/schema.ts`; `db:migrate` applies them to `DATABASE_URL`. The outbox DB test runs only with `TEST_DATABASE_URL` (a throwaway database).
 
 ## Non-negotiables
 

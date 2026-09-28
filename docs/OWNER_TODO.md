@@ -69,6 +69,9 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 **B6 🟢 Promo code "TAXIVERZ100" (up to ₹200 / ₹500 off).** Is it live? What are the terms?
 - *Until answered:* not shown (no discounts or "was" prices without real terms).
 
+**B8 🟠 Parking at venues** — included in the fare, or paid by the traveller? (RATE_CARD "Parking" row.)
+- *Until answered:* fares say nothing about parking.
+
 **B7 🟢 Airport fares.** Do you have fixed Gorakhpur-airport fares? Legacy says "₹300 base".
 - *Until answered:* airport fares use one-way pricing with an airport minimum.
 
@@ -173,6 +176,15 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 
 **G2 🟠 Lead routing.** Lead email, WhatsApp Business number, optional Telegram alert, when TravelCRM should start receiving website leads, GTM / GA4 / Google Ads IDs.
 - *Until answered:* sinks disabled except WhatsApp fallback; no tracking IDs.
+- **Built (Phase 3):** the site can send each lead to email (any SMTP mailbox — Hostinger mail or Gmail with an app password), a Telegram bot and a webhook (Google Sheets, n8n, a CRM). Please send: SMTP host, port, user, password and the inbox that should receive leads; optionally a Telegram bot token + chat id; your GTM container id (`GTM-…`). They go in `.env.local` / the server's env, never in the repo.
+
+**G3 🟠 Database password for local development.** PostgreSQL 18 on your PC asks for a password. Create a database and user for the site (cmd):
+```
+psql -U postgres -c "CREATE USER taxiverz WITH PASSWORD 'choose-a-password';"
+psql -U postgres -c "CREATE DATABASE taxiverz OWNER taxiverz;"
+```
+then put `DATABASE_URL=postgres://taxiverz:choose-a-password@localhost:5432/taxiverz` in `.env.local` and run `npm run db:migrate`.
+- *Until answered:* leads go straight to the sinks (no outbox); the database test is skipped.
 
 ---
 

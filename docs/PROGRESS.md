@@ -6,16 +6,43 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 |---|---|
 | 0 — Scan and audit | ✅ done 2026-09-28, awaiting owner review |
 | 7.H — Live-site hotfix | ✅ built on `hotfix/live-site` (pushed); ⏳ owner uploads `hotfix-upload.zip` and confirms it's live → merge into `main` → merge `main` into `nextjs-rebuild` |
-| 1 — Foundation | ✅ done 2026-09-28 — committed locally on `nextjs-rebuild` (not pushed, per owner) |
+| 1 — Foundation | ✅ done 2026-09-28 — pushed |
 | 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
-| 3 — Fare engine and booking funnel | 📝 plan written, waiting for owner "go" |
+| 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
 | 4–8 | not started |
 
 ---
 
 ---
 
-## Phase 3 — Fare engine and booking funnel (plan, 2026-09-28)
+## Phase 3 — Fare engine and booking funnel (2026-09-28)
+
+Owner said "go" with the three proposals below: 14 classes published (Open 4×4 enquiry-only), SMTP email sink, `/book/` live but noindex and out of the sitemap.
+
+### Done
+- **Fare engine** `src/lib/pricing/` — pure `computeFare` for one way, round trip, local packages and airport; any missing input → `on-request` with a reason. Shared by the widget, `/book/` and the server recompute. `src/config/pricing.ts` is `status: 'draft'` with every policy `null` (added `parkingIncluded`, RATE_CARD "Parking" row).
+- **Included / not included lists only state rate-card facts.** On-request quotes show no lists; priced quotes list tolls, parking, GST and Nepal charges only when the config says so. (A first draft hard-coded "Fuel included, parking excluded" — removed as invented.)
+- **Fare index** `/fare-index.json` (static, 2.6 KB gzipped): places, verified distances only, live classes.
+- **Widget** `FareWidget` (4 tabs, ARIA combobox `PlaceCombobox`, keyboard tabs) above the fold on the home page and on `/book/`. Client JS it adds ≈ 3 KB gzipped; page total ≈ 199 KB gzipped, of which ~150 KB is the React/Next runtime.
+- **Funnel** `/book/` (state in the URL) → car cards cheapest first + call-back form → `?class=` trip details → contact → **Confirm booking · Book on WhatsApp · Call to book** → `/book/confirmed/?ref=`. Draft kept in sessionStorage. If the API fails, WhatsApp opens with the same summary and ref.
+- **Lead API** `POST /api/leads/` — Zod, honeypot, 3 s minimum fill time, 5 per IP per 10 min, server-side fare recompute, ref `TVZ-YYMMDD-XXXX` (IST, no look-alike characters). Postgres outbox (`leads`, `lead_deliveries`, migration `drizzle/0000_*.sql`); sinks email (SMTP), Telegram, signed webhook — each on only when configured. DB unreachable → direct delivery. Nothing stored or delivered → 503 with the ref → WhatsApp fallback. Cron endpoints `POST /api/leads/retry/` (backoff 1/5/30/120/720 min) and `/api/leads/maintenance/` (24-month purge), Bearer `LEADS_RETRY_TOKEN`. Logs carry the ref only, never personal data (unit-tested).
+- **Tracking** — GTM via `@next/third-parties` only when `NEXT_PUBLIC_GTM_ID` is valid; typed `track()`; attribution (gclid/gbraid/wbraid/utm_*, landing page, referrer; 90 days) attached to every lead; call/WhatsApp clicks tracked by `data-placement` (header, mobile-nav, sticky-bar, footer, home-hero, booking-*).
+
+### Verification
+- `npm run check` ✅ — 91 unit tests pass (3 DB tests skipped: no `TEST_DATABASE_URL`), pricing line coverage ≥ 90 % gate, qa OK.
+- `npm run test:e2e` ✅ — 16 tests at 360 px and 1280 px: home → Gorakhpur to Kathmandu → Sedan → details → contact → confirmation (API mocked); WhatsApp link carries the summary and ref; call link; API failure → WhatsApp fallback; keyboard tabs and combobox; `/book/` noindex and not in the sitemap; no horizontal scroll at 360 px; axe: no serious/critical issues.
+- Smoke on `next start`: 422 invalid, 200 spam (silent), 503 + ref with no sinks, 401 cron without token.
+- Screenshots at 360 and 1280 reviewed (home, `/book/`, results, class step, confirmation).
+
+### Not done / limits
+- Every fare shows "Get a quote" until the rate card (B1/B2) and verified distances (B5, L3) arrive — by design.
+- The DB integration test (`tests/unit/outbox.db.test.ts`) has not run: the local PostgreSQL needs a password. Run with `TEST_DATABASE_URL` pointing at a throwaway database.
+- VPS cron entries for retry/maintenance are Phase 8.
+
+### Dependencies added
+`drizzle-orm`, `pg`, `drizzle-kit`, `nodemailer`, `@next/third-parties`, `@axe-core/playwright`, `@vitest/coverage-v8`, `server-only` (keeps `src/config/env.ts` and `src/server/**` out of client bundles), `@types/pg`, `@types/nodemailer`.
+
+### Plan (as approved)
 
 ### Scan
 - Hotfix still not live (`/whatsapp-forms.js` → 404 on taxiverz.com), so `main` is unchanged and no merge yet.
