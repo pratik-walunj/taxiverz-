@@ -5,13 +5,23 @@
  *     else fallback, else /), for the exact path, a lower-case and an upper-case variant;
  *   - the destination itself answers 200.
  * Set BASE_URL to check an already running server instead (e.g. production).
+ *
+ * `--launch` (Phase 7 and before go-live) also fails when any legacy URL other
+ * than index.html, index-backup.html and popular-routes-section.html lands on
+ * the home page — Google treats mass redirects to "/" as soft 404s.
  */
 import { spawn, type ChildProcess } from 'node:child_process'
-import { buildLegacyTable, legacyEntries, legacyKey } from '../src/lib/redirects/legacy'
+import {
+  buildLegacyTable,
+  legacyEntries,
+  legacyKey,
+  legacyUrlsLandingOnHome,
+} from '../src/lib/redirects/legacy'
 
 const PORT = 3100
 const external = process.env.BASE_URL
 const base = external ?? `http://127.0.0.1:${PORT}`
+const launch = process.argv.includes('--launch')
 
 async function waitForServer(url: string, timeoutMs = 60_000) {
   const start = Date.now()
@@ -79,6 +89,12 @@ async function main() {
     const res = await fetch(`${base}${sample.legacyPath}?utm_source=gbp`, { redirect: 'manual' })
     if (!res.headers.get('location')?.includes('utm_source=gbp'))
       errors.push('query string is dropped on redirect')
+
+    if (launch) {
+      const onHome = legacyUrlsLandingOnHome()
+      for (const path of onHome)
+        errors.push(`${path}: lands on / at launch (needs its target or a relevant hub published)`)
+    }
 
     if (errors.length) {
       console.error(`redirects:check found ${errors.length} problem(s):`)

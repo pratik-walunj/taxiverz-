@@ -7,7 +7,8 @@
     "home": "'/' itself is not redirected. '/index.html' -> '/'.",
     "confidence": "high = target is certain; medium = sensible default, owner may change the slug; needs-owner = depends on an OWNER_TODO answer.",
     "linkedFrom": "anchor = linked with a crawlable <a href>; js-only = reachable only via onclick/JS or non-anchor markup; orphan = referenced by no other page.",
-    "longDistance": "Routes whose one-way distance exceeds 600 km stay draft until the owner confirms them (REBUILD_PLAN §5); their legacy URLs use the fallback meanwhile."
+    "longDistance": "Routes whose one-way distance exceeds 600 km stay draft until the owner confirms them (REBUILD_PLAN §5); their legacy URLs use the fallback meanwhile.",
+    "launch": "At launch no legacy URL may land on '/' except index.html, index-backup.html and popular-routes-section.html (Google treats mass redirects to the home page as soft 404s). Checked by `npm run redirects:check -- --launch` (REBUILD_PLAN Phase 7)."
   },
   "counts": {
     "total": 156,
@@ -1073,12 +1074,12 @@
       "legacyPath": "/hindi.html",
       "file": "hindi.html",
       "type": "info",
-      "target": "/",
+      "target": "/cabs/gorakhpur/",
       "fallback": null,
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "orphan",
-      "note": "45-word Hindi stub. Repoint to /hi/ if a Hindi version is built later."
+      "note": "45-word Hindi stub about taxi service in Gorakhpur: the Gorakhpur city hub is the nearest relevant page (a redirect to / would be a soft 404). Repoint to /hi/ if a Hindi version is built later."
     },
     {
       "legacyPath": "/honda-activa.html",

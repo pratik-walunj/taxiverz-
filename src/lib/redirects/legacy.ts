@@ -51,3 +51,25 @@ export function buildLegacyTable(
 }
 
 export const legacyEntries: readonly LegacyEntry[] = entries
+
+/** The only legacy URLs allowed to land on the home page at launch. */
+export const HOME_ALLOWED_LEGACY = [
+  '/index.html',
+  '/index-backup.html',
+  '/popular-routes-section.html',
+]
+
+/**
+ * Launch rule: every other legacy URL must reach its target or the nearest
+ * relevant hub — mass redirects to "/" are treated by Google as soft 404s.
+ * Returns the legacy paths that would currently land on "/".
+ */
+export function legacyUrlsLandingOnHome(
+  isPublished: (path: string) => boolean = defaultIsPublished,
+): string[] {
+  const allowed = new Set(HOME_ALLOWED_LEGACY.map(legacyKey))
+  return entries
+    .filter((e) => !allowed.has(legacyKey(e.legacyPath)))
+    .filter((e) => effectiveDestination(e, isPublished) === '/')
+    .map((e) => e.legacyPath)
+}

@@ -4,6 +4,7 @@ import {
   effectiveDestination,
   legacyEntries,
   legacyKey,
+  legacyUrlsLandingOnHome,
 } from '@/lib/redirects/legacy'
 
 describe('legacy redirects', () => {
@@ -42,5 +43,17 @@ describe('legacy redirects', () => {
     expect(table.get(legacyKey('/gorakhpur-to-kathmandu.html'))).toBe(
       '/cabs/gorakhpur/gorakhpur-to-kathmandu/',
     )
+  })
+
+  it('launch rule: only the home/junk entries may land on / once every target is published', () => {
+    expect(legacyUrlsLandingOnHome(() => true)).toEqual([])
+  })
+
+  it('launch rule: flags every other URL while its target and fallback are unpublished', () => {
+    const onHome = legacyUrlsLandingOnHome((p) => p === '/')
+    expect(onHome).toContain('/gorakhpur-to-kathmandu.html')
+    expect(onHome).not.toContain('/index.html')
+    expect(onHome).not.toContain('/popular-routes-section.html')
+    expect(onHome.length).toBe(158 - 3)
   })
 })
