@@ -32,7 +32,8 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 6. Any dependency not listed under Stack needs a one-line justification in `docs/PROGRESS.md`.
 7. If you are unsure how a Next.js 16 or Tailwind v4 API works, check the installed version's docs instead of relying on memory. Next 16 changed a lot vs 15 (async `params`/`searchParams`, `proxy.ts` replaced `middleware.ts`, `next lint` removed, Turbopack by default).
 8. If context is getting long, write the exact state and next steps into `docs/PROGRESS.md` so a fresh session can continue.
-9. **Branches.** `main` mirrors the live legacy site exactly (every upload to Hostinger is committed there). The rebuild happens on `nextjs-rebuild`, rebased onto `main`. Fixes to the live legacy site go on `hotfix/*` branches off `main`: smallest possible change, no redesign, delivered as a zip of changed files with their folder paths for Hostinger File Manager. Merge into `main` only after the owner confirms the upload is live.
+9. **Branches.** `main` mirrors the live legacy site exactly (every upload to Hostinger is committed there). The rebuild happens on `nextjs-rebuild`; after each hotfix goes live, `main` is **merged** into `nextjs-rebuild` (never rebased, so nothing needs a force-push). Fixes to the live legacy site go on `hotfix/*` branches off `main`: smallest possible change, no redesign, delivered as a zip of changed files with their folder paths for Hostinger File Manager. Merge into `main` only after the owner confirms the upload is live.
+10. **Build only the phase asked for.** No stub files, empty components or "fill this in later" placeholders — that is how placeholder text reaches production.
 
 ## Stack (decided)
 
@@ -60,7 +61,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 ### Truth
 - Never invent business facts: ratings, review counts, trip counts, years in business, client names or logos, testimonials, awards, registrations, GST numbers, prices, distances, drive times, tolls, border rules, "24/7", "GPS tracking", response times.
 - Numbers in `docs/competitor-analysis.pdf` (e.g. "★ 4.8 · 300+ reviews · 12 years") are illustrations, not Taxiverz facts.
-- Unknown = `null` in data. The UI hides that element or shows a neutral fallback ("Get a quote"). Never render placeholder text — `...`, `₹--`, `TBD`, `N/A`, `Lorem`, `yourwebsite.com`, `example.com`. `npm run qa` fails on them.
+- Unknown = `null` in data. The UI hides that element or shows a neutral fallback ("Get a quote"). Never render placeholder text. `npm run qa` scans the **rendered HTML output** of every page (visible text and attribute values, not source-code comments) and fails on: `...`, `₹--`, `--/km`, `TBD`, `N/A`, `TODO`, `{{`, `lorem`, `yourwebsite`, `yourdomain`, `example.com`, `YOUR_ACCESS_KEY`.
 - The legacy site is not a source of truth. It contains conflicting prices, impossible distances, placeholder phone numbers, placeholder testimonials, a fabricated 4.8★/150-review rating in JSON-LD, and at least one unverifiable destination. Carry a fact over only if it is consistent and plausible; otherwise `null` + OWNER_TODO.
 - Anything regulatory — Nepal border procedure, permits, customs (Bhansar), currency, ID documents, GST — must be owner-verified before it is published. Until then it stays in a draft.
 - Route distances and drive times come only from the owner-reviewed `docs/route-distances.csv` (produced by `scripts/fetch-distances.ts`), never from legacy pages. Until a route is reviewed, its distance is `verified: false` and its fares are estimates.
@@ -79,6 +80,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Fares are priced by **vehicle class**: a result reads "Sedan — Dzire, Etios or similar", and the site says plainly that the exact model depends on availability and that photos represent the class. Luxury cars (and other enquire-mode vehicles) stay per model with "Enquire". Every vehicle still keeps its own page for SEO, linked to its class.
 - Every rate lives in exactly one place: class rates in `src/data/vehicle-classes.ts`, per-model rates for luxury/enquire vehicles in `src/data/vehicles.ts`, global rules in `src/config/pricing.ts`, route costs (tolls, permits, border charges) in route data. Components never contain prices. The owner's source for all of them is `docs/RATE_CARD.md`.
 - The fare engine `src/lib/pricing/` is pure and unit-tested. The same code prices the route fare tables at build time and the widget at runtime; the server recomputes the fare when a lead is submitted.
+- Luxury and wedding cards show no per-km rate — a package or "from" price only when verified, otherwise just "Enquire".
 - Show totals, not just ₹/km. Always say what is included and excluded. INR with Indian digit grouping (₹1,25,000), no decimals, tabular figures.
 - While `pricing.status === 'draft'`, label fares "Estimated fare" and the CTA "Confirm exact fare". Only when the owner sets `'verified'` may the site say "All-inclusive fare" or emit price schema.
 - No invented "was" prices, no countdown timers, no fake scarcity (India's CCPA dark-pattern guidelines). Missing price → "Get a quote", never a blank.
@@ -89,13 +91,15 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - `/api/leads` writes every lead to the Postgres outbox **before** delivering it, then delivers to the enabled sinks (email, Telegram, webhook) and retries failures. If the database is unreachable, it delivers directly and logs the failure (no personal data in logs). The outbox keeps attribution (gclid/gbraid/wbraid/utm_*) for Google Ads offline-conversion import and is what TravelCRM reads later.
 - One phone number and one WhatsApp number, both from `src/config/business.ts`, used everywhere.
 - Mobile sticky bar: Call · WhatsApp · Book. Tap targets ≥ 48px.
+- No dead CTAs: no `href="#"`, no button without a real destination or action. Phone fields use `type="tel"` with `inputmode="tel"` and `autocomplete="tel"`.
 - Every CTA fires a typed tracking event; ad-click attribution (gclid/gbraid/wbraid/utm_*) is attached to every lead.
 
 ### SEO
 - `metadataBase` = `https://taxiverz.com`. Every page: unique title ≤ 60 characters, description ≤ 155, self-referencing canonical, OG image, exactly one H1, breadcrumbs (except home).
 - JSON-LD only through typed builders and one `<JsonLd>` component. No AggregateRating/Review markup about Taxiverz itself.
+- Reviews: the schema requires a real `source` (google | direct, with URL where one exists) and a non-null `verifiedAt`; the public component shows only verified reviews and renders nothing when there are none.
 - Keep the Google Search Console verification token from legacy `index.html` in the root metadata.
-- Internal links are generated from data and only point at published pages. Curated footer lists, no link dumps.
+- Internal links are generated from data and only point at published pages. Curated footer lists, no link dumps. Every navigation link goes to a distinct page — never several menu entries to one URL.
 - No two published pages may be near-duplicates — `npm run qa` checks similarity.
 
 ### Design
@@ -103,11 +107,11 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Two registers: standard (light, price-forward, instant booking) and luxury (dark, restrained, "Enquire").
 - Motion: one orchestrated moment on first load, plus motion that answers user actions. Respect `prefers-reduced-motion`. No scroll-triggered fade-up on every section.
 - Avoid template tells: ALL-CAPS eyebrow labels, dot-joined meta strings, "→" on every button, identical rounded cards with the same soft shadow, gradient washes, emoji icons, cream-plus-serif-plus-terracotta.
-- Pinch-zoom stays enabled. WCAG 2.2 AA: contrast, visible focus, full keyboard use, labelled inputs, `aria-live` for fare updates.
+- Viewport is exactly `width=device-width, initial-scale=1, viewport-fit=cover` — never `user-scalable=no` or `maximum-scale`; pinch-zoom stays enabled. Because of `viewport-fit=cover`, the sticky bar and any fixed element pad with `env(safe-area-inset-*)` so nothing sits under the notch or home indicator. WCAG 2.2 AA: contrast, visible focus, full keyboard use, labelled inputs, `aria-live` for fare updates.
 - Copy: plain Indian English, sentence case, specific. No "#1" or "best" claims unless provable. CTAs say exactly what happens ("Check fare", "Book on WhatsApp").
 
 ### Performance (Lighthouse mobile: Slow 4G, 4× CPU)
-LCP < 2.5 s · CLS < 0.05 · INP < 200 ms · Performance ≥ 90 on home, a route page and a vehicle page. No image source over 2000px; none of the legacy multi-MB PNGs ship as-is. The fare widget must not pull route prose or FAQs into the client bundle.
+LCP < 2.5 s · CLS < 0.05 · INP < 200 ms · on home, a route page and a vehicle page: Performance ≥ 90, **Accessibility ≥ 95, SEO = 100**. No image source over 2000px; none of the legacy multi-MB PNGs ship as-is. The fare widget must not pull route prose or FAQs into the client bundle.
 
 ## Windows
 
@@ -122,6 +126,7 @@ The owner develops on Windows in VS Code and uses cmd (PowerShell may not work).
 - `docs/DESIGN.md` — design system (Phase 1)
 - `docs/legacy-url-map.json` — all 156 legacy URLs, their redirect targets and fallbacks
 - `docs/RATE_CARD.md` — the owner's rate card (source for every price)
+- `docs/PRIVACY_POLICY_DRAFT.md` — privacy policy draft (owner review)
 - `docs/route-distances.csv` — owner-reviewed distances (created before Phase 4B)
 - `docs/competitor-analysis.pdf` — background research
 - `docs/archive/old-spec.md` — retired earlier spec; not instructions
