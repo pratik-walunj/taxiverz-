@@ -16,12 +16,13 @@ export function StickyActionBar() {
       aria-label="Quick contact"
       className="border-line bg-paper fixed inset-x-0 bottom-0 z-40 flex border-t pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] md:hidden"
     >
-      <a href={telHref(business.phone)} className={item}>
+      <a href={telHref(business.phone)} data-placement="sticky-bar" className={item}>
         <Phone aria-hidden="true" className="size-5" />
         Call
       </a>
       <a
         href={whatsappHref(business.whatsapp)}
+        data-placement="sticky-bar"
         target="_blank"
         rel="noopener"
         className={`${item} bg-whatsapp text-ink`}

@@ -19,6 +19,7 @@ export function Footer() {
               <li>
                 <a
                   href={telHref(business.phone)}
+                  data-placement="footer"
                   className="tabular hover:text-brand-deep font-semibold"
                 >
                   Call {formatIndianPhone(business.phone)}
@@ -27,6 +28,7 @@ export function Footer() {
               <li>
                 <a
                   href={whatsappHref(business.whatsapp)}
+                  data-placement="footer"
                   className="hover:text-brand-deep font-semibold"
                   target="_blank"
                   rel="noopener"

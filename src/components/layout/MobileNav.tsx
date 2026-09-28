@@ -57,11 +57,16 @@ export function MobileNav({
             </ul>
           </nav>
           <div className="mt-auto grid gap-3 pt-6">
-            <Button href={telHref(phone)} variant="secondary" size="lg">
+            <Button href={telHref(phone)} data-placement="mobile-nav" variant="secondary" size="lg">
               <Phone aria-hidden="true" className="size-5" />
               <span className="tabular">Call {formatIndianPhone(phone)}</span>
             </Button>
-            <Button href={whatsappHref(whatsapp)} variant="whatsapp" size="lg">
+            <Button
+              href={whatsappHref(whatsapp)}
+              data-placement="mobile-nav"
+              variant="whatsapp"
+              size="lg"
+            >
               <WhatsAppIcon className="size-5" />
               <span>WhatsApp us</span>
             </Button>

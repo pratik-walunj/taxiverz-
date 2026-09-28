@@ -1,4 +1,4 @@
-import { env } from '@/config/env'
+import { publicEnv } from '@/config/public-env'
 
 /** Event names used by the typed track() helper (Phase 3). */
 export const trackingEvents = [
@@ -16,8 +16,8 @@ export const trackingEvents = [
 export type TrackingEvent = (typeof trackingEvents)[number]
 
 export const tracking = {
-  gtmId: env.NEXT_PUBLIC_GTM_ID ?? null,
-  clarityId: env.NEXT_PUBLIC_CLARITY_ID ?? null,
+  gtmId: publicEnv.gtmId,
+  clarityId: publicEnv.clarityId,
   attributionParams: [
     'gclid',
     'gbraid',

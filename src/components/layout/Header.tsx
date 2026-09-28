@@ -45,6 +45,7 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2">
           <a
             href={telHref(business.phone)}
+            data-placement="header"
             className="hover:text-brand-deep hidden min-h-12 items-center gap-2 px-2 font-semibold md:inline-flex"
           >
             <Phone aria-hidden="true" className="size-5" />
@@ -52,7 +53,11 @@ export function Header() {
           </a>
           {/* Mobile has the sticky bar for WhatsApp and Book; the header keeps them from 640px up. */}
           <div className="hidden sm:block">
-            <Button href={whatsappHref(business.whatsapp)} variant="whatsapp">
+            <Button
+              href={whatsappHref(business.whatsapp)}
+              data-placement="header"
+              variant="whatsapp"
+            >
               <WhatsAppIcon className="size-5" />
               <span>WhatsApp</span>
             </Button>

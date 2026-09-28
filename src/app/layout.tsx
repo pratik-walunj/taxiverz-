@@ -1,12 +1,15 @@
+import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata, Viewport } from 'next'
 import { Anek_Latin, Mukta } from 'next/font/google'
 import type { ReactNode } from 'react'
 import { business } from '@/config/business'
+import { publicEnv } from '@/config/public-env'
 import { site } from '@/config/site'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { StickyActionBar } from '@/components/layout/StickyActionBar'
+import { Tracking } from '@/components/tracking/Tracking'
 import './globals.css'
 
 const mukta = Mukta({
@@ -48,7 +51,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
         <Footer />
         <StickyActionBar />
+        <Tracking />
       </body>
+      {publicEnv.gtmId && <GoogleTagManager gtmId={publicEnv.gtmId} />}
     </html>
   )
 }
