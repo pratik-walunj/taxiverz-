@@ -88,27 +88,6 @@ window.addEventListener('scroll', () => {
 
 // Close sticky mobile menu when clicking outside - REMOVED (already handled above)
 
-// Form Submission Handler
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const name = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const message = this.querySelector('textarea').value;
-        
-        // Simple validation
-        if (name && email && message) {
-            alert('Thank you for your message! We will get back to you soon.');
-            this.reset();
-        } else {
-            alert('Please fill in all fields.');
-        }
-    });
-}
 
 // Carousel Functionality
 let currentSlide = 0;
@@ -362,17 +341,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = bookingForm.querySelector('input[placeholder="Your Name"]').value;
-            const phone = bookingForm.querySelector('input[placeholder="Phone Number"]').value;
-            
-            if (name && phone) {
-                alert(`Booking Request Submitted!\nName: ${name}\nPhone: ${phone}\n\nWe will contact you shortly.`);
-                bookingForm.reset();
-                closeModal();
-            }
-        });
-    }
 });

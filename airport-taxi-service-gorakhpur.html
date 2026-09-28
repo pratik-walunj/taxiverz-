@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airport Taxi Service in Gorakhpur | Airport Transfer | Taxiverz</title>
+    <link rel="canonical" href="https://taxiverz.com/airport-taxi-service-gorakhpur.html">
     <meta name="description" content="Airport taxi service in Gorakhpur ✓ Gorakhpur Airport transfer ✓ 24/7 pickup & drop ✓ Call +91-8576000083">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="alignment-fix.css">
@@ -321,6 +322,7 @@
     </footer>
 
     <script src="script.js"></script>
+<script src="whatsapp-forms.js" defer></script>
 </body>
 </html>
 
@@ -330,7 +332,7 @@
                 <h2 id="modalTitle" style="margin: 0;">Book Airport Transfer</h2>
                 <span class="close" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: white; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
             </div>
-            <form class="booking-form-modal" style="padding: 20px;">
+            <form data-whatsapp-form class="booking-form-modal" style="padding: 20px;">
                 <div class="selected-route" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
                     <h3 id="selectedCar" style="color: #ff5800; margin: 0;">Selected Car</h3>
                     <p id="selectedPrice" style="color: #333; margin: 5px 0 0 0; font-weight: bold;">Price</p>
@@ -367,15 +369,6 @@
             }
             window.onclick = function(event) {
                 if (event.target == modal) { modal.style.display = 'none'; }
-            }
-            const form = document.querySelector('.booking-form-modal');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Booking request submitted! We will contact you shortly.');
-                    modal.style.display = 'none';
-                    this.reset();
-                });
             }
         });
     </script>

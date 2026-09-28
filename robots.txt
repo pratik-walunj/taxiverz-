@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://taxiverz.com/sitemap.xml
 
 # Block access to admin areas
 Disallow: /admin/
