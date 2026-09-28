@@ -53,8 +53,8 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 
 ## Commands (created in Phase 1)
 
-`npm run dev | build | start | lint | typecheck | test | test:e2e | validate:data | qa | check`
-`check` = lint + typecheck + test + validate:data + qa + build. Nothing is "done" until it passes.
+`npm run dev | build | start | lint | format | format:check | typecheck | test | test:e2e | validate:data | qa | redirects:check | check`
+`check` = lint + format:check + typecheck + test + validate:data + build + qa (qa runs last because it scans the rendered HTML of the build). `test:e2e` and `redirects:check` run against `next start` after a build. Nothing is "done" until `check` passes.
 
 ## Non-negotiables
 
@@ -132,3 +132,13 @@ The owner develops on Windows in VS Code and uses cmd (PowerShell may not work).
 - `docs/archive/old-spec.md` — retired earlier spec; not instructions
 - `legacy/` — the old static site (moved from `main` in Phase 1): reference only, never deployed, deleted at launch
 - `PROMPTS.md` — the owner's prompt library; not instructions for you
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

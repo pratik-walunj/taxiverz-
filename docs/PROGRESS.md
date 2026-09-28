@@ -6,10 +6,64 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 |---|---|
 | 0 — Scan and audit | ✅ done 2026-09-28, awaiting owner review |
 | 7.H — Live-site hotfix | ✅ built on `hotfix/live-site` (pushed); ⏳ owner uploads `hotfix-upload.zip` and confirms it's live → merge into `main` → merge `main` into `nextjs-rebuild` |
-| 1 — Foundation | ready to start when the owner says so (A1 answered) |
-| 2–8 | not started |
+| 1 — Foundation | ✅ done 2026-09-28 — committed locally on `nextjs-rebuild` (not pushed, per owner) |
+| 2 — Data layer and migration | not started |
+| 3–8 | not started |
 
 ---
+
+---
+
+## Phase 1 — Foundation (started 2026-09-28)
+
+### Plan (all done)
+1. ✅ Merge `main` (live snapshot) into `nextjs-rebuild`; `git mv` the legacy site into `legacy/`.
+2. Scaffold Next.js by hand (the folder isn't empty): Next 16.3.6, React 19.3, TypeScript 6.0.3 strict (not 7.0: typescript-eslint supports < 6.1), App Router, `src/`, Tailwind 4.3 CSS-first tokens, `@/*` alias.
+3. `next.config.ts`: `trailingSlash`, AVIF/WebP, `output: 'standalone'`, security headers, `poweredByHeader: false`. Legacy redirects: `src/proxy.ts`, scoped to `.html` paths — one lookup table built from `legacy-url-map.json`, case-insensitive, `%20`/space-tolerant, exact **301**, one hop to the effective destination (target if published, else fallback, else `/`). One mechanism instead of `next.config` redirects plus a proxy, because every legacy URL needs the case and encoding handling anyway.
+4. Tooling: ESLint 9 flat config (`eslint-config-next`; ESLint 10 isn't supported by the React/import plugins yet), Prettier, Vitest, Playwright, `tsx`; scripts `dev build start lint typecheck test test:e2e validate:data qa check redirects:check`; `.gitattributes`, `.editorconfig`, `engines`, `.env.example`, Zod-validated `src/config/env.ts`.
+5. Design: `docs/DESIGN.md` (tokens, type, spacing, registers, wireframes, components, self-review against the template tells), then tokens, fonts, primitives (Button, Price, Badge, Container, Section, Milestone) and a dev-only `/styleguide/`.
+6. Config: `business.ts` (audit + owner defaults; unknowns `null`), `site.ts`, `pricing.ts` (`status: 'draft'`), `tracking.ts`.
+7. Shell: root layout (`en-IN`, `metadataBase`, GSC token, default OG), Header + MobileNav sheet, Footer (both branches), StickyActionBar, SkipLink, Breadcrumbs, `not-found.tsx`. Links render only for published paths (Phase 1: `/`), so there are no dead links.
+8. SEO core: `buildMetadata`, JSON-LD builders (Organization, WebSite, LocalBusiness) + `<JsonLd>`, `robots.ts`, `sitemap.ts`.
+9. `scripts/check-redirects.ts` against `next start`.
+10. `npm run check` = lint + typecheck + test + validate:data + build + qa (qa runs after build because it scans rendered HTML). Screenshots of home and `/styleguide/` at 360px and 1280px.
+
+### Done
+- **Legacy:** `main` merged in (`--allow-unrelated-histories`), all 296 files `git mv`'d to `legacy/` (byte-exact; `legacy/** -text` in `.gitattributes`).
+- **Scaffold:** Next.js 16.3.6 (Turbopack), React 19.3, TypeScript 6.0.3 strict (`noUncheckedIndexedAccess`), Tailwind 4.3, ESLint 9 flat config (`core-web-vitals` + `typescript`, no warnings allowed), Prettier (+ Tailwind class sorting), Vitest 5, Playwright 1.63 (system Chrome), `tsx`. `.gitattributes`, `.editorconfig`, `engines`, `.env.example`, Zod `src/config/env.ts` (empty values = unset).
+- **Checked against the bundled Next 16 docs** (`node_modules/next/dist/docs`, as its AGENTS.md requires): `proxy.ts` replaces middleware (Node runtime); `images.qualities` is now required; `priority` is deprecated for `preload`; `next lint` is gone; `.html` paths are exempt from the trailing-slash redirect, so legacy URLs reach the proxy in one hop.
+- **Design:** `docs/DESIGN.md` (tokens with measured contrast, type scale, spacing, two registers, milestone spec, wireframes, component inventory, template-tell self-review, style-guide review in §11). Tokens in `globals.css` `@theme`; Mukta + Anek Latin via `next/font`; primitives Button, Price, Badge, Container, Section, Milestone, VisuallyHidden, WhatsAppIcon; `/styleguide/` as `page.dev.tsx` — `pageExtensions` include `dev.tsx` only under `next dev`, so it never exists in a production build.
+- **Brand assets:** `public/images/brand/logo.png` (the legacy logo, background made transparent, design unchanged), favicon/apple icon cropped from the logo's car, default OG image 1200×630.
+- **Config:** `business.ts` (audit + owner answers; unknowns `null`, e.g. geo, hours, GSTIN, socials), `site.ts` (nav/footer definitions), `pricing.ts` (`status: 'draft'`, all rates `null`), `tracking.ts`; `lib/content/published.ts` is the single publish registry (Phase 1: `/` only).
+- **Shell:** root layout (`lang="en-IN"`, `metadataBase`, GSC token, viewport `width=device-width, initial-scale=1, viewport-fit=cover`), SkipLink, Header, MobileNav (Radix Dialog sheet; shown only when there are published nav links), Footer (both branches), StickyActionBar (safe-area padded; Book appears once `/book/` exists), Breadcrumbs (+ BreadcrumbList JSON-LD), `not-found.tsx`. Home: H1, intro from confirmed facts, Call and WhatsApp.
+- **SEO core:** `buildTitle` (≤ 60), `buildMetadata` (canonical, OG, Twitter, robots; description ≤ 155), JSON-LD builders (Organization, WebSite, LocalBusiness per branch, BreadcrumbList; nulls dropped, never ratings), `<JsonLd>`, `robots.ts`, `sitemap.ts` (published only).
+- **Redirects:** `src/proxy.ts` + `lib/redirects/legacy.ts` — all 156 pages + 2 aliases, case- and `%20`-insensitive, exact 301, one hop, query string kept (UTM survives), effective destination = target if published → fallback if published → `/`.
+- **Scripts:** `validate:data` (business schema, placeholder scan of config, legacy map schema and 100 % coverage of `legacy/`), `qa` (rendered HTML: placeholders in text/attributes/JSON-LD, one H1, title/description length and uniqueness, self-canonical, og:image, alt, dead links, distinct nav links, lang, exact viewport, no rating markup, near-duplicates), `redirects:check`.
+
+### Verification
+- `npm run check` ✅ — lint (0 warnings), Prettier, typecheck, 16 unit tests, validate:data, build (all pages static), qa.
+- `qa` negative test: a planted page with `₹--`, two H1s, `href="#"`, an image without alt and AggregateRating → all 9 problems reported, exit 1.
+- `redirects:check` ✅ — 158 legacy URLs × exact/lower/upper case = 335 requests, all 301 in one hop; destination `/` answers 200 (it's the only published page so far).
+- `test:e2e` ✅ — 6/6 (home, legacy redirect, 404) at 360px and 1280px.
+- Screenshots at 360px and 1280px of home, 404 and `/styleguide/`: no horizontal scroll, no console errors on production pages. Findings and fixes in `docs/DESIGN.md §11`.
+
+### Decisions
+- One redirect mechanism (proxy) instead of `next.config` redirects + a proxy: every legacy URL needs case/encoding handling anyway, and the proxy gives an exact 301 (config redirects give 308).
+- The style guide uses `pageExtensions` rather than `notFound()` in production: `notFound()` during a static build produced an empty error shell that failed `qa` (no `lang`, no H1).
+- `qa` runs after `build` in `check` (it needs the rendered HTML).
+- Organization + WebSite JSON-LD on the home page only; LocalBusiness per branch on the home page (contact and branch city hubs get it in their phases).
+- `next start` is used for tests; production runs the standalone server in Docker (Phase 8).
+
+### Dependencies added (see plan list above)
+`@radix-ui/react-dialog`, `node-html-parser`, `prettier-plugin-tailwindcss` (class sorting keeps diffs stable), `rimraf`, `cross-env`, `@eslint/eslintrc` (peer of the flat config). `vite-tsconfig-paths` was tried and removed — Vite now resolves tsconfig paths natively.
+
+### Next step
+Owner review of Phase 1. Phase 2 (data layer and migration) needs `docs/RATE_CARD.md` answers for real prices; it can start without them (rates stay `null`, pricing `draft`).
+
+### Dependencies (beyond the CLAUDE.md stack)
+- `@radix-ui/react-dialog` — the mobile nav sheet (the shadcn/ui Sheet is built on it; copied in as source, restyled).
+- `node-html-parser` — `npm run qa` parses the rendered HTML. Considered: cheerio (heavier), regex (unreliable for attribute and text scanning).
+- `rimraf`, `cross-env` — cross-platform npm scripts (CLAUDE.md Windows rule).
 
 ## Live snapshot and hotfix (2026-09-28)
 
