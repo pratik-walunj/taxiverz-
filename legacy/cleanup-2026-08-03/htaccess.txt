@@ -1,0 +1,197 @@
+# ============================================================
+#  Taxiverz — production configuration
+# ============================================================
+
+RewriteEngine On
+
+# ---- Force HTTPS ----
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ---- Force canonical host (www -> non-www) ----
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+
+# ---- Keep the build/source folder off the public site ----
+RewriteRule ^_dev(/|$) - [F,L]
+
+# ---- Friendly URLs: /contact serves contact.html ----
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^.]+)$ $1.html [L]
+
+# ---- Compression ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css
+  AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE image/svg+xml application/json
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript image/svg+xml
+</IfModule>
+
+# ---- Caching ----
+# Was "no-cache, no-store" for development, which forced every visitor to
+# re-download the whole site on every page view.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 month"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/avif                "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType application/xml           "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Long cache for fingerprint-free static assets
+  <FilesMatch "\.(css|js|jpe?g|png|webp|avif|svg|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # HTML must always revalidate so content edits go live immediately
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # ---- Security headers ----
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header unset X-Powered-By
+</IfModule>
+
+# ---- Correct MIME types ----
+<IfModule mod_mime.c>
+  AddType image/avif   .avif
+  AddType image/webp   .webp
+  AddType font/woff2   .woff2
+</IfModule>
+
+# ---- Default document ----
+DirectoryIndex index.html
+
+# ---- Custom error page ----
+ErrorDocument 404 /404.html
+
+# ============================================================
+#  301s: images moved from the web root into /assets/img/
+#  (filenames were also normalised — no spaces, no parentheses)
+# ============================================================
+Redirect 301 /13_seater%20%281%29.webp /assets/img/13-seater-1.webp
+Redirect 301 /13inside%20%282%29.png /assets/img/13inside-2.png
+Redirect 301 /13inside.jpg /assets/img/13inside.jpg
+Redirect 301 /13insideimage.jpg /assets/img/13insideimage.jpg
+Redirect 301 /13seating%20%282%29.jpg /assets/img/13seating-2.jpg
+Redirect 301 /13seating.jpg /assets/img/13seating.jpg
+Redirect 301 /13seatingside.png /assets/img/13seatingside.png
+Redirect 301 /13urbania%20seating.png /assets/img/13urbania-seating.png
+Redirect 301 /13urbania.png /assets/img/13urbania.png
+Redirect 301 /13urbaniainside%20%283%29.png /assets/img/13urbaniainside-3.png
+Redirect 301 /17inside.jpg /assets/img/17inside.jpg
+Redirect 301 /17seater.webp /assets/img/17seater.webp
+Redirect 301 /17seatingside.jpg /assets/img/17seatingside.jpg
+Redirect 301 /17urbania%20inside.png /assets/img/17urbania-inside.png
+Redirect 301 /17urbaniafrontside.png /assets/img/17urbaniafrontside.png
+Redirect 301 /17urbaniasetingside.png /assets/img/17urbaniasetingside.png
+Redirect 301 /20inside.jpg /assets/img/20inside.jpg
+Redirect 301 /20seater.jpg /assets/img/20seater.jpg
+Redirect 301 /20seating.png /assets/img/20seating.png
+Redirect 301 /26frontside.jpg /assets/img/26frontside.jpg
+Redirect 301 /26inside.jpg /assets/img/26inside.jpg
+Redirect 301 /26seatingside.jpg /assets/img/26seatingside.jpg
+Redirect 301 /Advertisement%20Shoots.jpg /assets/img/advertisement-shoots.jpg
+Redirect 301 /Couple%20Portrait%20Cars.jpg /assets/img/couple-portrait-cars.jpg
+Redirect 301 /Fashion%20Shoots.jpg /assets/img/fashion-shoots.jpg
+Redirect 301 /Force%20Urbania.jpeg /assets/img/force-urbania.jpeg
+Redirect 301 /Journey%20Themed%20Shoots.jpg /assets/img/journey-themed-shoots.jpg
+Redirect 301 /Mountain%20Flight.jpg /assets/img/mountain-flight.jpg
+Redirect 301 /Movie%20%26%20Web%20Series%20Car.jpg /assets/img/movie-and-web-series-car.jpg
+Redirect 301 /Music%20Car%20Rental.webp /assets/img/music-car-rental.webp
+Redirect 301 /Romantic%20Vidio%20Shoot.png /assets/img/romantic-vidio-shoot.png
+Redirect 301 /Royal%20Luxury%20Cars.jpg /assets/img/royal-luxury-cars.jpg
+Redirect 301 /SLK.png /assets/img/slk.png
+Redirect 301 /Tata%20Winger.jpeg /assets/img/tata-winger.jpeg
+Redirect 301 /Thar.png /assets/img/thar.png
+Redirect 301 /Vintage%20Classic%20image.jpg /assets/img/vintage-classic-image.jpg
+Redirect 301 /Vlog%20Shooting.avif /assets/img/vlog-shooting.avif
+Redirect 301 /Volvo%20AC%20bus.jpeg /assets/img/volvo-ac-bus.jpeg
+Redirect 301 /Volvo.jpeg /assets/img/volvo.jpeg
+Redirect 301 /audi%20a4.jpeg /assets/img/audi-a4.jpeg
+Redirect 301 /audi%20a6.png /assets/img/audi-a6.png
+Redirect 301 /audi%20q3.png /assets/img/audi-q3.png
+Redirect 301 /audi%20q5.png /assets/img/audi-q5.png
+Redirect 301 /audi%20q7.png /assets/img/audi-q7.png
+Redirect 301 /audi8.jpeg /assets/img/audi8.jpeg
+Redirect 301 /bajaj%20discover.png /assets/img/bajaj-discover.png
+Redirect 301 /bajaj-avenger.jpg /assets/img/bajaj-avenger.jpg
+Redirect 301 /bajaj-pulsar.jpg /assets/img/bajaj-pulsar.jpg
+Redirect 301 /bmw%20320d.png /assets/img/bmw-320d.png
+Redirect 301 /bmw%20520d.png /assets/img/bmw-520d.png
+Redirect 301 /bmw%20m%20convertible.png /assets/img/bmw-m-convertible.png
+Redirect 301 /bmw%20x1.png /assets/img/bmw-x1.png
+Redirect 301 /bmw1.jpg /assets/img/bmw1.jpg
+Redirect 301 /bullet-classic-350.jpg /assets/img/bullet-classic-350.jpg
+Redirect 301 /c%20class.png /assets/img/c-class.png
+Redirect 301 /car10.jpeg /assets/img/car10.jpeg
+Redirect 301 /car11.jpeg /assets/img/car11.jpeg
+Redirect 301 /car12.jpeg /assets/img/car12.jpeg
+Redirect 301 /car13.jpeg /assets/img/car13.jpeg
+Redirect 301 /car14.jpeg /assets/img/car14.jpeg
+Redirect 301 /car15.jpeg /assets/img/car15.jpeg
+Redirect 301 /car2.jpeg /assets/img/car2.jpeg
+Redirect 301 /car3.jpeg /assets/img/car3.jpeg
+Redirect 301 /car4.jpeg /assets/img/car4.jpeg
+Redirect 301 /car5.jpeg /assets/img/car5.jpeg
+Redirect 301 /car6.jpeg /assets/img/car6.jpeg
+Redirect 301 /car7.jpeg /assets/img/car7.jpeg
+Redirect 301 /car8.jpeg /assets/img/car8.jpeg
+Redirect 301 /car9.jpeg /assets/img/car9.jpeg
+Redirect 301 /caro1.jpg /assets/img/caro1.jpg
+Redirect 301 /caro2.jpeg /assets/img/caro2.jpeg
+Redirect 301 /caro2.jpg /assets/img/caro2.jpg
+Redirect 301 /carrental.jpg /assets/img/carrental.jpg
+Redirect 301 /celebration.jpg /assets/img/celebration.jpg
+Redirect 301 /city.jpeg /assets/img/city.jpeg
+Redirect 301 /defender.jpg /assets/img/defender.jpg
+Redirect 301 /defender.png /assets/img/defender.png
+Redirect 301 /e%20class.png /assets/img/e-class.png
+Redirect 301 /etios1.jpeg /assets/img/etios1.jpeg
+Redirect 301 /gypsy.jpeg /assets/img/gypsy.jpeg
+Redirect 301 /heli.png /assets/img/heli.png
+Redirect 301 /helicopterhero.png /assets/img/helicopterhero.png
+Redirect 301 /hero%20destini125.png /assets/img/hero-destini125.png
+Redirect 301 /hero%20passion%20pro.png /assets/img/hero-passion-pro.png
+Redirect 301 /hero%20xtreme%20160.jpg /assets/img/hero-xtreme-160.jpg
+Redirect 301 /herohfdelux.png /assets/img/herohfdelux.png
+Redirect 301 /honda%20activa.png /assets/img/honda-activa.png
+Redirect 301 /jagua%20xjl.jpeg /assets/img/jagua-xjl.jpeg
+Redirect 301 /jaguar%20xe.jpeg /assets/img/jaguar-xe.jpeg
+Redirect 301 /jaguar%20xf.jpeg /assets/img/jaguar-xf.jpeg
+Redirect 301 /jawa-classic.jpg /assets/img/jawa-classic.jpg
+Redirect 301 /jeep.png /assets/img/jeep.png
+Redirect 301 /luxury-car-photoshoot_1013220-477.avif /assets/img/luxury-car-photoshoot-1013220-477.avif
+Redirect 301 /maybACH.png /assets/img/maybach.png
+Redirect 301 /rr3.jpg /assets/img/rr3.jpg
+Redirect 301 /s%20class.png /assets/img/s-class.png
+Redirect 301 /scorpio.png /assets/img/scorpio.png
+Redirect 301 /taxiverz.avif /assets/img/taxiverz.avif
+Redirect 301 /taxiverz.jpeg /assets/img/taxiverz.jpeg
+Redirect 301 /thar1.jpg /assets/img/thar1.jpg
+Redirect 301 /thar1.png /assets/img/thar1.png
+Redirect 301 /thunderbird-350.jpg /assets/img/thunderbird-350.jpg
+Redirect 301 /toyota%20etios1.png /assets/img/toyota-etios1.png
+Redirect 301 /toyota%20hiace.avif /assets/img/toyota-hiace.avif
+Redirect 301 /toyota%20hilux.avif /assets/img/toyota-hilux.avif
+Redirect 301 /tvs%20deut.png /assets/img/tvs-deut.png
+Redirect 301 /verna.png /assets/img/verna.png
+Redirect 301 /wagnor.png /assets/img/wagnor.png
+Redirect 301 /xuv%20700.jpg /assets/img/xuv-700.jpg
+Redirect 301 /yemaha.png /assets/img/yemaha.png
