@@ -16,6 +16,7 @@ Status: 🔴 blocks the next phase · 🟠 needed before launch · 🟢 can come
 There are two `CLAUDE.md` files and they contradict each other. `Downloads/CLAUDE.md` (15 Sep) specifies Next.js 15 + NestJS + Prisma + PostgreSQL in a pnpm/Turborepo monorepo, the Demo IV/III look and `/search?…` booking URLs. `docs/CLAUDE.md` (28 Sep, shipped with REBUILD_PLAN) specifies one Next.js 16 app with npm, no database in v1 and `/book/` URLs. See AUDIT §14.
 - *Why:* it decides the repo layout, hosting, the database and the booking URLs. These are expensive to reverse.
 - *Until answered:* Phase 1 doesn't start. Recommendation (see report): follow `docs/CLAUDE.md` + REBUILD_PLAN and delete or rename the older file so Claude Code stops loading it.
+- **Answer (2026-09-28):** the kit governs — `CLAUDE.md` + `docs/REBUILD_PLAN.md` (one Next.js 16 app, `/book/` URLs). The old spec is retired to `docs/archive/old-spec.md`.
 
 **A2 🔴 Is there a GitHub repo for this site?**
 The folder wasn't a git repository. It looks like a zip download of a `Taxiverz` repo. Phase 0 initialised a fresh local repo (`main` = the legacy site as received, `nextjs-rebuild` = Phase 0 docs).
@@ -35,6 +36,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 **B1 🔴 Pricing model, per vehicle.** For each vehicle or class you actually run: one-way ₹/km, round-trip ₹/km, minimum km per day, driver allowance per day, night charge (amount and hours — 10 PM–6 AM everywhere except the S-Class page, which says 9:30 PM–6:30 AM), extra km and extra hour, local package prices (6h/60, 8h/80, 12h/120 km). Also: GST rate, and whether it's included or extra. How are tolls, state permits and Nepal border charges passed on? Does "garage to garage" apply to all vehicles or only luxury?
 - *Why:* the site's core promise is an all-inclusive total before contact details. Without real rates every fare shows "Get a quote".
 - *Until answered:* `pricing.status = 'draft'`; fares say "Estimated fare" or "on request"; no price schema.
+- **In progress:** fill in `docs/RATE_CARD.md` (every field the fare engine needs, pre-filled with legacy values + "?"). Fares are priced by vehicle class (owner decision 2026-09-28).
 
 **B2 🔴 Resolve conflicting prices** (full table in AUDIT §4):
 - Swift Dzire: ₹8, 10, 11, 12, 14, 20, 27 and 29 per km on different pages. ₹1,200/day on two pages.
@@ -55,6 +57,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 - *Bikes:* 13 bikes and scooters.
 - *Why:* nothing that isn't really available may appear on the new site.
 - *Until answered:* only vehicles with pages are migrated, as drafts.
+- **In progress:** tick-list at the bottom of `docs/RATE_CARD.md`.
 
 **B4 🟠 Missing prices:** tempo travellers (the hub says ₹24/26/30/35 per km for 13/17/20/26 seats — still right?), Urbania, all buses, all bikes/scooters, Mercedes SLK, BMW 320d, BMW X1, the BMW convertible, vintage cars, self-drive rates.
 - *Until answered:* "Get a quote" or enquiry form.
@@ -75,12 +78,15 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 **C1 🔴 Which copy of the site is current?** The GitHub copy and what's live on Hostinger differ on 55 pages (AUDIT §0). Live has blanked most prices to "... INR". There is also an unshipped cleanup in `Downloads/taxiverz.com/public_html/` dated 3 Aug 2026. Who edits the live site, and was that cleanup meant to go live?
 - *Why:* tells us which prices were withdrawn on purpose.
 - *Until answered:* both are treated as untrusted; nothing is published from either without your confirmation.
+- **Answer (2026-09-28):** the live site is current. `main` becomes a snapshot of the owner's fresh `public_html` download. The 3 Aug cleanup is not shipped; worth-keeping parts are reported separately.
 
 **C2 🟠 Brand.** "Taxiverz" or "TaxiVerz"? Keep the tagline "Luxury on the Move"? It's only in the logo image. Is there an SVG or vector logo? What is the legal name — some footers say "Taxiverz Travel Solutions"?
 - *Until answered:* "Taxiverz" in text; raster logo; legal name `null`.
+- **Partial answer (2026-09-28):** "Taxiverz" in all copy; logo unchanged. Tagline, vector logo and legal name still open.
 
 **C3 🟠 Phones.** Confirm +91 85760 00083 as the one public number and the WhatsApp number. What is +91 85760 00074 for (bus and tempo pages)?
 - *Until answered:* 0083 everywhere; 0074 not used.
+- **Answer (2026-09-28):** +91 85760 00083 is the only public number, for calls and WhatsApp.
 
 **C4 🟠 Email.** Which inbox should receive leads: cabtaxiverz@gmail.com (111 pages) or info@taxiverz.com (42 pages)? Does info@taxiverz.com exist?
 - *Until answered:* cabtaxiverz@gmail.com shown; lead email sink not configured.
@@ -160,6 +166,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 **G1 🔴 Where do Web3Forms submissions go today?** Which inbox is the key `160ce8ff…` registered to, and is it checked? Also: **20 legacy forms send nothing** (AUDIT §7), including the wedding and Nepal enquiry forms. Is that a surprise?
 - *Why:* tells us which sink to build first and whether leads have been lost.
 - *Until answered:* the new site falls back to WhatsApp for every lead.
+- **Partial answer (2026-09-28):** all forms move to one new Web3Forms key and one inbox (hotfix). **Still needed: the key and the inbox address** — the instructions contained the placeholders `<KEY>` and `<EMAIL>`.
 
 **G2 🟠 Lead routing.** Lead email, WhatsApp Business number, optional Telegram alert, when TravelCRM should start receiving website leads, GTM / GA4 / Google Ads IDs.
 - *Until answered:* sinks disabled except WhatsApp fallback; no tracking IDs.
@@ -178,7 +185,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 
 ## I. Fix on the live site now (outside the rebuild)
 
-These are live bugs costing rankings or leads today. They're edits to the old site, which is read-only for Claude in Phase 0 — say the word and they can be done as a separate change.
+**Approved 2026-09-28** as the hotfix track (`REBUILD_PLAN.md §7.H`, branch `hotfix/live-site`). I1–I5 are in that hotfix; I6 (noindex on the Vercel prototypes) is done in the Vercel projects, not in this repo.
 
 **I1 🔴** `index.html`, `blog.html`, `hindi.html` canonical → `https://yourwebsite.com`; `car-rental.html` → `https://yourdomain.com`; `og:url`/`og:image`/`twitter:image` on home. `robots.txt` Sitemap line → `yourwebsite.com`.
 **I2 🔴** 20 lead forms that send nothing (list in AUDIT §7).
@@ -189,10 +196,24 @@ These are live bugs costing rankings or leads today. They're edits to the old si
 
 ---
 
+## L. New questions (2026-09-28)
+
+**L1 🔴 Live-site download.** The instructions point to `C:	axiverz-live`, which doesn't exist. Where is the fresh `public_html` download?
+- *Until answered:* no snapshot on `main`, no hotfix.
+
+**L2 🟠 Lead data retention.** How long may lead records (name, phone, trip) be kept in the outbox before deletion or anonymisation? Needed for the privacy policy (DPDP Act).
+- *Until answered:* no automatic deletion; the privacy policy says "as long as needed to serve the booking" and is marked for owner review.
+
+**L3 🟠 Google Maps API key** for `scripts/fetch-distances.ts` (Routes API enabled, billing on the Google Cloud project), in `.env.local` as `GOOGLE_MAPS_API_KEY`. Needed before Phase 4B.
+- *Until answered:* distances stay unverified; no route page is published.
+
+---
+
 ## K. Hosting (Phase 8)
 
 **K1 🟢** Vercel Pro (the Hobby plan is non-commercial) or your Hostinger VPS (Docker + Nginx)?
 - *Until answered:* the build stays host-neutral (`output: 'standalone'`).
+- **Answer (2026-09-28):** Hostinger VPS — Docker (standalone output) + Nginx + Certbot, Cloudflare in front.
 
 ---
 

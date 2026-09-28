@@ -5,8 +5,24 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | Phase | Status |
 |---|---|
 | 0 — Scan and audit | ✅ done 2026-09-28, awaiting owner review |
-| 1 — Foundation | ⛔ blocked on OWNER_TODO A1 (which spec) |
+| 7.H — Live-site hotfix | ⏳ waiting for the live download (OWNER_TODO L1) and the Web3Forms key and inbox (G1) |
+| 1 — Foundation | ready to start when the owner says so (A1 answered) |
 | 2–8 | not started |
+
+---
+
+## Owner decisions (2026-09-28)
+
+Recorded in `CLAUDE.md` (rules), `docs/REBUILD_PLAN.md` (spec) and `docs/OWNER_TODO.md` (answers):
+- **A1:** the kit governs; the old spec is retired (`docs/archive/old-spec.md`).
+- **C1:** the live site is current; `main` = snapshot of live; the 3 Aug cleanup is not shipped.
+- **Hotfix track** (`REBUILD_PLAN §7.H`), fares **by vehicle class**, **redirect fallbacks**, legacy blog post → **`/destinations/gorakhpur/places-to-visit/`**, **verified distances** via `scripts/fetch-distances.ts` before 4B, **long-distance routes** draft until confirmed (11 flagged in the URL map), **VPS hosting**, **Postgres lead outbox** (Drizzle).
+- Defaults: +91 85760 00083 is the only public number; "Taxiverz" in copy; logo unchanged.
+- `docs/RATE_CARD.md` created for the owner to correct.
+
+New dependencies for Phase 3 (owner-decided): `drizzle-orm`, `drizzle-kit`, `pg` — lead outbox. Considered: Prisma (heavier client and engine, a code generator in the build) and raw `pg` (no typed schema or migrations).
+
+Old spec (`docs/archive/old-spec.md`) — read once. Points in it that are stronger than the kit are listed in the owner report of 2026-09-28. None has been adopted into the rules yet.
 
 ---
 
