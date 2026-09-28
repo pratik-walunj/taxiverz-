@@ -7,10 +7,31 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 0 — Scan and audit | ✅ done 2026-09-28, awaiting owner review |
 | 7.H — Live-site hotfix | ✅ built on `hotfix/live-site` (pushed); ⏳ owner uploads `hotfix-upload.zip` and confirms it's live → merge into `main` → merge `main` into `nextjs-rebuild` |
 | 1 — Foundation | ✅ done 2026-09-28 — committed locally on `nextjs-rebuild` (not pushed, per owner) |
-| 2 — Data layer and migration | not started |
+| 2 — Data layer and migration | 🔨 in progress (owner "go" 2026-09-28) |
 | 3–8 | not started |
 
 ---
+
+---
+
+## Phase 2 — Data layer and migration (started 2026-09-28)
+
+### Scan
+- No `.env.local`, so no `GOOGLE_MAPS_API_KEY`: `scripts/fetch-distances.ts` is skipped this phase (owner told). Place coordinates stay `null`.
+- 3 Aug cleanup (`Downloads/taxiverz.com/public_html/`): 111 compressed images in `assets/img/` (19 MB, ≤ 1600px, lowercase-hyphenated names), 61 originals in `_dev/original-images/`, old → new name pairs in its `.htaccess` (`Redirect 301` lines), and 11 vehicles shown with `placeholder.svg` (`_dev/README.md`).
+- `sharp` 0.35.5 already installed (via Next) → made a direct devDependency.
+
+### Plan
+1. Copy the cleanup's images, name map and placeholder list into `legacy/cleanup-2026-08-03/` (committed, so the migration is reproducible from the repo).
+2. Zod schemas: City, Place, Route, VehicleClass, Vehicle, Service, ServiceCity. (Package, Destination, Review, Client and FAQ schemas arrive with their data in Phases 5–6 — no empty stubs.)
+3. Data: cities and places (Hindi names, aliases, airports, stations, border points; geo `null`); 56 routes (legacy distance, time and via kept in a `legacy` field; verified distance `null` until the owner-reviewed CSV; long-distance `ownerConfirmed: false`; all draft); 15 vehicle classes from RATE_CARD (every rate `null`, since nothing is confirmed); vehicles (54 legacy pages + those named without a page, all draft until B3); 13 services and the service × city allow-list.
+4. `lib/content` accessors as the only way to read data; `published.ts` becomes data-driven.
+5. `validate:data`: §5 gates, unique slugs, references resolve, images exist, placeholder scan, URL-map targets match data slugs.
+6. `scripts/migrate-images.ts` (sharp): WebP, ≤ 2000px, metadata stripped → `public/images/{fleet,shoots,places}/`; each image viewed to fix mismatches (Gypsy/Jeep) and tagged `source: own | stock | render | unknown`; writes `docs/IMAGE_MAP.md`.
+7. Unit tests: schemas, accessors, gates, image references.
+
+### Decision (owner didn't choose; strict default applied)
+Vehicle gate "≥ 1 real image" = an image the owner has confirmed shows their own vehicle (F1). Until then every vehicle page is draft.
 
 ---
 

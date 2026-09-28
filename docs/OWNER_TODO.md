@@ -28,6 +28,7 @@ The folder wasn't a git repository. It looks like a zip download of a `Taxiverz`
 Is one of the four demo prototypes the look you want, or should the plan's default "premium regional operator" direction be used? The older spec says to combine Demo IV/III/II/I.
 - *Why:* Phase 1 writes `DESIGN.md` and the style guide.
 - *Until answered:* follow whichever spec A1 selects.
+- **Answer (2026-09-28):** no demo reference. `docs/DESIGN.md` is the design.
 
 ---
 

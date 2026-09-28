@@ -2,8 +2,7 @@
 
 Persistent project memory for Claude Code. It is loaded every session, so it holds only the rules that never change. The full spec and the phase plan are in `docs/REBUILD_PLAN.md`.
 
-> **DESIGN REFERENCE:** none
-> Owner: if you picked one of your four demo prototypes (taxiverz-mockup / demo-ii / demo-iii / demo-iv on vercel.app) as the look, replace "none" with its URL — and if you can, copy that demo's source code into `docs/design-reference/`. Claude Code can read code reliably; it may not be able to see a client-rendered page.
+> **DESIGN REFERENCE:** none — decided by the owner (2026-09-28). `docs/DESIGN.md` is the design; the demo prototypes are not a reference.
 
 ## Your role
 
@@ -27,7 +26,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 1. Every session: read this file, `docs/PROGRESS.md`, and the current phase in `docs/REBUILD_PLAN.md` before touching anything.
 2. Scan first. Inspect the relevant code and data, then write your plan for the phase into `docs/PROGRESS.md`.
 3. One phase at a time. At the end of a phase: report and stop. Do not start the next phase until the owner says so.
-4. "Done" means `npm run check` passes, `docs/PROGRESS.md` is updated, and the work is committed on branch `nextjs-rebuild`. Never push or deploy unless asked.
+4. "Done" means `npm run check` passes, `docs/PROGRESS.md` is updated, and the work is committed on branch `nextjs-rebuild`. Push `nextjs-rebuild` to origin at the end of every phase (owner rule, 2026-09-28); commit locally during a phase. Never deploy unless asked.
 5. Missing fact? Never invent it. Add it to `docs/OWNER_TODO.md` (question · why it matters · what the site does until answered) and ship the component in its "fact missing" state.
 6. Any dependency not listed under Stack needs a one-line justification in `docs/PROGRESS.md`.
 7. If you are unsure how a Next.js 16 or Tailwind v4 API works, check the installed version's docs instead of relying on memory. Next 16 changed a lot vs 15 (async `params`/`searchParams`, `proxy.ts` replaced `middleware.ts`, `next lint` removed, Turbopack by default).
@@ -75,6 +74,8 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Content pages are statically generated (`generateStaticParams`, `dynamicParams = false`). Only `/book/*` and `/api/*` may be dynamic.
 - Every entity has `status: 'published' | 'draft'`. Only published entities get pages, internal links, sitemap entries and JSON-LD. The content gates in `docs/REBUILD_PLAN.md §5` decide what can be published.
 - Every legacy URL in `docs/legacy-url-map.json` (156 of them) permanently redirects in a single hop — case-insensitive, with or without `%20`. At build time each legacy URL points at its `target` if that page is published, otherwise at its `fallback` (otherwise `/`). An automated test proves every legacy URL reaches its effective destination in one hop and that the destination returns 200.
+- **At launch, no legacy URL may land on the home page** except `index.html`, `index-backup.html` and `popular-routes-section.html` — Google treats mass redirects to `/` as soft 404s. Every other legacy URL must reach its target or the nearest relevant hub, so those pages (or their fallbacks) must be published before go-live. Checked by `npm run redirects:check -- --launch`.
+- `src/proxy.ts` runs only on legacy paths: its matcher is limited to single root-level `*.html` segments, so no other request pays for it.
 
 ### Pricing
 - Fares are priced by **vehicle class**: a result reads "Sedan — Dzire, Etios or similar", and the site says plainly that the exact model depends on availability and that photos represent the class. Luxury cars (and other enquire-mode vehicles) stay per model with "Enquire". Every vehicle still keeps its own page for SEO, linked to its class.
@@ -123,7 +124,7 @@ The owner develops on Windows in VS Code and uses cmd (PowerShell may not work).
 - `docs/PROGRESS.md` — phase log (you maintain it)
 - `docs/OWNER_TODO.md` — open questions for the owner (you maintain it)
 - `docs/AUDIT.md` — legacy audit (Phase 0)
-- `docs/DESIGN.md` — design system (Phase 1)
+- `docs/DESIGN.md` — the design system (owner-confirmed as the design, A3)
 - `docs/legacy-url-map.json` — all 156 legacy URLs, their redirect targets and fallbacks
 - `docs/RATE_CARD.md` — the owner's rate card (source for every price)
 - `docs/PRIVACY_POLICY_DRAFT.md` — privacy policy draft (owner review)

@@ -349,7 +349,7 @@ About (the owner's real story — no invented history) · contact · FAQ · revi
 Acceptance: as Phase 4.
 
 ### Phase 7 — SEO hardening, QA, performance
-JSON-LD on every template (builder unit tests + a validator run) · dynamic OG images · footer link lists from data · sitemap completeness (published only) · canonical audit · redirect check now asserting every legacy URL's **effective** destination (target if published, else fallback) returns 200 in one hop · link checker · Lighthouse CI on key templates · bundle report per route · axe on every template · a low-end run (Slow 4G, 4× CPU). Fix what fails.
+JSON-LD on every template (builder unit tests + a validator run) · dynamic OG images · footer link lists from data · sitemap completeness (published only) · canonical audit · redirect check now asserting every legacy URL's **effective** destination (target if published, else fallback) returns 200 in one hop · **launch redirect rule** (`npm run redirects:check -- --launch`): no legacy URL lands on `/` except `index.html`, `index-backup.html` and `popular-routes-section.html` — every other one reaches its target or the nearest relevant hub, so any page still draft at launch must have a published fallback · link checker · Lighthouse CI on key templates · bundle report per route · axe on every template · a low-end run (Slow 4G, 4× CPU). Fix what fails.
 
 Acceptance: every budget in `CLAUDE.md` met, or a written reason and fix plan for each miss.
 
@@ -398,7 +398,7 @@ The owner's copy-paste prompts for each are in `PROMPTS.md`.
 10. **Policies**: free-cancellation window, advance payment, refund timeline, payment methods, the official payment accounts for the payment-safety notice, grievance contact.
 11. **Service promises**: is 24/7 true? What callback time can you always keep? GPS tracking?
 12. **Photos**: real photos of your own cars, drivers and office — the single biggest visual upgrade available.
-13. **Design**: which demo prototype, if any, is the reference?
+13. **Design**: decided — no demo reference; `docs/DESIGN.md` is the design.
 14. **Leads and tracking**: lead email, WhatsApp Business number, Telegram (optional), when TravelCRM should start receiving website leads, GTM/GA4/Google Ads IDs.
 15. **Hosting**: decided — Hostinger VPS (Docker + Nginx + Certbot, Cloudflare).
 
