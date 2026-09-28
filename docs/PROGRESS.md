@@ -9,9 +9,67 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 1 — Foundation | ✅ done 2026-09-28 — pushed |
 | 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
 | 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
-| 4–8 | not started |
+| 4 — Core pages | 📝 plan written, waiting for owner "go" |
+| 5–8 | not started |
 
 ---
+
+---
+
+## Phase 4 — Core pages (plan, 2026-09-28)
+
+### Scan
+- `validate:data`: 14 vehicle classes published; **everything else is draft**. 13 services and 12 service × city pages have no intro or FAQs yet. 42 cities: only Gorakhpur and Pune are branches (the other 40 need 3 published routes). All 56 routes are missing verified distances and content. 81 vehicles are waiting on B3 (fleet confirmed) and F1 (own photos).
+- No `.env.local`, so **no `GOOGLE_MAPS_API_KEY`**: `fetch-distances` can't run, and no route can pass its gate this phase.
+- Hotfix still not live (`/whatsapp-forms.js` → 404), so no merge yet.
+- `qa` already has the near-duplicate check (Jaccard > 0.35). Lighthouse isn't installed; I'll run it with `npx lighthouse` and system Chrome rather than adding a dependency.
+- Not yet built: breadcrumbs, `components/sections/`, `components/cards/`, Service / BreadcrumbList / FAQPage JSON-LD builders.
+
+### Plan
+1. **Templates and sections** (§4): Breadcrumbs (skipping unpublished hubs), FAQ accordion, CTA band with the three closes, services grid, fleet-by-class strip (scroll-snap), "how booking works" steps, service hero with the right widget tab. JSON-LD builders: Service, BreadcrumbList, FAQPage.
+2. **Service hubs** `/{service}/` and **service × city** `/{service}/{city}/`: static folders rendering one shared template (standard and luxury register).
+3. **City hub** `/cabs/{city}/`:
+   - Widget, services in the city, published routes grouped by region (hidden when there are none).
+   - Local packages by class.
+   - Airports and stations from `places`.
+   - Branch block: address, hours only if known, and a click-to-load map facade.
+   - FAQs.
+4. **`/cabs/` directory**: lists published city hubs and routes. It publishes only once it has ≥ 3 entries, so it never goes out as a thin page.
+5. **Fleet**:
+   - `/fleet/` lists the 14 published classes by tier: name, "Dzire, Etios or similar", seats, luggage, "Check fare". No photos until F1 is answered.
+   - The `/fleet/{vehicle}/` template is built and tested against fixtures, but every vehicle stays draft (B3/F1).
+6. **Home**:
+   - Add sections backed by real data: services (published hubs only), fleet by class, how booking works, FAQ about booking.
+   - Hidden until verified or published: hero photo (F1), trust line and "why Taxiverz" (need verified proofs), popular routes, Nepal band (D1–D3, Phase 5), reviews, packages.
+7. **Copy.** I write every intro, local-specifics block and FAQ as data, in the §5 voice.
+   - Taxiverz facts come only from `business.ts` and owner answers. No 24/7, no response times, no prices, no fleet counts, no border rules.
+   - Place facts (stations, airport, landmarks, highways) are public and checkable. Every FAQ answer must be true today.
+   - Everything I write goes on an owner review list in OWNER_TODO.
+8. **What publishes in 4A** (if the gates pass):
+   - Hubs: outstation-cabs, one-way-cabs, airport-taxi, local-car-rental, tempo-traveller.
+   - The same five × Gorakhpur.
+   - The Gorakhpur city hub and `/fleet/`.
+   - Built but kept draft: nepal-taxi (+ Gorakhpur, Raxaul) until the D-questions and Phase 5. Luxury, wedding, shoot, bus, self-drive, bike and corporate wait for B3/F1 and Phase 5. The Pune hub waits for C7.
+9. **Nav and footer** show only published pages (already enforced). Update `legacy-url-map` effective destinations and report the `redirects:check --launch` count before and after.
+10. **Before 4B:** write `scripts/fetch-distances.ts` (Routes API; Nepal routes through the crossing Taxiverz uses — D1 — as a waypoint). It writes `docs/route-distances.csv` with legacy vs Google km and time. It's unit-tested with a mocked API, but not run: no key.
+11. **4B — route template:** built and tested with fixture routes (fare table from the engine, facts card, stops, FAQs, related links, CTA band). **Route content batches wait for the reviewed distances CSV and D1**, because the prose cites distance, time and the border crossing. Writing it now would mean guessing.
+12. **Checks:**
+    - `npm run check`.
+    - e2e: every published page renders, has one H1 and a working widget or enquiry.
+    - axe on each template.
+    - Screenshots at 360, 768 and 1280.
+    - Lighthouse mobile ≥ 90 on home, one service hub and `/fleet/`. The acceptance says "one route and one vehicle", but none can be published yet; the templates get audited on the styleguide fixtures.
+
+### Decisions to confirm
+- **A. Copy publishes when it passes its gate.** It sits in the repo only and nothing deploys before Phase 8; you review it from the OWNER_TODO list. Alternative: keep it all draft until you've read it.
+- **B. The 4A publish set** in step 8: five cab-service hubs + Gorakhpur pages, the Gorakhpur hub and `/fleet/`. Nepal, the luxury/enquiry verticals and Pune wait.
+- **C. Split route content (4B) out** until `GOOGLE_MAPS_API_KEY`, the reviewed CSV and D1 are in. The route template is still built now.
+
+### Owner inputs that would unlock more pages
+L3 (Maps key) → routes → more city hubs and `/cabs/` · B3 + F1 → vehicle pages and luxury/wedding/shoot · C7 → Pune hub and Pune services · D1–D3 → Nepal pages · B1/B2 → real fares everywhere.
+
+### Dependencies
+None planned.
 
 ---
 
