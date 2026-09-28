@@ -1,9 +1,11 @@
+import 'server-only'
 import { z } from 'zod'
 
 /**
- * Environment variables, validated once. Everything is optional: a variable
- * that is unset switches its feature off instead of breaking the build.
+ * Server environment variables, validated once. Everything is optional: a
+ * variable that is unset switches its feature off instead of breaking the build.
  * Empty strings (as in a copied .env.example) count as unset.
+ * Browser-safe NEXT_PUBLIC_* variables live in config/public-env.ts.
  */
 const optional = z
   .string()
@@ -13,13 +15,6 @@ const optional = z
 
 const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-  NEXT_PUBLIC_GTM_ID: optional.pipe(
-    z
-      .string()
-      .regex(/^GTM-[A-Z0-9]+$/, 'NEXT_PUBLIC_GTM_ID must look like GTM-XXXXXXX')
-      .optional(),
-  ),
-  NEXT_PUBLIC_CLARITY_ID: optional,
   DATABASE_URL: optional.pipe(
     z
       .string()
@@ -30,6 +25,23 @@ const schema = z.object({
     z.string().min(24, 'LEADS_RETRY_TOKEN must be at least 24 characters').optional(),
   ),
   GOOGLE_MAPS_API_KEY: optional,
+  // Email sink (SMTP)
+  SMTP_HOST: optional,
+  SMTP_PORT: optional.pipe(
+    z.string().regex(/^\d+$/, 'SMTP_PORT must be a number').transform(Number).optional(),
+  ),
+  SMTP_USER: optional,
+  SMTP_PASS: optional,
+  LEAD_EMAIL_TO: optional.pipe(
+    z.string().email('LEAD_EMAIL_TO must be an email address').optional(),
+  ),
+  LEAD_EMAIL_FROM: optional,
+  // Telegram sink
+  TELEGRAM_BOT_TOKEN: optional,
+  TELEGRAM_CHAT_ID: optional,
+  // Webhook sink (Google Sheets Apps Script, n8n, TravelCRM …)
+  LEAD_WEBHOOK_URL: optional.pipe(z.string().url('LEAD_WEBHOOK_URL must be a URL').optional()),
+  LEAD_WEBHOOK_SECRET: optional,
 })
 
 export type Env = z.infer<typeof schema>
@@ -43,11 +55,4 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
   return result.data
 }
 
-export const env = parseEnv({
-  NODE_ENV: process.env.NODE_ENV,
-  NEXT_PUBLIC_GTM_ID: process.env.NEXT_PUBLIC_GTM_ID,
-  NEXT_PUBLIC_CLARITY_ID: process.env.NEXT_PUBLIC_CLARITY_ID,
-  DATABASE_URL: process.env.DATABASE_URL,
-  LEADS_RETRY_TOKEN: process.env.LEADS_RETRY_TOKEN,
-  GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-})
+export const env = parseEnv(process.env)
