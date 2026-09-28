@@ -453,3 +453,4 @@ The live site (now `main`) was re-scanned for the hotfix. Where it differs from 
 - The helicopter page shows a hard-coded visitor count of **1,24,582**; `taxi-rental-near-me-gorakhpur.html` shows "4.8★ rating"; the S-Class page has "What Makes Us #1".
 - `https://www.taxiverz.com` fails with a certificate error (OWNER_TODO L4). `.avif` files are served as `text/plain` (L6).
 - Earlier today Hostinger's CDN served losslessly re-compressed JPEG/PNG files; the origin files are unchanged.
+- **Gypsy/Jeep images (§13):** viewing the images in Phase 2 shows the *filenames* are swapped (`jeep.png` is a Gypsy, `gypsy.jpeg` is an open jeep) but each legacy page displays the right vehicle. The plan's "images are swapped" claim is wrong. See `docs/IMAGE_MAP.md`.

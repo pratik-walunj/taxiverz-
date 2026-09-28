@@ -7,7 +7,7 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 0 — Scan and audit | ✅ done 2026-09-28, awaiting owner review |
 | 7.H — Live-site hotfix | ✅ built on `hotfix/live-site` (pushed); ⏳ owner uploads `hotfix-upload.zip` and confirms it's live → merge into `main` → merge `main` into `nextjs-rebuild` |
 | 1 — Foundation | ✅ done 2026-09-28 — committed locally on `nextjs-rebuild` (not pushed, per owner) |
-| 2 — Data layer and migration | 🔨 in progress (owner "go" 2026-09-28) |
+| 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
 | 3–8 | not started |
 
 ---
@@ -32,6 +32,37 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 
 ### Decision (owner didn't choose; strict default applied)
 Vehicle gate "≥ 1 real image" = an image the owner has confirmed shows their own vehicle (F1). Until then every vehicle page is draft.
+
+### Done
+- **Image source in the repo:** `legacy/cleanup-2026-08-03/` — 111 images (byte-identical to the cleanup), its README (placeholder list), its `.htaccess` as `htaccess.txt`, and `name-map.json` (110 legacy → cleaned name pairs; every legacy image accounted for).
+- **Images viewed, all 110** (contact sheets). None is recognisably Taxiverz's own: most are AI renders on grey (many with an orange caption baked in), the rest stock photos. Model mismatches: both "Urbania" exteriors, the "26-seater", the captioned "Force Urbania", "BMW 520d" (a 3 Series body), the older Innova on the Crysta page. **Correction:** the Gypsy/Jeep *filenames* are swapped but each legacy page shows the right vehicle.
+- **`scripts/migrate-images.ts` + `scripts/image-manifest.ts`** (`npm run images:migrate`, sharp): 92 images → `public/images/{fleet,shoots,packages}/*.webp` (≤ 2000px, metadata stripped; 6.6 MB total vs 19 MB cleanup / 51 MB legacy), each tagged `source` (`render`/`stock`/`unknown`), `bakedInText`, `modelMismatch`; 19 skipped with reasons. Writes `src/data/images.generated.ts` and `docs/IMAGE_MAP.md`. The script fails if any cleanup image is neither migrated nor listed as skipped.
+- **Schemas** (`src/lib/schemas/content.ts`): City, Place, Route (with a reference-only `legacy` block), VehicleClass, Vehicle (+ image), Service (with sub-pages), ServiceCity, FAQ.
+- **Data** (`src/data/`): 42 cities (Hindi names, aliases, states), 16 more places (8 airports, 6 stations, 2 border points; codes only where certain — Pokhara's left null), 56 routes (legacy distance/time/via/places-to-visit and 31 audit flags kept for Phase 4B; verified distance null), 15 vehicle classes (rates null), 81 vehicles (54 legacy pages + 27 named without a page; per-model rate slots for enquire-mode vehicles, all null; conflicts in `flags`), 13 services (shoot types as sub-pages), 12 service × city pages.
+- **`lib/content`**: `data.ts` parses everything with Zod once; `gates.ts` = the §5 gates (+ a service-hub gate: 150-word intro and 4 FAQs, not in §5); `index.ts` accessors return live entities only (published + gate passing); `published.ts` is now data-driven (static `/` + live content + `/cabs/` and `/fleet/` once they have something to list).
+- **`validate:data`**: schemas, uniqueness (cities and places share one id space), references, route slug form, `isInternational` vs country, images on disk, placeholder scan over all data, published-must-pass-gate, legacy-map coverage **and every map target/fallback must match a data entity or planned page** (packages/destinations listed as waiting for Phase 5). Prints published vs draft with reasons (`--verbose` lists each draft). Data is loaded dynamically so bad data is reported, not a crash.
+- **Tests:** 31 unit tests (13 new: data invariants, URL-map ↔ data consistency, aliases/codes, images on disk, every gate, nothing published yet).
+
+### Counts — published vs draft
+| Entity | Published | Draft | Why the drafts are drafts |
+|---|---|---|---|
+| Vehicle classes | 0 | 15 | status draft — they pass their gate; they go live with the fare engine in Phase 3 once rates exist |
+| Services | 0 | 13 | no intro / FAQs yet (Phases 4A–5) |
+| Service × city | 0 | 12 | hub not published; no local content / FAQs (Phase 4A) |
+| Cities | 0 | 42 | no intro (Phase 4A); 40 also need 3 published routes (only Gorakhpur and Pune are branches) |
+| Routes | 0 | 56 | distance unverified (no Maps key yet), no content/stops/FAQs (Phase 4B), no live vehicle class; 11 also long-distance unconfirmed (E3) |
+| Vehicles | 0 | 81 | not confirmed in the fleet (B3), no owner-confirmed photo (F1); 30 also have no agreed seat count |
+
+### Verification
+- `npm run check` ✅ (lint, Prettier, typecheck, 31 tests, validate:data, build, qa). `redirects:check` ✅ (still all → `/`, as nothing is published).
+- Negative test: marking a draft route `published` makes `validate:data` fail and list all six reasons.
+
+### Not done this phase
+- `scripts/fetch-distances.ts`: skipped — no `.env.local` / `GOOGLE_MAPS_API_KEY` (owner told). Precondition for Phase 4B.
+- Package, Destination, Review, Client, FAQ-page schemas: with their data in Phases 5–6 (no empty stubs).
+
+### Dependencies
+`sharp` (0.35.5, already installed by Next) made a direct devDependency for the image script.
 
 ---
 
@@ -97,6 +128,7 @@ Owner review of Phase 1. Phase 2 (data layer and migration) needs `docs/RATE_CAR
   - 8576000074 → 8576000083 (19×, 8 pages); `.htaccess` caching block and www → apex from the 3 Aug cleanup; 3 hotlinked images replaced with local ones; 5 broken links fixed (the cleanup fixed them by rewriting the whole nav, so the same targets were applied as one-line edits).
   - **Verified:** audit extractor re-run (no placeholder canonicals, ratings, testimonials, counters, broken links, hotlinks or second number left) and a Chrome browser test (Playwright): all 23 forms open `wa.me/918576000083` with every typed value and show a status line; no JS errors or alerts on the 21 pages; Quick Booking still works; Web3Forms forms unchanged — 46/46 checks passed.
 - **Upload file:** `C:\taxiverz\hotfix-upload.zip` (159 files, all for the `public_html` root; list in `hotfix-upload-files.txt` beside it). Both are git-ignored locally.
+- **Merge dry-run (2026-09-28):** hotfix → `main` → `nextjs-rebuild` in a scratch worktree: no conflicts; all 158 changed files land in `legacy/` via rename detection. The one new file, `whatsapp-forms.js`, lands at the repo root (git can't rename a file that didn't exist). Procedure for the real merge: `git merge --no-commit main`, `git mv whatsapp-forms.js legacy/`, check `git ls-files` shows no other legacy file at the root, commit.
 
 ## Owner decisions (2026-09-28)
 

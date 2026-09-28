@@ -52,7 +52,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 
 ## Commands (created in Phase 1)
 
-`npm run dev | build | start | lint | format | format:check | typecheck | test | test:e2e | validate:data | qa | redirects:check | check`
+`npm run dev | build | start | lint | format | format:check | typecheck | test | test:e2e | validate:data | qa | redirects:check | images:migrate | check`
 `check` = lint + format:check + typecheck + test + validate:data + build + qa (qa runs last because it scans the rendered HTML of the build). `test:e2e` and `redirects:check` run against `next start` after a build. Nothing is "done" until `check` passes.
 
 ## Non-negotiables
@@ -127,6 +127,7 @@ The owner develops on Windows in VS Code and uses cmd (PowerShell may not work).
 - `docs/DESIGN.md` — the design system (owner-confirmed as the design, A3)
 - `docs/legacy-url-map.json` — all 156 legacy URLs, their redirect targets and fallbacks
 - `docs/RATE_CARD.md` — the owner's rate card (source for every price)
+- `docs/IMAGE_MAP.md` — every legacy image: where it went, what it is (render/stock/own), and why skipped ones were skipped
 - `docs/PRIVACY_POLICY_DRAFT.md` — privacy policy draft (owner review)
 - `docs/route-distances.csv` — owner-reviewed distances (created before Phase 4B)
 - `docs/competitor-analysis.pdf` — background research

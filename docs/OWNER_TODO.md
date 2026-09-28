@@ -151,6 +151,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 
 **F1 🟠 Real photos** of your own cars, drivers and office. This is the single biggest visual upgrade available. Which existing images show your own vehicles? (Two bus images are Unsplash stock; the tempo hub image is hotlinked from a competitor's blog.)
 - *Until answered:* use only images you confirm; flag the rest in `IMAGE_MAP.md`.
+- **Phase 2 finding:** all 110 legacy images were reviewed (`docs/IMAGE_MAP.md`). None is recognisably your own vehicle: most are AI renders, several with a caption baked in, the rest stock photos. Two real photos might be yours: `13-seater-1.webp` (a white Force Traveller at night) and the collage `13seating.jpg`. Please say whether they are. Until you confirm photos, every vehicle page stays draft (strict reading of the §5 gate).
 
 **F2 🟠 Credentials.** Year started, trips or customers served, GSTIN, registrations and permits (tourist permits, All-India permit), insurance. Only what is true and provable.
 - *Until answered:* none shown.
@@ -219,6 +220,9 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 - *Until answered:* nothing — a reminder for every future upload.
 
 **L6 🟢 `.avif` files are served as `text/plain`** (including the logo `taxiverz.avif`). Most browsers still show them; the proper fix is one `.htaccess` line (`AddType image/avif .avif`). Left out of this hotfix because its scope was fixed — say if you want it.
+
+**L7 🟢 Pokhara airport code.** The plan listed `PKR`, which was the old domestic airport replaced in 2023. The new international airport's code isn't in the data yet (left `null` rather than guessed).
+- *Until answered:* the autocomplete finds Pokhara airport by name only.
 
 ---
 
