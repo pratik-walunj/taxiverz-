@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie & Web Series Car Rental - Taxiverz Production</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Standardized Styling for site-wide consistency */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #000; }
+        
+        :root {
+            --primary: #d88d0e;
+            --secondary: #62acb5;
+            --grey: #a2a0a1;
+            --light: #efefef;
+            --dark: #000;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navbar Core Styling */
+        .navbar { background: var(--dark); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo img { height: 50px; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--light); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .mobile-menu-icon { display: none; color: var(--light); font-size: 1.5rem; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .mobile-menu-icon { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                padding: 20px;
+                gap: 1.5rem;
+                text-align: center;
+                border-top: 1px solid var(--primary);
+            }
+            .nav-links.active { display: flex; }
+        }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(135deg, var(--dark) 0%, var(--grey) 100%); color: white; padding: 80px 0; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--primary); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; color: var(--light); }
+        .hero-image img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(216, 141, 14, 0.3); }
+        
+        /* Specs Section */
+        .specs-section { padding: 60px 0; background: var(--light); }
+        .specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 2rem; }
+        .spec-box { background: white; padding: 2rem; border-radius: 10px; text-align: center; border-left: 4px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .spec-box i { font-size: 2.5rem; color: var(--secondary); margin-bottom: 1rem; }
+        .spec-box h3 { color: var(--dark); margin-bottom: 0.5rem; }
+        
+        /* Pricing Section */
+        .pricing-section { padding: 60px 0; background: white; }
+        .pricing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+        .pricing-card { background: var(--light); padding: 2rem; border-radius: 15px; border: 2px solid var(--grey); transition: all 0.3s; }
+        .pricing-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(216, 141, 14, 0.2); }
+        .price-tag { font-size: 2rem; color: var(--primary); font-weight: bold; margin: 1rem 0; }
+        .features-list { list-style: none; padding: 0; }
+        .features-list li { padding: 0.5rem 0; border-bottom: 1px solid #ccc; color: var(--dark); }
+        .features-list li i { color: var(--secondary); margin-right: 10px; }
+        
+        /* Features/Standard Section */
+        .features-section { padding: 60px 0; background: var(--secondary); color: white; }
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 2rem; }
+        .feature-card { background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; text-align: center; backdrop-filter: blur(10px); }
+        .feature-card i { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
+
+        .booking-section { padding: 60px 0; background: var(--light); }
+        .booking-form { max-width: 600px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 1rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 2px solid var(--grey); border-radius: 8px; }
+        
+        .btn-primary { background: var(--primary); color: white; padding: 15px 30px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { background: var(--secondary); transform: translateY(-2px); }
+
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.5rem; color: var(--dark); margin-bottom: 1rem; position: relative; display: inline-block; }
+        .section-header h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--primary); }
+
+        .footer { background: var(--dark); color: var(--light); padding: 40px 0 20px; }
+        .footer-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem; }
+        .footer h3 { color: var(--primary); margin-bottom: 1rem; }
+        .footer a { color: var(--light); text-decoration: none; transition: color 0.3s; }
+        .footer a:hover { color: var(--primary); }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--grey); color: var(--grey); }
+
+        @media (max-width: 768px) {
+            .hero-grid, .specs-grid, .pricing-cards, .features-grid, .footer-content { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="taxiverz.avif" alt="Taxiverz Logo">
+                </div>
+                <div class="mobile-menu-icon" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="nav-links" id="nav-menu">
+                    <a href="index.html">Home</a>
+                    <a href="car-rental.html">Car Rental</a>
+                    <a href="Movie-Web-Series-Car.html" style="color: var(--primary);">Movie/Web Series</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <h1>Movie & Web Series Shoots</h1>
+                    <p>Production-ready vehicles for cinematic excellence. From high-stakes action sequences to period-accurate historical dramas, we provide the fleet your story requires.</p>
+                    <p>We offer <strong>Period Specific Cars</strong>, specialized support for <strong>Action Sequences</strong>, and flexible <strong>Long Duration Rentals</strong> for full shooting schedules.</p>
+                    <button class="btn-primary" onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'})">Book Now</button>
+                </div>
+                <div class="hero-image">
+                    <img src="Movie & Web Series Car.jpg" alt="Film Production Car">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="specs-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cinema Standards</h2>
+                <p>Ensuring your technical requirements are met on set</p>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-box">
+                    <i class="fas fa-history"></i>
+                    <h3>Period Accurate</h3>
+                    <p>Vintage to Modern Eras</p>
+                </div>
+                <div class="spec-box">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Action Ready</h3>
+                    <p>Stunt & Chase Support</p>
+                </div>
+                <div class="spec-box">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Long Duration</h3>
+                    <p>Full Schedule Booking</p>
+                </div>
+                <div class="spec-box">
+                    <i class="fas fa-clapperboard"></i>
+                    <h3>Set Support</h3>
+                    <p>Technical Crew Assist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Production Tiers</h2>
+                <p>Scalable fleet solutions for any budget size</p>
+            </div>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Indie Project</h3>
+                    <div class="price-tag">₹.....</div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Standard Luxury Sedan</li>
+                        <li><i class="fas fa-check"></i> 12 Hour Shift</li>
+                        <li><i class="fas fa-check"></i> Base Set Handler</li>
+                        <li><i class="fas fa-check"></i> Unlimited Re-takes</li>
+                        <li><i class="fas fa-check"></i> Local City Access</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='tel:+918576000083'">Book Now</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Web Series Pro</h3>
+                    <div class="price-tag">₹.....</div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Choice of SUV/Sports</li>
+                        <li><i class="fas fa-check"></i> 7-Day Continuous Rental</li>
+                        <li><i class="fas fa-check"></i> 2 Technical Handlers</li>
+                        <li><i class="fas fa-check"></i> Action Tracking Support</li>
+                        <li><i class="fas fa-check"></i> Period Interior Styling</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='tel:+918576000083'">Book Now</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Feature Film Fleet</h3>
+                    <div class="price-tag">₹.....</div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Multi-Car Custom Fleet</li>
+                        <li><i class="fas fa-check"></i> Full Schedule Duration</li>
+                        <li><i class="fas fa-check"></i> Stunt Driver Support</li>
+                        <li><i class="fas fa-check"></i> Rigging & Mount Setup</li>
+                        <li><i class="fas fa-check"></i> Dedicated Liaison Manager</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='tel:+918576000083'">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: white;">The Production Standard</h2>
+                <p style="color: var(--light);">Unrivaled mechanical reliability for high-pressure film sets</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Cinematic Detailing</h3>
+                    <p>Anti-glare coatings for professional lighting setups</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-stopwatch"></i>
+                    <h3>Strict Call Times</h3>
+                    <p>On-set 45 minutes before call, guaranteed</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Mechanical Vetting</h3>
+                    <p>Tested for intense 18-hour shoot cycles</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>Legal Ready</h3>
+                    <p>Full insurance and NOC support for public locations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-form" class="booking-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Production Inquiry</h2>
+                <p>Send us your script breakdown or fleet requirements for a technical quote.</p>
+            </div>
+            <form class="booking-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="160ce8ff-c9a7-4e52-84b3-c3415c3cc08d">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Production House Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Production Manager Contact" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Official Email">
+                </div>
+                <div class="form-group">
+                    <input type="date" name="shoot_date" required>
+                </div>
+                <div class="form-group">
+                    <select name="tier" required>
+                        <option value="">Select Shoot Tier</option>
+                        <option value="indie">Indie Project</option>
+                        <option value="webseries">Web Series Pro</option>
+                        <option value="feature">Feature Film</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Breakdown: Period/Era required, Stunt needs, Tracking hours..." rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Request Production Quote</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>Taxiverz</h3>
+                    <p>Gorakhpur's leading provider of luxury automotive experiences for film, fashion, and lifestyle.</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="car-rental.html">Car Rental</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="luxury-shoots.html">Luxury Shoots</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-phone"></i> +91 8576000083</p>
+                    <p><i class="fas fa-envelope"></i> cabtaxiverz@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Gorakhpur, UP-273001</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Taxiverz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    </script>
+</body>
+</html>

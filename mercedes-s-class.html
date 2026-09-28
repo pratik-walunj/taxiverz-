@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Mercedes S-Class in Gorakhpur - Taxiverz</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .car-detail-hero { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 100px 0 50px; color: white; }
+        .car-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-top: 2rem; }
+        .car-detail-image img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .car-specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2rem 0; }
+        .spec-box { background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ff5800; box-shadow: 0 2px 8px rgba(0,0,0,0.1); color: #000; }
+        .pricing-section { background: white; padding: 60px 0; }
+        .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .pricing-card { background: #f8f9fa; padding: 2rem; border-radius: 15px; border: 2px solid #e0e0e0; transition: all 0.3s; }
+        .pricing-card:hover { border-color: #ff5800; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,88,0,0.2); }
+        .price-tag { font-size: 2rem; color: #ff5800; font-weight: bold; margin: 1rem 0; }
+        .features-list { list-style: none; padding: 0; }
+        .features-list li { padding: 0.5rem 0; border-bottom: 1px solid #e0e0e0; }
+        .features-list li i { color: #ff5800; margin-right: 10px; }
+        .nav-toggle .bar { background: #ff5800 !important; }
+        .nav-toggle.active .bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+        .nav-toggle.active .bar:nth-child(2) { opacity: 0; }
+        .nav-toggle.active .bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+        @media (max-width: 768px) {
+            .car-detail-grid { grid-template-columns: 1fr; }
+            .car-specs-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="taxiverz.avif" alt="Taxiverz Logo" class="logo-img">
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="tours.html" class="nav-link">Taxi Service</a>
+                <a href="car-rental.html" class="nav-link active">Car Rental</a>
+                <a href="wedding.html" class="nav-link">Wedding Cars</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Car Detail Hero -->
+    <section class="car-detail-hero">
+        <div class="container">
+            <h1>Rent Mercedes Benz S Class With Taxiverz</h1>
+            <p>Are you looking for a comfortable and luxurious vehicle for your special travel? Taxiverz has the best answer for your requirements with our Mercedes S Class rental services. This luxury vehicle has been designed for a smooth and comfortable driving experience whether you are heading for that business meeting or just touring around.</p>
+            <p>Inside the Mercedes S Class cars, there is plenty of space, the safety features are top-notch, the Infotainment systems are the latest, and the seats are so comfy that you can hardly tell time passing. It is very satisfying to have such a combination. Choosing to rent Mercedes Benz S Class car will be your best option if you want to travel in the lap of luxury and with all the comforts that money can buy.</p>
+            <div class="car-detail-grid">
+                <div class="car-detail-image">
+                    <img src="s class.png" alt="Mercedes S-Class">
+                </div>
+                <div class="car-detail-info">
+                    <h2>Premium Features</h2>
+                    <div class="car-specs-grid">
+                        <div class="spec-box">
+                            <i class="fas fa-users"></i>
+                            <strong>Seating:</strong> 4+1 (incl. Driver)
+                        </div>
+                        <div class="spec-box">
+                            <i class="fas fa-car"></i>
+                            <strong>Type:</strong> Luxury Sedan
+                        </div>
+                        <div class="spec-box">
+                            <i class="fas fa-snowflake"></i>
+                            <strong>AC:</strong> Dual Zone Climate Control
+                        </div>
+                        <div class="spec-box">
+                            <i class="fas fa-cog"></i>
+                            <strong>Transmission:</strong> Automatic
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'})">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rental Packages Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Rental Packages Designed For You</h2>
+                <p>Hire the Luxury Mercedes S Class with us for an unparalleled experience in luxury service. We offer flexible packages to meet each and every need at Taxiverz. Whether it is a short journey or one for a special occasion, our luxury Mercedes S Class for hire service offered makes your journey smooth and stylish.</p>
+            </div>
+            <div style="margin: 2rem 0; padding: 2rem; background: white; border-radius: 10px;">
+                <h3 style="color: #ff5800; margin-bottom: 1rem;">Rental Options:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-clock" style="color: #ff5800; margin-right: 10px;"></i><strong>Hourly Rentals:</strong> Ideal for short trips in the city. One is guaranteed comfort and luxury without any constraints in terms of time. Perfect for meetings or even transferring from the airport.</li>
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-calendar-day" style="color: #ff5800; margin-right: 10px;"></i><strong>Daily Rentals:</strong> All-day rentals, enabling you to go around the city at your pace. It is ideal for sightseeing, especially when you have many events to attend in style.</li>
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-calendar-week" style="color: #ff5800; margin-right: 10px;"></i><strong>Weekend/Special Occasion Packages:</strong> Celebrate birthdays, anniversaries, or special events in style. Our packages are customized for memorable experiences.</li>
+                    <li style="padding: 0.8rem 0;"><i class="fas fa-calendar-alt" style="color: #ff5800; margin-right: 10px;"></i><strong>Long-term Rentals:</strong> Accommodate extended trips or regular use. We have flexible plans to meet your schedule and budget.</li>
+                </ul>
+            </div>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Local Rental</h3>
+                    <div class="price-tag">₹8,000+</div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> 8 Hours / 80 KM</li>
+                        <li><i class="fas fa-check"></i> Professional Chauffeur</li>
+                        <li><i class="fas fa-check"></i> Fuel Included</li>
+                        <li><i class="fas fa-check"></i> Extra KM: ₹50/km</li>
+                        <li><i class="fas fa-check"></i> Extra Hour: ₹500/hr</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='tel:+918576000083'">Call to Book</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Outstation</h3>
+                    <div class="price-tag">₹50/km</div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Minimum 250 KM/Day</li>
+                        <li><i class="fas fa-check"></i> Garage to Garage</li>
+                        <li><i class="fas fa-check"></i> Driver Allowance Included</li>
+                        <li><i class="fas fa-check"></i> Night Charges: ₹500</li>
+                        <li><i class="fas fa-check"></i> Toll, Parking Extra</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='tel:+918576000083'">Call to Book</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Wedding/Events</h3>
+                    <div class="price-tag">Custom</div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Full Day Rental</li>
+                        <li><i class="fas fa-check"></i> Decorated on Request</li>
+                        <li><i class="fas fa-check"></i> Multiple Locations</li>
+                        <li><i class="fas fa-check"></i> Professional Service</li>
+                        <li><i class="fas fa-check"></i> Special Packages Available</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='tel:+918576000083'">Call to Book</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section style="background: #f8f9fa; padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Makes Us #1 For Mercedes S Class Rental Service?</h2>
+                <p>Luxury isn't just a ride, it's an experience. At Taxiverz, we provide the ultimate experience with a completely luxurious ride with the Mercedes S Class luxury car rental service. At Taxiverz, our aim is to provide a service that can make your travel experience comfortable, luxurious, and totally hassle-free.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-car" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Best Fleet Possible</h3>
+                    <p>Our cars are in excellent condition, clean, and equipped to ensure perfect driving.</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-user-tie" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Professional Drivers</h3>
+                    <p>Our trained drivers will ensure your trip is secure, timely, and relaxing.</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-calendar-check" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Flexible Booking</h3>
+                    <p>Online booking options are made available to suit your calendar.</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-money-bill-wave" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Luxury on a Budget</h3>
+                    <p>Travel in the luxury class, yet spend only what you want.</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Reliability and Quality</h3>
+                    <p>This is where we score top in the aspect for the Mercedes Benz S Class hire service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Rent Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Should You Rent a Mercedes S Class Luxury Car?</h2>
+                <p>A Mercedes S Class car rental will give you unparalleled comfort, class, and performance. This luxurious car will make sure you travel in style.</p>
+            </div>
+            <div style="margin-top: 2rem;">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 1rem; background: #f8f9fa; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #ff5800;"><i class="fas fa-check-circle" style="color: #ff5800; margin-right: 10px;"></i>Let the ultimate feel of luxury be achieved through comfortable seating space in a Mercedes S Class rental.</li>
+                    <li style="padding: 1rem; background: #f8f9fa; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #ff5800;"><i class="fas fa-check-circle" style="color: #ff5800; margin-right: 10px;"></i>Amaze clients or buddies with its sleek and stylish design.</li>
+                    <li style="padding: 1rem; background: #f8f9fa; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #ff5800;"><i class="fas fa-check-circle" style="color: #ff5800; margin-right: 10px;"></i>Highly advanced safety features protect you throughout each and every trip.</li>
+                    <li style="padding: 1rem; background: #f8f9fa; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #ff5800;"><i class="fas fa-check-circle" style="color: #ff5800; margin-right: 10px;"></i>The most advanced technology has been incorporated to provide convenience, both for navigation and entertainment.</li>
+                    <li style="padding: 1rem; background: #f8f9fa; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #ff5800;"><i class="fas fa-check-circle" style="color: #ff5800; margin-right: 10px;"></i>It is perfect for events and functions and makes every ride a memorable one.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Occasions Section -->
+    <section style="background: #f8f9fa; padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Occasions That Fit Perfect For a Mercedes S Class Car Rental Service</h2>
+                <p>Whether you need to hire Mercedes Benz S Class for wedding or other events, this luxury car adds comfort and elegance to every journey.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-crown" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Premium Luxury</h3>
+                    <p>Finest materials and craftsmanship</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Advanced Safety</h3>
+                    <p>Latest safety technology</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-couch" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Supreme Comfort</h3>
+                    <p>Massage seats and ambient lighting</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-user-tie" style="font-size: 3rem; color: #ff5800; margin-bottom: 1rem;"></i>
+                    <h3>Professional Chauffeur</h3>
+                    <p>Trained and courteous drivers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Easy Booking Process Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Easy Booking Process</h2>
+                <p>The process of hiring a luxurious vehicle has never been so easy. At Taxiverz, you can experience a smooth Mercedes S Class car booking procedure.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="text-align: center; padding: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: #ff5800; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">1</div>
+                    <h4>Visit Our Website</h4>
+                    <p>Go to our site and pick the date that suits you.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: #ff5800; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">2</div>
+                    <h4>Select Mercedes S Class</h4>
+                    <p>You should hire the Mercedes S Class rental car for your trip.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: #ff5800; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">3</div>
+                    <h4>Enter Your Details</h4>
+                    <p>Enter your details quickly and securely.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: #ff5800; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">4</div>
+                    <h4>Confirm Booking</h4>
+                    <p>Ensure that your booking is confirmed with simplified online payment options.</p>
+                </div>
+                <div style="text-align: center; padding: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: #ff5800; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">5</div>
+                    <h4>Enjoy Your Ride</h4>
+                    <p>There will be instant confirmation, and you can enjoy your luxury car without any hassle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms & Conditions Section -->
+    <section style="background: #f8f9fa; padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Terms & Condition</h2>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 10px; margin-top: 2rem;">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-info-circle" style="color: #ff5800; margin-right: 10px;"></i>Kilometres and hours will be calculated from the garage start to the garage end.</li>
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-info-circle" style="color: #ff5800; margin-right: 10px;"></i>Any extra hours will be charged at the agreed-upon per-hour rate.</li>
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-info-circle" style="color: #ff5800; margin-right: 10px;"></i>GST, toll taxes, parking charges, and applicable state taxes will be charged extra.</li>
+                    <li style="padding: 0.8rem 0; border-bottom: 1px solid #e0e0e0;"><i class="fas fa-info-circle" style="color: #ff5800; margin-right: 10px;"></i>No refund will be applicable in case of booking cancellation.</li>
+                    <li style="padding: 0.8rem 0;"><i class="fas fa-info-circle" style="color: #ff5800; margin-right: 10px;"></i>Night charges will be applicable between 21:30 hrs and 06:30 hrs.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Need Assistance Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Need Assistance? That's What We Are Here For</h2>
+                <p>Renting a Mercedes Benz S Class can add class, comfort and luxury to your any occasions. People across India rely on us for the best rental service. Taxiverz built its name among the biggest rental service providers with our fleet of luxury cars. If you need any kind of help or have concerns with Mercedes Benz S Class rental price, just make us a call. Our professional team will assist till you are satisfied.</p>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="tel:+918576000074" class="btn-primary" style="font-size: 1.2rem; padding: 15px 40px;"><i class="fas fa-phone"></i> Call Now: +91-8576000074</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section id="booking-form" style="padding: 60px 0; background: #f8f9fa;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Book Mercedes S-Class</h2>
+                <p>Fill the form below or call us at +91-8576000074</p>
+            </div>
+            <div style="max-width: 600px; margin: 2rem auto; background: #f8f9fa; padding: 2rem; border-radius: 15px;">
+                <form action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="160ce8ff-c9a7-4e52-84b3-c3415c3cc08d">
+                    <input type="hidden" name="subject" value="Mercedes S-Class Booking Request">
+                    <div style="margin-bottom: 1rem;">
+                        <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <input type="tel" name="phone" placeholder="Phone Number" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <input type="email" name="email" placeholder="Email Address" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <input type="date" name="pickup_date" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <select name="rental_type" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <option value="">Select Rental Type</option>
+                            <option value="local">Local (8 Hrs / 80 KM)</option>
+                            <option value="outstation">Outstation</option>
+                            <option value="wedding">Wedding/Events</option>
+                            <option value="airport">Airport Transfer</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <textarea name="message" placeholder="Special Requirements (Optional)" rows="4" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Submit Booking Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Taxiverz</h3>
+                    <p>Your trusted travel partner for comfortable and safe journeys across India and Nepal.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="tours.html">Tours</a></li>
+                        <li><a href="car-rental.html">Car Rental</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-phone"></i> +91 8576000083</p>
+                    <p><i class="fas fa-envelope"></i> info@taxiverz.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Shop No-4 Chaudhari Heights Above Swarna Hotel, Warje, Pune, Maharashtra-411058</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Taxiverz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileMenu && navMenu) {
+                mobileMenu.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

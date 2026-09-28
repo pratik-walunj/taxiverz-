@@ -1,0 +1,14 @@
+/* Kathmandu to Manokamana CSS - Indigo Theme */
+.route-details { padding: 60px 0; background: #e8eaf6; }
+.route-card, .pricing-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid #c5cae9; }
+.route-card h2, .pricing-card h2 { color: #3f51b5; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 1.5rem; }
+.data-item strong { color: #3f51b5; font-weight: 600; }
+.price-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #e8eaf6; border-radius: 8px; border-left: 4px solid #3f51b5; transition: all 0.3s ease; }
+.price { font-size: 18px; font-weight: bold; color: #3f51b5; }
+.places-to-visit h2, .service-features h2 { text-align: center; margin-bottom: 40px; color: #3f51b5; font-size: 2rem; }
+.place-item i, .feature-item i { font-size: 2.5rem; color: #3f51b5; margin-bottom: 15px; }
+.booking-section { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid #3f51b5; }
+.booking-section h2 { text-align: center; margin-bottom: 30px; color: #3f51b5; font-size: 2rem; }
+.form-row input:focus, .form-row select:focus, .booking-form textarea:focus { outline: none; border-color: #3f51b5; box-shadow: 0 0 5px rgba(63, 81, 181, 0.3); }
+.btn-primary { background: #3f51b5; color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; width: 100%; text-decoration: none; display: inline-block; text-align: center; }
+.btn-primary:hover { background: #303f9f; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(63, 81, 181, 0.3); }

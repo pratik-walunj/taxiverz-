@@ -1,0 +1,34 @@
+/* CSS Fix for car-rental.html */
+.car-card[style*="border: 2px solid #gold"] {
+    border: 2px solid #ffd700 !important;
+}
+
+/* Additional fixes */
+.premium-luxury .car-card {
+    border: 2px solid #ffd700 !important;
+}
+
+/* Ensure all car cards display properly */
+.car-card {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 400px !important;
+}
+
+.car-image-real {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.car-details {
+    padding: 1.5rem !important;
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.btn-primary {
+    margin-top: auto !important;
+}

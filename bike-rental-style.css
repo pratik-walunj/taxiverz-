@@ -1,0 +1,431 @@
+/* Bike Rental Page Specific Styles */
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #ff5800, #e04900);
+    color: white;
+    padding: 120px 0 60px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #ff5800, #ffcc00);
+    border-radius: 2px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Rental Options */
+.rental-options {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.option-card {
+    background: linear-gradient(135deg, #ffffff, #fff8f0);
+    border: 2px solid #ff5800;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 88, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.option-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(255, 88, 0, 0.2);
+}
+
+.option-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(255, 88, 0, 0.2);
+}
+
+.option-card h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.option-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Bike Fleet */
+.bike-fleet {
+    padding: 80px 0;
+    background: white;
+}
+
+.fleet-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 2rem !important;
+    margin-top: 2rem;
+}
+
+@media (max-width: 1200px) {
+    .fleet-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .fleet-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .fleet-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bike-card {
+    background: linear-gradient(135deg, #ffffff, #fff8f0);
+    border: 2px solid #ff5800;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(255, 88, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bike-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(255, 88, 0, 0.2);
+}
+
+.bike-image {
+    background: linear-gradient(135deg, #ff5800, #e04900);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bike-image i {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.bike-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #ffcc00, #ffd700);
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bike-details {
+    padding: 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.bike-details h3 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.bike-type {
+    color: #ff5800;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bike-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, #fff3e0, #fffde7);
+    border-radius: 8px;
+    border-left: 4px solid #ff5800;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.spec-item i {
+    margin-right: 8px;
+    color: #ff5800;
+    width: 16px;
+}
+
+.bike-price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ff5800;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(255, 88, 0, 0.2);
+}
+
+/* Safety Section */
+.safety-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.safety-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.safety-card {
+    background: linear-gradient(135deg, #ffffff, #fff8f0);
+    border: 2px solid #ff5800;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 88, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.safety-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(255, 88, 0, 0.15);
+}
+
+.safety-card i {
+    font-size: 3rem;
+    color: #ff5800;
+    margin-bottom: 1rem;
+}
+
+.safety-card h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.safety-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Booking Section */
+.bike-booking {
+    padding: 80px 0;
+    background: white;
+}
+
+.booking-form-section {
+    background: linear-gradient(135deg, #fff8f0, #ffffff);
+    border: 2px solid #ff5800;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(255, 88, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.booking-form-section h2 {
+    color: #ff5800;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px rgba(255, 88, 0, 0.2);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input-field {
+    border: 2px solid #ff5800;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #e04900;
+    box-shadow: 0 0 10px rgba(255, 88, 0, 0.3);
+}
+
+.input-field[rows] {
+    grid-column: 1 / -1;
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Button Styling */
+.btn-primary {
+    background: linear-gradient(135deg, #ff5800, #e04900);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e04900, #cc4100);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 88, 0, 0.4);
+}
+
+/* Animation Effects */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bike-card,
+.option-card,
+.safety-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.bike-card:nth-child(1) { animation-delay: 0.1s; }
+.bike-card:nth-child(2) { animation-delay: 0.2s; }
+.bike-card:nth-child(3) { animation-delay: 0.3s; }
+.bike-card:nth-child(4) { animation-delay: 0.4s; }
+.bike-card:nth-child(5) { animation-delay: 0.5s; }
+.bike-card:nth-child(6) { animation-delay: 0.6s; }
+.bike-card:nth-child(7) { animation-delay: 0.7s; }
+.bike-card:nth-child(8) { animation-delay: 0.8s; }
+
+/* Mobile Responsive */
+@media (max-width: 1200px) {
+    .fleet-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .fleet-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .fleet-grid,
+    .options-grid,
+    .safety-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .bike-specs {
+        grid-template-columns: 1fr;
+    }
+    
+    .bike-image {
+        height: 120px;
+        padding: 1.5rem;
+    }
+    
+    .bike-image i {
+        font-size: 3rem;
+    }
+    
+    .booking-form-section {
+        padding: 2rem;
+        margin: 0 1rem;
+    }
+}
