@@ -1,5 +1,6 @@
 import { Phone } from 'lucide-react'
 import { business } from '@/config/business'
+import { FareWidget } from '@/components/booking/FareWidget'
 import { Button } from '@/components/ui/Button'
 import { Section } from '@/components/ui/Section'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
@@ -31,7 +32,12 @@ export default function HomePage() {
             you&rsquo;re going and we&rsquo;ll quote your trip.
           </p>
           <div className="animate-rise mt-8 flex flex-col gap-3 [animation-delay:120ms] sm:flex-row">
-            <Button href={telHref(business.phone)} size="lg" variant="primary">
+            <Button
+              href={telHref(business.phone)}
+              size="lg"
+              variant="primary"
+              data-placement="home-hero"
+            >
               <Phone aria-hidden="true" className="size-5" />
               <span className="tabular">Call to book {phone}</span>
             </Button>
@@ -39,11 +45,16 @@ export default function HomePage() {
               href={whatsappHref(business.whatsapp, "Hi Taxiverz, I'd like to book a cab.")}
               size="lg"
               variant="whatsapp"
+              data-placement="home-hero"
             >
               <WhatsAppIcon className="size-5" />
               <span>Book on WhatsApp</span>
             </Button>
           </div>
+        </div>
+        <div className="animate-rise mt-8 max-w-3xl [animation-delay:180ms]">
+          <h2 className="sr-only">Check your fare</h2>
+          <FareWidget />
         </div>
       </Section>
 

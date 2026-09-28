@@ -5,7 +5,10 @@ import { contentPaths } from '@/lib/content'
  * targets only ever point at these: the static pages plus everything whose
  * data is published and passes its §5 gate (lib/content).
  */
-const staticPublishedPaths: readonly string[] = ['/']
+const staticPublishedPaths: readonly string[] = ['/', '/book/']
+
+/** Live and linkable, but noindex: kept out of the sitemap. */
+export const unlistedPaths: ReadonlySet<string> = new Set(['/book/'])
 
 let cache: readonly string[] | undefined
 
