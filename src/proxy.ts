@@ -18,6 +18,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Only .html paths (any case); everything else never touches the proxy.
-  matcher: ['/((?!_next/|api/).*\.[hH][tT][mM][lL])'],
+  // Legacy URLs only: a single root-level segment ending in .html (any case), e.g.
+  // /Gypsy.html or /tempo%20traveller13.html. No other request runs the proxy.
+  // `[.]` instead of `\.`: the matcher pipeline drops backslash escapes.
+  matcher: ['/([^/]+[.][hH][tT][mM][lL])'],
 }
