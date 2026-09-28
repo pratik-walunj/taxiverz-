@@ -8,9 +8,53 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 7.H — Live-site hotfix | ✅ built on `hotfix/live-site` (pushed); ⏳ owner uploads `hotfix-upload.zip` and confirms it's live → merge into `main` → merge `main` into `nextjs-rebuild` |
 | 1 — Foundation | ✅ done 2026-09-28 — committed locally on `nextjs-rebuild` (not pushed, per owner) |
 | 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
-| 3–8 | not started |
+| 3 — Fare engine and booking funnel | 📝 plan written, waiting for owner "go" |
+| 4–8 | not started |
 
 ---
+
+---
+
+## Phase 3 — Fare engine and booking funnel (plan, 2026-09-28)
+
+### Scan
+- Hotfix still not live (`/whatsapp-forms.js` → 404 on taxiverz.com), so `main` is unchanged and no merge yet.
+- PostgreSQL 18 runs locally on :5432, but there is no `.env.local`/`DATABASE_URL`, so no credentials.
+- Data: every rate is `null` (RATE_CARD unanswered), every route distance is unverified, all vehicle classes are draft. So every fare the engine produces today is **"on request"**. The engine is still fully built and tested, against fixture rates.
+- Versions: drizzle-orm 0.45.3, drizzle-kit 0.31.11, pg 8.23, nodemailer 10.0, @axe-core/playwright 4.13, @next/third-parties 16.3.6.
+
+### Plan
+1. **Fare engine** `src/lib/pricing/` (pure). One way, round trip (days from max driving km/day, nights, tolls × 2), local packages, airport (fixed fares if configured, else one-way with an airport minimum), enquire-mode → "from" price only when verified. Minimum km, night charge, GST (rate and included/extra from config), rounding, reverse routes reuse the route distance, and any missing input → `on-request` with a reason. Output `{ status, reason, total, lines, included, excluded, assumptions, isEstimate }`. Vitest with fixture rates, ≥ 90 % line coverage on `lib/pricing` (adds `@vitest/coverage-v8`).
+2. **Fare index**: a slim static JSON (places + aliases, verified route distances and tolls, live class rates; no prose), generated at build and lazy-loaded by the widget on first interaction. Target widget JS + index ≤ ~40 KB gzipped.
+3. **Widget**: accessible `PlaceCombobox` (ARIA combobox, keyboard, touch, free text allowed → "exact fare on WhatsApp"), `FareWidget` with 4 tabs (One way · Round trip · Local · Airport), two inputs and "Check fare", trust line from verified facts only (none yet, so hidden). Placed above the fold on the home page.
+4. **Funnel** `/book/` (noindex, dynamic, state in the URL, draft in sessionStorage):
+   - results: class cards cheapest first, "Sedan — Dzire, Etios or similar", availability note, "Request a call back";
+   - trip details: date, time, return date; fare updates live;
+   - contact and close: name, mobile (+91 default, +977 allowed), optional email, pickup address, consent notice, unticked WhatsApp opt-in; **Confirm booking · Book on WhatsApp · Call to book** side by side;
+   - `/book/confirmed/?ref=`.
+   - One shared WhatsApp message builder (summary + ref). If the API fails, WhatsApp opens with the same summary.
+5. **`POST /api/leads`**: Zod, honeypot, minimum fill time, per-IP rate limit (in memory: one VPS instance), server-side fare recompute, ref `TVZ-YYMMDD-XXXX`.
+   - **Outbox** (Drizzle + `pg`): `leads` + `lead_deliveries`, migrations in `drizzle/`.
+   - **Sinks**: email (SMTP via nodemailer), generic webhook, Telegram — each on only when its env vars are set.
+   - Immediate delivery attempt, backoff retries via token-protected `POST /api/leads/retry`, 24-month purge via `POST /api/leads/maintenance` (both for the VPS cron). Database unreachable → deliver directly and log without personal data.
+6. **Tracking**: typed `track()` → `dataLayer`; GTM via `@next/third-parties` only when `NEXT_PUBLIC_GTM_ID` is set; gclid/gbraid/wbraid/utm_* + landing page + referrer captured on first visit, kept 90 days, attached to every lead.
+7. **Tests**:
+   - Unit: engine, WhatsApp builder, ref generator, anti-spam, lead service with mocked DB and sinks, including "DB down → direct delivery".
+   - Integration: against local Postgres when `DATABASE_URL` is set, otherwise skipped.
+   - Playwright (acceptance): home → Gorakhpur to Kathmandu → pick a class → details → submit (sinks mocked) → confirmation. Also checks the WhatsApp link carries the summary and ref, the call link is right, the flow works by keyboard and at 360px, and axe finds no serious issues.
+
+### Decisions to confirm
+- **Publish the vehicle classes now** (they pass their gate) so the funnel and fare results work end to end, showing "Get a quote" / "exact fare on WhatsApp" until the rate card is filled. Proposed: the 7 car classes + tempo traveller, Urbania and Winger (14); Open 4×4 stays enquiry-only. Without this, `/book/` has nothing to show and no route can ever pass its gate.
+- **Email sink = SMTP (nodemailer)** rather than Resend: it works with the owner's existing mailbox and Hostinger mail with no domain verification step. Resend can be added later behind the same interface.
+- `/book/` counts as a live, linkable page (so "Check fare"/"Book" appear in the header and sticky bar) but stays out of the sitemap (noindex).
+
+### Owner inputs (none block the build)
+- **`DATABASE_URL`** for local development: create database `taxiverz` and a user on the local PostgreSQL 18 (cmd commands will be provided). Without it the outbox code falls back to direct delivery and the DB integration test is skipped.
+- **Lead sinks** (G2): SMTP host/user/password and the inbox that receives leads; optional Telegram bot token + chat id; optional webhook URL. Without them: outbox + WhatsApp fallback only.
+- **Rate card** (B1/B2) for real fares.
+
+### Dependencies to add (with reasons)
+`drizzle-orm` + `pg` (outbox — owner decision), `drizzle-kit` (migrations), `nodemailer` (SMTP email sink), `@next/third-parties` (GTM loader named in the plan), `@axe-core/playwright` (axe in e2e, plan acceptance), `@vitest/coverage-v8` (the ≥ 90 % coverage gate), `@types/pg`, `@types/nodemailer`.
 
 ---
 
