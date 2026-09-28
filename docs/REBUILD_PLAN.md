@@ -2,6 +2,8 @@
 
 Read `CLAUDE.md` first. This document is the spec. Execute it one phase at a time (§7), stopping after each.
 
+> **Owner decisions of 2026-09-28** are folded into this document: live-site hotfix track (§7.H), class-based fares (§3.1, §3.3, §3.4), redirect fallbacks (§7 Phase 1 and 7), legacy blog post → destination guide (§7 Phase 5), verified distances (§7 Phase 4B), long-distance routes as drafts (§5), VPS hosting (§7 Phase 8), and the Postgres lead outbox (§2.4, §3.5). Where §1 and `docs/AUDIT.md` differ, the audit wins.
+
 1. What the legacy code actually is (from a full scan)
 2. Target architecture
 3. Core systems
@@ -131,7 +133,7 @@ src/
     ui/           primitives (Button, Price, Badge, Sheet, Tabs, Accordion …)
     seo/          JsonLd
   config/         business.ts, site.ts (nav, footer lists), pricing.ts, tracking.ts, env.ts
-  data/           cities.ts, places.ts, routes/{origin}.ts, vehicles.ts, services.ts, service-cities.ts,
+  data/           cities.ts, places.ts, routes/{origin}.ts, vehicle-classes.ts, vehicles.ts, services.ts, service-cities.ts,
                   packages.ts, destinations.ts, faqs.ts, reviews.ts, clients.ts
   lib/
     content/      the only way pages read data (getRoute, getRoutesFrom, getVehicle …)
@@ -140,10 +142,11 @@ src/
     seo/          metadata builder, title patterns, JSON-LD builders
     tracking/     track(), attribution capture
     format.ts, whatsapp.ts, phone.ts
-  server/         lead service, sinks (email, webhook, telegram), rate limiter, reference generator
+  server/         lead service, outbox (db/schema.ts, db/client.ts), sinks (email, webhook, telegram), retry worker, rate limiter, reference generator
 content/          blog/*.mdx, destinations/{place}/{guide}.mdx
+drizzle/          generated SQL migrations for the outbox
 public/images/    brand/, fleet/, routes/, shoots/, places/
-scripts/          validate-data.ts, qa.ts, migrate-images.ts, check-redirects.ts
+scripts/          validate-data.ts, qa.ts, migrate-images.ts, check-redirects.ts, fetch-distances.ts
 tests/            unit + e2e
 legacy/           the old site (reference only)
 ```
@@ -151,7 +154,8 @@ legacy/           the old site (reference only)
 ### 2.4 Rendering and data flow
 - **Build**: data → Zod parse → `lib/content` → static pages. Route fare tables are computed at build time by the fare engine.
 - **Client**: the fare widget uses a slim generated fare index (places, route distances and tolls, vehicle rates — no prose) loaded lazily on first interaction. Target: widget JS + index ≤ ~40 KB gzipped.
-- **Server**: `/api/leads` validates, recomputes the fare and fans out to sinks. No database in v1 — the sinks are the record; TravelCRM becomes the system of record later.
+- **Server**: `/api/leads` validates, recomputes the fare, **writes the lead to the Postgres outbox**, then delivers to the sinks and retries failures (§3.5). Postgres (Drizzle) holds only leads and their delivery attempts; all content stays in typed data files built statically. The outbox is the record of every lead and the table TravelCRM reads later.
+- **Database**: database `taxiverz`. Development: local PostgreSQL on `localhost:5432`. Production: the VPS PostgreSQL. `DATABASE_URL` in `.env.local` (documented in `.env.example`). Pages never depend on the database, so a database outage can't take the site down.
 
 ---
 
@@ -161,8 +165,9 @@ legacy/           the old site (reference only)
 - **Business**: brandName (owner decides "Taxiverz" vs "TaxiVerz"), legalName, tagline, phone, whatsapp, bookingEmail, branches[] {id, label, address, postalCode, city, geo, hours, mapsUrl, googleBusinessUrl, isHeadOffice}, foundedYear, gstin, registrations[], socials {instagram, facebook, youtube}, sisterSites[], responseTimeMins, paymentMethods[], policies {freeCancellationHours, advancePercent, refundDays}, claims {available24x7, gpsTracked, …} (each boolean|null), gscVerification.
 - **City**: slug, name, nameHi, state, country (IN|NP), geo, isBranch, intro, faqs, status.
 - **Place** (autocomplete): id, name, nameHi, aliases[] (Banaras/Kashi → Varanasi, Allahabad → Prayagraj, GKP, "Gorakhpur Jn" …), type (city|town|airport|station|border|landmark), citySlug, geo, country.
-- **Route**: origin, destination, slug, status, distanceKm, durationMins, verified {distance, duration, tolls, border}, via[], isInternational, borderCrossing, tolls {car, lcv, bus}, permitCharges, borderCharges, bestDepartureTime, roadNotes, stops[] {name, note}, content {intro, routeGuide, tips[]}, faqs[], featured, image, relatedPackages[], legacyUrls[].
-- **Vehicle**: slug, name, make, model, category (car|group|bike), tier (economy|comfort|premium|luxury|group|bike), bodyType, seats, luggage, ac, fuel[], useCase, bookingMode (instant|enquire), selfDrive, images[], tollClass (car|lcv|bus), rates {roundTripPerKm, oneWayPerKm, minKmPerDay, driverAllowancePerDay, nightCharge, local[] {hours, km, price}, extraKm, extraHour, wedding {hours, price, extraHour}, corporate {hours, km, price}, garageToGarage, extras[] {label, amount}}, status, legacyUrls[].
+- **Route**: origin, destination, slug, status, ownerConfirmed (required for long-distance routes, §5), distanceKm, durationMins (both from the reviewed `docs/route-distances.csv`), verified {distance, duration, tolls, border}, via[], isInternational, borderCrossing, tolls {car, lcv, bus}, permitCharges, borderCharges, bestDepartureTime, roadNotes, stops[] {name, note}, content {intro, routeGuide, tips[]}, faqs[], featured, image, relatedPackages[], legacyUrls[].
+- **VehicleClass** (what the fare engine prices): slug, name ("Sedan"), representativeModels[] ("Dzire", "Etios"), seats, luggage, ac, tollClass (car|lcv|bus), useCase, image (photo of a real car of this class), rates {roundTripPerKm, oneWayPerKm, minKmPerDay, oneWayMinKm, driverAllowancePerDay, nightCharge, local[] {hours, km, price}, extraKm, extraHour, garageToGarage}, sortOrder, status. Results read "Sedan — Dzire, Etios or similar", with the note that the exact model depends on availability and photos represent the class.
+- **Vehicle** (a page for every vehicle, for SEO): slug, name, make, model, classSlug (null for per-model vehicles), category (car|group|bike), tier (economy|comfort|premium|luxury|group|bike), bodyType, seats, luggage, ac, fuel[], useCase, bookingMode (instant|enquire), selfDrive, images[], rates (**only for enquire-mode vehicles priced per model — luxury, vintage, bikes**: {wedding {hours, price, extraHour}, corporate {hours, km, price}, outstationPerKm, minKmPerDay, local[], extraKm, extraHour, nightCharge, washing, garageToGarage, extras[] {label, amount}}), status, legacyUrls[]. An instant-mode vehicle page shows its class's fares.
 - **Service**, **ServiceCity** (service, city, intro with genuinely local specifics, faqs, status), **Package** (slug, type, days, nights, inclusions, exclusions, itinerary[], price, compareAtPrice — only a real regular price, variants[] {fromCity, price, days, itineraryChanges}, status), **Destination**, **Review** (real only: author as permitted, source, rating, date, text, tripType, route, driverName, url), **Client** (only with written permission), **FAQ**.
 - `npm run validate:data` checks: unique slugs, every reference resolves, published entities pass the §5 gates, no placeholder strings, every referenced image exists.
 
@@ -171,7 +176,7 @@ legacy/           the old site (reference only)
 - Accessible ARIA combobox (keyboard, screen reader, touch). Free text is allowed: an unknown place returns an "exact fare on WhatsApp" result — still a lead.
 
 ### 3.3 Fare engine (`src/lib/pricing/`, pure, fully unit-tested)
-All policies come from `config/pricing.ts`, so the owner's answers change numbers, not code. `d` = one-way road distance of the route.
+All policies come from `config/pricing.ts`, so the owner's answers change numbers, not code. The engine prices **vehicle classes**, not individual cars; enquire-mode vehicles (luxury, vintage, shoots, buses, bikes) are priced per model or go to enquiry. The owner fills in the numbers in `docs/RATE_CARD.md`. `d` = one-way road distance of the route.
 - **One way**: `max(d, oneWayMinKm) × oneWayPerKm` + driver allowance + night charge (once the time is known) + tolls + permits/border charges + GST.
 - **Round trip**: `max(2d, days × minKmPerDay) × roundTripPerKm` + days × driver allowance + nights × night charge + tolls × 2 + permits/border charges + GST. The first fare shown assumes the shortest sensible trip (`days = max(1, ceil(2d / maxDrivingKmPerDay))`), says "for an N-day round trip", and updates live when dates are picked.
 - **Local**: package price (6h/60km, 8h/80km, 12h/120km …) + GST; show the extra-km and extra-hour rates.
@@ -183,7 +188,7 @@ All policies come from `config/pricing.ts`, so the owner's answers change number
 
 ### 3.4 Booking funnel
 1. **Fare widget** — tabs One way · Round trip · Local (hourly) · Airport. Two inputs and "Check fare" (Local: city + package; Airport: airport + direction + area). Trust line directly under the button, built only from verified facts.
-2. **Results** (`/book/?type=…&from=…&to=…` — state in the URL so Back and sharing work) — vehicle cards cheapest first: real photo, seats, luggage, total fare, included/excluded, one use-case line. Secondary action: "Request a call back" (phone only).
+2. **Results** (`/book/?type=…&from=…&to=…` — state in the URL so Back and sharing work) — **vehicle-class** cards cheapest first ("Sedan — Dzire, Etios or similar"): real photo of a car in that class, seats, luggage, total fare, included/excluded, one use-case line. One line under the list: the exact model depends on availability; photos represent the class. A link below the classes leads to luxury cars (per model, "Enquire"). Secondary action: "Request a call back" (phone only).
 3. **Trip details** — date, time, return date for round trips; the fare updates live (night charge, days).
 4. **Contact and close** — name, mobile (+91 default, +977 allowed), optional email, pickup address, a short consent notice, and an optional unticked "offers on WhatsApp" opt-in. Three buttons side by side: Confirm booking · Book on WhatsApp · Call to book.
 5. **Confirmed** (`/book/confirmed/?ref=`) — reference, summary, what happens next (only promises the owner has confirmed), WhatsApp button carrying the ref, cancellation-policy link, payment-safety notice.
@@ -191,11 +196,19 @@ All policies come from `config/pricing.ts`, so the owner's answers change number
 
 ### 3.5 Lead pipeline (`POST /api/leads`)
 - Lead types: booking, callback, enquiry-luxury, enquiry-wedding, enquiry-shoot, enquiry-group, enquiry-corporate, enquiry-package, enquiry-bike, partner-attach, partner-driver, contact.
-- Zod validation → honeypot + minimum fill time + per-IP rate limit (no captcha) → server-side fare recompute → reference `TVZ-YYMMDD-XXXX` → fan out to the sinks enabled by env vars:
+- Zod validation → honeypot + minimum fill time + per-IP rate limit (no captcha) → server-side fare recompute → reference `TVZ-YYMMDD-XXXX` → **write to the outbox** → fan out to the sinks enabled by env vars.
+- **Outbox (PostgreSQL via Drizzle).** Two tables:
+  - `leads`: id (uuid), ref (unique; idempotency key), type, trip fields, contact, quoted fare + breakdown (json), consent flags, attribution (gclid, gbraid, wbraid, utm_*, landing page, referrer, first-visit time), page, user agent, createdAt.
+  - `lead_deliveries`: leadId, sink, status (pending|sent|failed), attempts, nextAttemptAt, lastError (no personal data), deliveredAt.
+  - Flow: insert lead + one pending delivery per enabled sink in one transaction → attempt delivery immediately → failures back off exponentially (1 min, 5 min, 30 min, 2 h, 12 h) and are retried by `POST /api/leads/retry` (token-protected), called every 5 minutes by a cron on the VPS.
+  - **If the database is unreachable**, deliver directly to the sinks and log the failure (no personal data in logs). The lead is never dropped.
+  - Retention of personal data follows the privacy policy (period set by the owner; DPDP Act).
+  - The outbox is the source for Google Ads offline-conversion import (gclid + value + conversion time) and the table TravelCRM reads later.
+- Sinks:
   - **Email** (Resend or SMTP). Legacy used Web3Forms; keep it as an interim sink only if server-side submission works on the owner's plan.
   - **Generic webhook** (Google Sheets Apps Script, n8n, or TravelCRM's website-lead endpoint once it exists). The payload maps cleanly onto a CRM lead: name, phone, source `taxiverz-website`, lead type, trip type, from, to, date, pax, vehicle, quoted fare, attribution, page, ref (also the idempotency key).
   - **Telegram bot** (optional instant alert).
-- Success if at least one sink succeeds. Log failures without personal data. The client always offers WhatsApp as the fallback.
+- The client gets success once the lead is in the outbox (or, without a database, once at least one sink succeeds). Log failures without personal data. The client always offers WhatsApp as the fallback.
 
 ### 3.6 Tracking and attribution
 - GTM via `@next/third-parties` when `NEXT_PUBLIC_GTM_ID` is set; nothing hardcoded. One typed `track(event, params)` helper pushing to `dataLayer`.
@@ -226,7 +239,7 @@ All policies come from `config/pricing.ts`, so the owner's answers change number
 
 **Home** — sticky header (logo, nav, phone, WhatsApp, Check fare) → hero with a real Taxiverz vehicle photo, an H1 carrying the keyword and the positioning, fare widget overlapping the hero's lower edge → trust line (verified facts only) → services grouped (Cabs · Nepal · Luxury, wedding & shoots · Group · Self-drive & bikes · Corporate) → fleet by tier (horizontal scroll-snap: Economy → Comfort → Premium → Luxury → Group → Bikes) → popular routes (milestone cards) → Nepal band (dark: "India to Nepal, door to door", origins Gorakhpur and Raxaul, inside-Nepal routes, border block once verified) → luxury & wedding band (dark register, Enquire) → how booking works (a real sequence, so numbered steps are fine) → why Taxiverz (four specific, verified proofs) → reviews (real only; else a link to the Google profile; else hidden) → packages (only when some are published) → corporate band → FAQ → footer link lists → mobile sticky bar.
 
-**Route** — breadcrumb → H1 "{Origin} to {Destination} Taxi" + distance/time line + widget pre-filled → fare table for every eligible vehicle (one way and round trip, computed at build) with included/excluded → route facts card (distance, time, via, tolls, best departure time, road notes, border crossing) → route guide (unique prose) and stops worth making → Nepal block when international (documents, border steps, Bhansar, currency — verified content only) → route-specific FAQs → related links (reverse route, same-origin routes, city hub, packages, destination guide) → CTA band with the three closes.
+**Route** — breadcrumb → H1 "{Origin} to {Destination} Taxi" + distance/time line + widget pre-filled → fare table for every eligible vehicle class (one way and round trip, computed at build) with included/excluded → route facts card (distance, time, via, tolls, best departure time, road notes, border crossing) → route guide (unique prose) and stops worth making → Nepal block when international (documents, border steps, Bhansar, currency — verified content only) → route-specific FAQs → related links (reverse route, same-origin routes, city hub, packages, destination guide) → CTA band with the three closes.
 
 **City hub** — H1 "Taxi service in {City}" → widget → services available in this city → all published routes from the city (grouped: UP, Bihar, Nepal, long-distance) → local packages with prices → airports and stations → branch block (address, hours, map behind a click-to-load facade) when a branch exists → FAQs.
 
@@ -245,7 +258,7 @@ All policies come from `config/pricing.ts`, so the owner's answers change number
 **Voice**: plain Indian English, specific and useful — road conditions, where to stop for food, the border steps, luggage space, travelling with kids or elders, night driving. No fluff ("embark on a journey"), no superlatives, no emoji.
 
 **Publish gates** (enforced by `validate:data` and `qa`):
-- **Route**: distance present and plausible · intro ≥ 80 words and route guide ≥ 150 words, both unique · ≥ 3 stops or sights · ≥ 4 route-specific FAQs · at least one eligible vehicle either priced or clearly "on request".
+- **Route**: distance from the owner-reviewed `docs/route-distances.csv` · for long-distance routes (one-way over 600 km — e.g. Goa, Mumbai, Nashik, Indore, Ujjain, Jaipur, Dehradun, Kolkata, Delhi, Agra), `ownerConfirmed: true` (until then the route stays draft and its legacy URL uses its fallback) · intro ≥ 80 words and route guide ≥ 150 words, both unique · ≥ 3 stops or sights · ≥ 4 route-specific FAQs · at least one eligible vehicle either priced or clearly "on request".
 - **City hub**: a branch, or ≥ 3 published routes · ≥ 150-word unique intro. Unpublished hubs are skipped in breadcrumbs.
 - **Service × city**: ≥ 200 words of genuinely local specifics · ≥ 4 FAQs.
 - **Vehicle**: ≥ 1 real image, seats, tier. Prices may be null ("Get a quote").
@@ -289,20 +302,20 @@ The report always contains: what was done, counts, descriptions or screenshots o
 7. Commit docs only. Report and stop.
 
 ### Phase 1 — Foundation
-1. Move the whole legacy site into `legacy/` (excluded from TypeScript, ESLint, the build and deploys).
+1. Move the whole legacy site into `legacy/` with `git mv` (it's on `main` as the live snapshot, and `nextjs-rebuild` is rebased onto `main`), excluded from TypeScript, ESLint, the build and deploys.
 2. Scaffold Next.js 16. create-next-app refuses a non-empty folder: scaffold into a temp folder and move the files in, or set it up by hand. TS strict, App Router, `src/`, Tailwind v4, `@/*` alias.
 3. `next.config.ts`: `trailingSlash: true`, AVIF/WebP images, `output: 'standalone'`, security headers, `poweredByHeader: false`, legacy redirects generated from the JSON (plus `proxy.ts` scoped to `.html` paths only if needed for case or encoding variants).
-4. Tooling: ESLint (`eslint .`), Prettier, Vitest, Playwright, `tsx`, cross-platform npm scripts including `check`, `.gitattributes`, `.editorconfig`, `engines`, `.env.example` documenting every variable, Zod-validated `config/env.ts`.
+4. Tooling: ESLint (`eslint .`), Prettier, Vitest, Playwright, `tsx`, cross-platform npm scripts including `check`, `.gitattributes`, `.editorconfig`, `engines`, `.env.example` documenting every variable (including `DATABASE_URL`, `GOOGLE_MAPS_API_KEY`, `LEADS_RETRY_TOKEN`), Zod-validated `config/env.ts`. `.env.local` is git-ignored.
 5. Design: write `docs/DESIGN.md` (§6 process), self-review, then implement tokens, fonts, primitives (Button variants, Price, Badge, Container, Section, Milestone) and `/styleguide/`.
 6. Config: `business.ts` (from the audit; unknowns null), `site.ts`, `pricing.ts` (status `'draft'`), `tracking.ts`.
 7. Shell: root layout (`en-IN`, metadataBase, GSC token, default OG), Header + MobileNav sheet, Footer (both branches), StickyActionBar, SkipLink, Breadcrumbs, `not-found.tsx`.
 8. SEO core: `buildMetadata`, JSON-LD builders (Organization, WebSite, LocalBusiness), `robots.ts`, `sitemap.ts` (static pages for now).
-9. `scripts/check-redirects.ts` against `next start`: every legacy URL → exactly one permanent redirect to its mapped target (target status is asserted in Phase 7).
+9. Redirects are generated at build time from the JSON: each legacy URL points at its `target` if that page is published, otherwise at its `fallback`, otherwise `/`. `scripts/check-redirects.ts` against `next start`: every legacy URL → exactly one permanent redirect to its **effective** destination (that the destination returns 200 is asserted in Phase 7).
 
 Acceptance: `npm run check` green · redirect check passes · home shell and `/styleguide/` reviewed at 360px and 1280px.
 
 ### Phase 2 — Data layer and migration
-1. Zod schemas (§3.1), data files, `lib/content` accessors, `validate:data`.
+1. Zod schemas (§3.1), data files, `lib/content` accessors, `validate:data`. Vehicle classes and rates are migrated from the owner's `docs/RATE_CARD.md` (cells still ending in "?" are unconfirmed → `pricing.status = 'draft'`).
 2. Migrate business facts; all vehicles (cars, group, bikes — plus vehicles mentioned without pages, e.g. Tata Winger, Volvo bus, Ertiga, Etios, Defender); all 56 routes; the 13 services; the service × city allow-list; places (with Hindi names and aliases). Consistent facts only; conflicts → null + OWNER_TODO; every legacy distance starts as `verified: false`.
 3. Run the image migration; fix mismatches by looking at the images; write `IMAGE_MAP.md`.
 4. Unit tests for schemas and accessors.
@@ -313,19 +326,20 @@ Acceptance: `validate:data` passes · report counts of published vs draft per en
 1. Fare engine with unit tests for every trip type, minimum-km logic, night charges, GST, rounding, reverse routes, and missing data → on-request (≥ 90% line coverage on `lib/pricing`).
 2. Slim fare index (lazy-loaded), PlaceCombobox, FareWidget (4 tabs).
 3. `/book/` funnel steps 2–5 (§3.4), one shared WhatsApp message builder, error and fallback states.
-4. `/api/leads` + sinks + anti-spam + server-side fare recompute.
+4. `/api/leads` + Postgres outbox (Drizzle schema and migrations, §3.5) + sinks + retry endpoint + anti-spam + server-side fare recompute. Unit tests for the outbox flow, including "database unreachable → deliver directly".
 5. Tracking helper, events, attribution capture.
 
-Acceptance: Playwright — home → Gorakhpur to Kathmandu → pick a car → details → submit (sinks mocked in tests) → confirmation; the WhatsApp link contains the summary and ref; the call link is correct; the whole flow works by keyboard and at 360px; axe finds no serious issues.
+Acceptance: Playwright — home → Gorakhpur to Kathmandu → pick a car → details → submit (sinks mocked in tests; the lead is in the outbox) → confirmation; the WhatsApp link contains the summary and ref; the call link is correct; the whole flow works by keyboard and at 360px; axe finds no serious issues.
 
 ### Phase 4 — Core pages
 - **4A**: home, the 13 service hubs, service × city pages (allow-list), city hubs, the `/cabs/` directory, fleet hub and vehicle pages (luxury register where it applies).
-- **4B**: the route template, then route content for all 56 routes in batches of 8–10. After each batch run `validate:data` + `qa` and commit. Nepal routes get the Nepal block — as draft content until the owner verifies it.
+- **Before 4B — verified distances.** Add `scripts/fetch-distances.ts` (Google Maps Routes API, key `GOOGLE_MAPS_API_KEY` in `.env.local`). Nepal routes are routed through the border crossing Taxiverz actually uses (OWNER_TODO D1) via an intermediate waypoint. It writes `docs/route-distances.csv`: route, legacy km, Google km, difference, legacy time, Google time, border used. The owner reviews it; the reviewed CSV becomes the verified distances in route data. No route is published before its row is reviewed.
+- **4B**: the route template, then route content for all 56 routes in batches of 8–10 (long-distance routes stay draft until the owner confirms them, §5). After each batch run `validate:data` + `qa` and commit. Nepal routes get the Nepal block — as draft content until the owner verifies it.
 
 Acceptance: all published pages build statically · `qa` passes · Lighthouse mobile ≥ 90 on home, one route and one vehicle · each template reviewed at 360/768/1280px.
 
 ### Phase 5 — Premium and growth verticals
-Luxury, wedding and shoot-car pages (6 shoot types) · Nepal hub with Gorakhpur and Raxaul pages · corporate page with its own enquiry form (company, GSTIN, monthly volume) · tempo traveller and bus pages · packages (hub, template, `from-{city}` variants gated on real data; helicopter charter and Everest mountain flight migrated as drafts until the owner confirms operator and prices) · destinations (MDX guides) · blog (MDX setup, the legacy Gorakhpur post migrated, a few drafts from the long-tail topics in the report's §12.4).
+Luxury, wedding and shoot-car pages (6 shoot types) · Nepal hub with Gorakhpur and Raxaul pages · corporate page with its own enquiry form (company, GSTIN, monthly volume) · tempo traveller and bus pages · packages (hub, template, `from-{city}` variants gated on real data; helicopter charter and Everest mountain flight migrated as drafts until the owner confirms operator and prices) · destinations (MDX guides) · blog (MDX setup; the legacy Gorakhpur post `blog.html` becomes the destination guide `/destinations/gorakhpur/places-to-visit/`, not a blog post; a few drafts from the long-tail topics in the report's §12.4).
 
 Acceptance: as Phase 4.
 
@@ -335,15 +349,25 @@ About (the owner's real story — no invented history) · contact · FAQ · revi
 Acceptance: as Phase 4.
 
 ### Phase 7 — SEO hardening, QA, performance
-JSON-LD on every template (builder unit tests + a validator run) · dynamic OG images · footer link lists from data · sitemap completeness (published only) · canonical audit · redirect check now asserting every target returns 200 · link checker · Lighthouse CI on key templates · bundle report per route · axe on every template · a low-end run (Slow 4G, 4× CPU). Fix what fails.
+JSON-LD on every template (builder unit tests + a validator run) · dynamic OG images · footer link lists from data · sitemap completeness (published only) · canonical audit · redirect check now asserting every legacy URL's **effective** destination (target if published, else fallback) returns 200 in one hop · link checker · Lighthouse CI on key templates · bundle report per route · axe on every template · a low-end run (Slow 4G, 4× CPU). Fix what fails.
 
 Acceptance: every budget in `CLAUDE.md` met, or a written reason and fix plan for each miss.
 
-### Phase 8 — Launch prep (owner picks hosting)
-- Option A: Vercel Pro (the Hobby plan is non-commercial). Option B: the owner's Hostinger VPS — Docker (standalone output) + Nginx + Certbot, the same pattern as his other services. Either way: optional Cloudflare in front, www → apex redirect, env vars set, sinks tested live.
+### Phase 8 — Launch prep
+- Hosting (decided): the owner's Hostinger VPS — Docker (Next.js standalone output) + Nginx + Certbot, Cloudflare in front (Full (strict) SSL, real client IP forwarded for rate limiting). www → apex redirect, env vars set, sinks tested live.
+- Database: `taxiverz` on the VPS PostgreSQL (dedicated user with rights on that database only), migrations applied, daily backup, a cron calling `/api/leads/retry` every 5 minutes.
 - Search Console: verification kept, new sitemap submitted, 404s watched. GTM/GA4: conversions for `lead_submit`, `whatsapp_click`, `call_click`, plus a short guide for Google Ads offline conversion import. Google Business Profile: website URLs with UTM tags; name/address/phone identical to the site.
 - Delete `legacy/` after the redirect check passes on the live domain.
 - Hand over a 14-day post-launch checklist.
+
+### 7.H — Live-site hotfix track (parallel to the phases)
+
+The legacy site keeps earning (and losing) money until launch, so live defects are fixed on the old site now instead of waiting for Phase 8.
+- `main` mirrors what is live on Hostinger, exactly. It starts as a snapshot of the owner's `public_html` download (logs and server-only folders excluded, checked for secrets).
+- Each fix is a `hotfix/<topic>` branch off `main`: smallest possible change, no redesign, no new features.
+- Deliverable: `hotfix-upload.zip` with only the changed files at their folder paths, plus the list of files, for upload through Hostinger File Manager.
+- After the owner confirms the upload is live: merge the hotfix into `main`, then rebase `nextjs-rebuild` onto `main` (force-push with lease).
+- First hotfix (`hotfix/live-site`): self-canonicals on every page, fixed `og:url`/`og:image`, `robots.txt` Sitemap line, `/index.html` out of `sitemap.xml`; every form submits to Web3Forms with one key (success shown only when the API confirms; on failure WhatsApp opens pre-filled with the same details); fabricated rating, "#1 rated"/"4.8" claims, visitor counter and placeholder testimonials removed; Nepal document advice replaced with owner-approved text; sensible caching in `.htaccess` (HTTPS redirect kept); hotlinked images replaced or removed.
 
 ---
 
@@ -376,7 +400,7 @@ The owner's copy-paste prompts for each are in `PROMPTS.md`.
 12. **Photos**: real photos of your own cars, drivers and office — the single biggest visual upgrade available.
 13. **Design**: which demo prototype, if any, is the reference?
 14. **Leads and tracking**: lead email, WhatsApp Business number, Telegram (optional), when TravelCRM should start receiving website leads, GTM/GA4/Google Ads IDs.
-15. **Hosting**: Vercel Pro or the Hostinger VPS?
+15. **Hosting**: decided — Hostinger VPS (Docker + Nginx + Certbot, Cloudflare).
 
 ---
 

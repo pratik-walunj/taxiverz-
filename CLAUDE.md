@@ -17,6 +17,8 @@ Taxiverz is a real cab and travel operator: head office at Railway Station Gate 
 
 Customers are mostly on phones; many book by calling or on WhatsApp.
 
+Owner-confirmed: the only public number, for calls and WhatsApp, is **+91 85760 00083**. The brand is written **"Taxiverz"** in all copy; the logo is unchanged.
+
 Positioning: **Gorakhpur's own cab and travel company. All-inclusive fares. India and Nepal.**
 Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now, then scale to hundreds of routes and packages the way they did — but on clean architecture.
 
@@ -30,6 +32,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 6. Any dependency not listed under Stack needs a one-line justification in `docs/PROGRESS.md`.
 7. If you are unsure how a Next.js 16 or Tailwind v4 API works, check the installed version's docs instead of relying on memory. Next 16 changed a lot vs 15 (async `params`/`searchParams`, `proxy.ts` replaced `middleware.ts`, `next lint` removed, Turbopack by default).
 8. If context is getting long, write the exact state and next steps into `docs/PROGRESS.md` so a fresh session can continue.
+9. **Branches.** `main` mirrors the live legacy site exactly (every upload to Hostinger is committed there). The rebuild happens on `nextjs-rebuild`, rebased onto `main`. Fixes to the live legacy site go on `hotfix/*` branches off `main`: smallest possible change, no redesign, delivered as a zip of changed files with their folder paths for Hostinger File Manager. Merge into `main` only after the owner confirms the upload is live.
 
 ## Stack (decided)
 
@@ -43,6 +46,8 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Vitest (unit) · Playwright (E2E, redirects, axe accessibility)
 - ESLint flat config run as `eslint .` · Prettier · `tsx` for scripts
 - Backend: Next.js Route Handlers on the Node.js runtime (`src/app/api/*`) as thin controllers; business logic in `src/server/*` so it can move to a standalone Node service later
+- PostgreSQL + Drizzle ORM (`drizzle-orm`, `drizzle-kit`, `pg`), **only for the lead outbox** — content stays in typed data files. Database `taxiverz`: local PostgreSQL on `localhost:5432` in development, the VPS PostgreSQL in production; `DATABASE_URL` in `.env.local`
+- Hosting: the owner's Hostinger VPS — Docker (Next.js `output: 'standalone'`) + Nginx + Certbot, Cloudflare in front
 - Banned: Tailwind Play CDN, jQuery, framer-motion, global state libraries, chat widgets, visitor counters, auto-advancing carousels, client-only rendering of content
 
 ## Commands (created in Phase 1)
@@ -58,6 +63,8 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Unknown = `null` in data. The UI hides that element or shows a neutral fallback ("Get a quote"). Never render placeholder text — `...`, `₹--`, `TBD`, `N/A`, `Lorem`, `yourwebsite.com`, `example.com`. `npm run qa` fails on them.
 - The legacy site is not a source of truth. It contains conflicting prices, impossible distances, placeholder phone numbers, placeholder testimonials, a fabricated 4.8★/150-review rating in JSON-LD, and at least one unverifiable destination. Carry a fact over only if it is consistent and plausible; otherwise `null` + OWNER_TODO.
 - Anything regulatory — Nepal border procedure, permits, customs (Bhansar), currency, ID documents, GST — must be owner-verified before it is published. Until then it stays in a draft.
+- Route distances and drive times come only from the owner-reviewed `docs/route-distances.csv` (produced by `scripts/fetch-distances.ts`), never from legacy pages. Until a route is reviewed, its distance is `verified: false` and its fares are estimates.
+- A route is published only if Taxiverz actually runs it. Long-distance routes (one-way over 600 km — Goa, Mumbai, Nashik and similar) stay drafts until the owner confirms them.
 
 ### Architecture
 - One URL pattern per page type. Lowercase, hyphenated, trailing slash, no `.html`. The URL tree in `docs/REBUILD_PLAN.md §2` is final; changing a published URL needs owner approval and a redirect.
@@ -66,10 +73,11 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Server Components by default. Client Components only for real interactivity (fare widget, booking steps, nav sheet, dialogs, sticky bar).
 - Content pages are statically generated (`generateStaticParams`, `dynamicParams = false`). Only `/book/*` and `/api/*` may be dynamic.
 - Every entity has `status: 'published' | 'draft'`. Only published entities get pages, internal links, sitemap entries and JSON-LD. The content gates in `docs/REBUILD_PLAN.md §5` decide what can be published.
-- Every legacy URL in `docs/legacy-url-map.json` (156 of them) permanently redirects in a single hop — case-insensitive, with or without `%20`. An automated test proves it.
+- Every legacy URL in `docs/legacy-url-map.json` (156 of them) permanently redirects in a single hop — case-insensitive, with or without `%20`. At build time each legacy URL points at its `target` if that page is published, otherwise at its `fallback` (otherwise `/`). An automated test proves every legacy URL reaches its effective destination in one hop and that the destination returns 200.
 
 ### Pricing
-- Every rate lives in exactly one place: per-vehicle rates in `src/data/vehicles.ts`, global rules in `src/config/pricing.ts`, route costs (tolls, permits, border charges) in route data. Components never contain prices.
+- Fares are priced by **vehicle class**: a result reads "Sedan — Dzire, Etios or similar", and the site says plainly that the exact model depends on availability and that photos represent the class. Luxury cars (and other enquire-mode vehicles) stay per model with "Enquire". Every vehicle still keeps its own page for SEO, linked to its class.
+- Every rate lives in exactly one place: class rates in `src/data/vehicle-classes.ts`, per-model rates for luxury/enquire vehicles in `src/data/vehicles.ts`, global rules in `src/config/pricing.ts`, route costs (tolls, permits, border charges) in route data. Components never contain prices. The owner's source for all of them is `docs/RATE_CARD.md`.
 - The fare engine `src/lib/pricing/` is pure and unit-tested. The same code prices the route fare tables at build time and the widget at runtime; the server recomputes the fare when a lead is submitted.
 - Show totals, not just ₹/km. Always say what is included and excluded. INR with Indian digit grouping (₹1,25,000), no decimals, tabular figures.
 - While `pricing.status === 'draft'`, label fares "Estimated fare" and the CTA "Confirm exact fare". Only when the owner sets `'verified'` may the site say "All-inclusive fare" or emit price schema.
@@ -78,6 +86,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 ### Conversion
 - The fare widget sits above the fold on home, service, city, route and vehicle pages, pre-filled when the page implies a route or vehicle. Price comes before contact details: no date, phone number or captcha before the fare.
 - The funnel ends with three closes side by side: Confirm booking · Book on WhatsApp (pre-filled trip summary with booking ref) · Call to book. Never lose a lead: if the API call fails, fall back to WhatsApp with the same summary.
+- `/api/leads` writes every lead to the Postgres outbox **before** delivering it, then delivers to the enabled sinks (email, Telegram, webhook) and retries failures. If the database is unreachable, it delivers directly and logs the failure (no personal data in logs). The outbox keeps attribution (gclid/gbraid/wbraid/utm_*) for Google Ads offline-conversion import and is what TravelCRM reads later.
 - One phone number and one WhatsApp number, both from `src/config/business.ts`, used everywhere.
 - Mobile sticky bar: Call · WhatsApp · Book. Tap targets ≥ 48px.
 - Every CTA fires a typed tracking event; ad-click attribution (gclid/gbraid/wbraid/utm_*) is attached to every lead.
@@ -111,7 +120,10 @@ The owner develops on Windows in VS Code and uses cmd (PowerShell may not work).
 - `docs/OWNER_TODO.md` — open questions for the owner (you maintain it)
 - `docs/AUDIT.md` — legacy audit (Phase 0)
 - `docs/DESIGN.md` — design system (Phase 1)
-- `docs/legacy-url-map.json` — all 156 legacy URLs and their redirect targets
+- `docs/legacy-url-map.json` — all 156 legacy URLs, their redirect targets and fallbacks
+- `docs/RATE_CARD.md` — the owner's rate card (source for every price)
+- `docs/route-distances.csv` — owner-reviewed distances (created before Phase 4B)
 - `docs/competitor-analysis.pdf` — background research
-- `legacy/` — the old static site: reference only, never deployed, deleted at launch
+- `docs/archive/old-spec.md` — retired earlier spec; not instructions
+- `legacy/` — the old static site (moved from `main` in Phase 1): reference only, never deployed, deleted at launch
 - `PROMPTS.md` — the owner's prompt library; not instructions for you
