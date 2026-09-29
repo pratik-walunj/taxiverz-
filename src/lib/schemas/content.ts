@@ -230,8 +230,17 @@ export const serviceSchema = z.object({
   register: z.enum(['standard', 'luxury']),
   sells: z.enum(['fare-widget', 'enquiry', 'corporate-enquiry']),
   widgetTab: z.enum(['one-way', 'round-trip', 'local', 'airport']).nullable(),
-  /** Sub-pages that are not cities (shoot-car-rental's shoot types). */
-  subPages: z.array(z.object({ slug, name: z.string().min(1) })),
+  /** Sub-pages that are not cities (shoot-car-rental's shoot types), with their own copy. */
+  subPages: z.array(
+    z.object({
+      slug,
+      name: z.string().min(1),
+      summary,
+      intro: nullableText,
+      faqs: z.array(faqSchema),
+      status,
+    }),
+  ),
   summary,
   intro: nullableText,
   faqs: z.array(faqSchema),
@@ -247,6 +256,78 @@ export const serviceCitySchema = z.object({
   status,
 })
 
+const packagePrice = z.object({
+  amount: z.number().positive().nullable(),
+  per: z.enum(['person', 'group', 'vehicle']).nullable(),
+  /** Only an owner-confirmed price may be shown (§5 package gate). */
+  verified: z.boolean(),
+})
+
+/** A tour package (REBUILD_PLAN §2.1 /packages/{package}/, §5 gate: itinerary, inclusions, verified price). */
+export const packageSchema = z.object({
+  slug,
+  name: z.string().min(1),
+  summary,
+  intro: nullableText,
+  durationDays: z.number().int().positive().nullable(),
+  /** Who actually runs it when Taxiverz resells (helicopter, flights — D7). Shown when set. */
+  operator: nullableText,
+  itinerary: z.array(
+    z.object({
+      day: z.number().int().positive(),
+      title: z.string().min(1),
+      text: z.string().min(1),
+    }),
+  ),
+  inclusions: z.array(z.string().min(1)),
+  exclusions: z.array(z.string().min(1)),
+  price: packagePrice,
+  /** `/packages/{slug}/from-{origin}/` variants — only with real variant data. */
+  variants: z.array(z.object({ origin: slug, price: packagePrice, notes: nullableText })),
+  faqs: z.array(faqSchema),
+  status,
+  legacyUrls: z.array(z.string().startsWith('/')),
+  /** What the legacy page claimed — reference only, never rendered. */
+  legacy: z.object({ notes: z.array(z.string().min(1)) }),
+})
+
+export const GUIDE_TYPES = [
+  'places-to-visit',
+  'best-time-to-visit',
+  'how-to-reach-from-gorakhpur',
+] as const
+
+/** A destination (REBUILD_PLAN §2.1 /destinations/{place}/): an overview that links its guides. */
+export const destinationSchema = z.object({
+  place: slug,
+  /** Unique overview text for /destinations/{place}/ (not a copy of a guide). */
+  overview: nullableText,
+  summary,
+  status,
+})
+
+/** A destination guide; the body is content/destinations/{place}/{guide}.mdx (§5: ≥ 400 words). */
+export const guideSchema = z.object({
+  place: slug,
+  guide: z.enum(GUIDE_TYPES),
+  title: z.string().min(1).max(70),
+  summary,
+  updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  status,
+})
+
+/** A blog post; the body is content/blog/{slug}.mdx. Published only when the owner sets it (§5). */
+export const postSchema = z.object({
+  slug,
+  title: z.string().min(1).max(70),
+  summary,
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  /** Internal pages the post supports (route, package, guide). */
+  related: z.array(z.string().startsWith('/')),
+  ownerApproved: z.boolean(),
+  status,
+})
+
 export type City = z.infer<typeof citySchema>
 export type Place = z.infer<typeof placeSchema>
 export type Route = z.infer<typeof routeSchema>
@@ -256,3 +337,7 @@ export type VehicleImage = z.infer<typeof vehicleImageSchema>
 export type Service = z.infer<typeof serviceSchema>
 export type ServiceCity = z.infer<typeof serviceCitySchema>
 export type Faq = z.infer<typeof faqSchema>
+export type Package = z.infer<typeof packageSchema>
+export type Destination = z.infer<typeof destinationSchema>
+export type Guide = z.infer<typeof guideSchema>
+export type Post = z.infer<typeof postSchema>

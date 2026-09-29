@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import { Phone } from 'lucide-react'
 import { business } from '@/config/business'
+import { serviceEnquiry } from '@/config/enquiry'
+import { EnquiryForm } from '@/components/booking/EnquiryForm'
 import { FareWidget } from '@/components/booking/FareWidget'
+import { VehicleCard } from '@/components/cards/VehicleCard'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CtaBand } from '@/components/sections/CtaBand'
 import { FaqSection } from '@/components/sections/FaqSection'
@@ -12,7 +15,14 @@ import { Button } from '@/components/ui/Button'
 import { Prose } from '@/components/ui/Prose'
 import { Section } from '@/components/ui/Section'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
-import { getCity, getServiceCitiesFor, serviceCityPath, servicePath } from '@/lib/content'
+import {
+  getCity,
+  getServiceCitiesFor,
+  getSubPages,
+  getVehiclesFor,
+  serviceCityPath,
+  servicePath,
+} from '@/lib/content'
 import type { City, Faq, Service, VehicleClass } from '@/lib/schemas/content'
 import { serviceJsonLd } from '@/lib/seo/jsonld'
 import { formatIndianPhone, telHref } from '@/lib/phone'
@@ -26,13 +36,16 @@ function classFilter(service: Service): (c: VehicleClass) => boolean {
 }
 
 /**
- * Service hub (`/{service}/`) and service × city (`/{service}/{city}/`)
- * share this template (REBUILD_PLAN §4). The hero carries the right widget
- * tab; enquiry services get WhatsApp and call until Phase 5 adds their forms.
+ * Service hub (`/{service}/`), service × city (`/{service}/{city}/`) and
+ * shoot type (`/shoot-car-rental/{type}/`) share this template (REBUILD_PLAN §4).
+ * Fare-widget services carry the right widget tab; enquire-mode services
+ * (luxury, wedding, shoots, bus, self-drive, bikes, corporate) carry their
+ * enquiry form and the live vehicles that fit them.
  */
 export function ServicePage({
   service,
   city,
+  subPage,
   heading,
   summary,
   intro,
@@ -40,6 +53,8 @@ export function ServicePage({
 }: {
   service: Service
   city: City | null
+  /** A shoot type under the service (no city). */
+  subPage?: { slug: string; name: string }
   heading: string
   summary: string
   intro: string
@@ -47,20 +62,28 @@ export function ServicePage({
 }) {
   const path = city
     ? serviceCityPath({ service: service.slug, city: city.slug })
-    : servicePath(service.slug)
-  const trail = city
-    ? [
-        { name: service.name, path: servicePath(service.slug) },
-        { name: city.name, path },
-      ]
-    : [{ name: service.name, path }]
+    : subPage
+      ? `/${service.slug}/${subPage.slug}/`
+      : servicePath(service.slug)
+  const trail =
+    city || subPage
+      ? [
+          { name: service.name, path: servicePath(service.slug) },
+          { name: city?.name ?? subPage!.name, path },
+        ]
+      : [{ name: service.name, path }]
   const luxury = service.register === 'luxury'
-  const where = city ? ` in ${city.name}` : ''
-  const message = `Hi Taxiverz, I'd like to book: ${service.name}${where}.`
+  const widget = service.sells === 'fare-widget' && service.widgetTab
+  const enquiry = serviceEnquiry[service.slug]
+  const topic = subPage?.name ?? `${service.name}${city ? ` in ${city.name}` : ''}`
+  const message = `Hi Taxiverz, I'd like to ${widget ? 'book' : 'enquire about'}: ${topic}.`
   // Airport trips start from an airport, so the city is not pre-filled there.
   const initialFrom =
     city && service.widgetTab !== 'airport' ? { from: city.slug, fromLabel: city.name } : undefined
-  const localPages = city ? [] : getServiceCitiesFor(service.slug)
+  const hub = !city && !subPage
+  const localPages = hub ? getServiceCitiesFor(service.slug) : []
+  const subPages = hub ? getSubPages(service.slug) : []
+  const vehicles = getVehiclesFor(service.slug)
 
   return (
     <>
@@ -79,10 +102,15 @@ export function ServicePage({
               {summary}
             </p>
           </div>
-          {service.sells === 'fare-widget' && service.widgetTab ? (
-            <FareWidget initial={{ type: service.widgetTab, ...initialFrom }} />
+          {widget ? (
+            <FareWidget initial={{ type: service.widgetTab!, ...initialFrom }} />
           ) : (
             <div className="flex flex-col gap-3">
+              {enquiry && (
+                <Button href="#enquire" size="lg" variant={luxury ? 'luxury' : 'primary'}>
+                  {enquiry.corporate ? 'Tell us what you need' : 'Send an enquiry'}
+                </Button>
+              )}
               <Button
                 href={whatsappHref(business.whatsapp, message)}
                 variant="whatsapp"
@@ -109,12 +137,67 @@ export function ServicePage({
         <h2 id="about-title" className="text-h2 font-bold">
           {city
             ? `${service.name} in ${city.name}: what to know`
-            : `About our ${service.name.toLowerCase()}`}
+            : subPage
+              ? `Cars for ${subPage.name.toLowerCase()}`
+              : `About our ${service.name.toLowerCase()}`}
         </h2>
         <Prose text={intro} className="mt-4" />
       </Section>
 
-      {!city && <FleetStrip filter={classFilter(service)} title="Choose by vehicle class" />}
+      {vehicles.length > 0 && (
+        <Section register={luxury ? 'luxury' : 'mist'} labelledBy="vehicles-title">
+          <h2 id="vehicles-title" className="text-h2 font-bold">
+            Vehicles you can book
+          </h2>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {vehicles.map((v) => (
+              <li key={v.slug}>
+                <VehicleCard vehicle={v} dark={luxury} />
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {subPages.length > 0 && (
+        <Section labelledBy="types-title">
+          <h2 id="types-title" className="text-h2 font-bold">
+            By type of shoot
+          </h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {subPages.map((sp) => (
+              <li key={sp.slug}>
+                <Link
+                  href={`/${service.slug}/${sp.slug}/`}
+                  className="border-line hover:border-brand rounded-control flex min-h-12 items-center border px-4 font-semibold"
+                >
+                  {sp.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {hub && (widget || enquiry?.corporate) && (
+        <FleetStrip filter={classFilter(service)} title="Choose by vehicle class" />
+      )}
+
+      {enquiry && (
+        <Section register={luxury ? 'luxury' : 'mist'} className="scroll-mt-20">
+          <div id="enquire" className="max-w-3xl">
+            <EnquiryForm
+              leadType={enquiry.leadType}
+              subject={topic}
+              title={enquiry.title}
+              occasions={enquiry.occasions}
+              corporate={enquiry.corporate}
+              defaultCity={city?.name ?? ''}
+              dark={luxury}
+            />
+          </div>
+        </Section>
+      )}
 
       {localPages.length > 0 && (
         <Section labelledBy="where-title">
@@ -136,22 +219,25 @@ export function ServicePage({
         </Section>
       )}
 
-      {!city && <HowBooking />}
+      {hub && widget && <HowBooking />}
       <FaqSection faqs={faqs} />
       <CtaBand
-        title={
-          city
-            ? `Book ${service.name.toLowerCase()} in ${city.name}`
-            : `Book ${service.name.toLowerCase()}`
+        title={`${widget ? 'Book' : 'Ask about'} ${
+          subPage ? `cars for ${subPage.name.toLowerCase()}` : service.name.toLowerCase()
+        }${city ? ` in ${city.name}` : ''}`}
+        text={
+          widget
+            ? 'Check the fare online, send your trip on WhatsApp, or call us — whichever suits you.'
+            : 'Send the enquiry above, WhatsApp us, or call — whichever suits you.'
         }
-        text="Check the fare online, send your trip on WhatsApp, or call us — whichever suits you."
         whatsappMessage={message}
         placement={city ? 'service-city-cta' : 'service-cta'}
         register={luxury ? 'luxury' : 'mist'}
+        showBook={Boolean(widget)}
       />
       <JsonLd
         data={serviceJsonLd({
-          name: city ? `${service.name} in ${city.name}` : service.name,
+          name: topic,
           description: summary,
           path,
           serviceType: service.name,

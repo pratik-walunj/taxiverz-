@@ -1,14 +1,16 @@
 import type { Service, ServiceCity } from '@/lib/schemas/content'
 import { gorakhpurServices } from './copy/gorakhpur'
+import { nepalCityCopy } from './copy/verticals'
 import type { PageCopy } from './copy/types'
-import { serviceCopy } from './copy/services'
+import { serviceCopy, subPageCopy } from './copy/services'
 
 /**
  * The 13 service hubs (REBUILD_PLAN §2.2). Intros and FAQs are written in
  * Phases 4A/5; until then every service is draft.
  */
-type ServiceInput = Pick<Service, 'slug' | 'name' | 'register' | 'sells' | 'widgetTab'> &
-  Partial<Pick<Service, 'subPages'>>
+type ServiceInput = Pick<Service, 'slug' | 'name' | 'register' | 'sells' | 'widgetTab'> & {
+  subPages?: { slug: string; name: string }[]
+}
 
 const input: ServiceInput[] = [
   {
@@ -125,8 +127,11 @@ function withCopy(copy: PageCopy | undefined) {
 }
 
 export const services: Service[] = input.map((s) => ({
-  subPages: [],
   ...s,
+  subPages: (s.subPages ?? []).map((sp) => ({
+    ...sp,
+    ...withCopy(subPageCopy[`${s.slug}/${sp.slug}`]),
+  })),
   ...withCopy(serviceCopy[s.slug]),
 }))
 
@@ -149,7 +154,10 @@ const allowList: [service: string, city: string][] = [
   ['bike-rental', 'gorakhpur'],
 ]
 
-const cityCopy: Record<string, Record<string, PageCopy>> = { gorakhpur: gorakhpurServices }
+const cityCopy: Record<string, Record<string, PageCopy>> = {
+  gorakhpur: { ...gorakhpurServices, 'nepal-taxi': nepalCityCopy.gorakhpur! },
+  raxaul: { 'nepal-taxi': nepalCityCopy.raxaul! },
+}
 
 export const serviceCities: ServiceCity[] = allowList.map(([service, city]) => ({
   service,

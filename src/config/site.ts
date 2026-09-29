@@ -36,6 +36,17 @@ export const footerGroups: readonly { title: string; links: readonly NavItem[] }
       { label: 'India–Nepal taxi', href: '/nepal-taxi/' },
       { label: 'Wedding cars', href: '/wedding-cars/' },
       { label: 'Tempo traveller', href: '/tempo-traveller/' },
+      { label: 'Corporate travel', href: '/corporate-car-rental/' },
+    ],
+  },
+  {
+    title: 'Travel guides',
+    links: [
+      { label: 'Gorakhpur', href: '/destinations/gorakhpur/' },
+      { label: 'Kushinagar', href: '/destinations/kushinagar/' },
+      { label: 'Ayodhya', href: '/destinations/ayodhya/' },
+      { label: 'Varanasi', href: '/destinations/varanasi/' },
+      { label: 'Lumbini', href: '/destinations/lumbini/' },
     ],
   },
   {

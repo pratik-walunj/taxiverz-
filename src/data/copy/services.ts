@@ -7,7 +7,12 @@ import type { PageCopy } from './types'
  * terms, no border rules. Every FAQ answer must be true today.
  * Owner review list: docs/OWNER_TODO.md (copy review).
  */
-export const serviceCopy: Record<string, PageCopy> = {
+import { premiumCopy } from './premium'
+import { nepalCopy, verticalCopy } from './verticals'
+
+export { subPageCopy } from './shoots'
+
+const cabCopy: Record<string, PageCopy> = {
   'outstation-cabs': {
     publish: true,
     summary:
@@ -166,4 +171,11 @@ Enter your trip in the fare box and the results include the group vehicles. Wher
       },
     ],
   },
+}
+
+export const serviceCopy: Record<string, PageCopy> = {
+  ...cabCopy,
+  ...premiumCopy,
+  ...verticalCopy,
+  'nepal-taxi': nepalCopy,
 }

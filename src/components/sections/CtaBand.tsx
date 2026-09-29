@@ -14,14 +14,17 @@ export function CtaBand({
   whatsappMessage,
   placement,
   register = 'mist',
+  showBook = true,
 }: {
   title: string
   text: string
   whatsappMessage: string
   placement: string
   register?: 'mist' | 'luxury'
+  /** Enquire-mode pages hide "Check fare and book" (their close is the enquiry form). */
+  showBook?: boolean
 }) {
-  const book = bookingPath()
+  const book = showBook ? bookingPath() : null
   return (
     <Section register={register} labelledBy={`cta-${placement}`}>
       <h2 id={`cta-${placement}`} className="text-h2 font-bold">

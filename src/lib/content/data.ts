@@ -1,5 +1,8 @@
 import { z } from 'zod'
 import { cities as rawCities } from '@/data/cities'
+import { destinations as rawDestinations, guides as rawGuides } from '@/data/destinations'
+import { posts as rawPosts } from '@/data/blog'
+import { packages as rawPackages } from '@/data/packages'
 import { places as rawPlaces } from '@/data/places'
 import { routes as rawRoutes } from '@/data/routes'
 import { serviceCities as rawServiceCities, services as rawServices } from '@/data/services'
@@ -7,6 +10,10 @@ import { vehicleClasses as rawVehicleClasses } from '@/data/vehicle-classes'
 import { vehicles as rawVehicles } from '@/data/vehicles'
 import {
   citySchema,
+  destinationSchema,
+  guideSchema,
+  postSchema,
+  packageSchema,
   placeSchema,
   routeSchema,
   serviceCitySchema,
@@ -26,3 +33,7 @@ export const vehicleClasses = z.array(vehicleClassSchema).parse(rawVehicleClasse
 export const vehicles = z.array(vehicleSchema).parse(rawVehicles)
 export const services = z.array(serviceSchema).parse(rawServices)
 export const serviceCities = z.array(serviceCitySchema).parse(rawServiceCities)
+export const packages = z.array(packageSchema).parse(rawPackages)
+export const destinations = z.array(destinationSchema).parse(rawDestinations)
+export const guides = z.array(guideSchema).parse(rawGuides)
+export const posts = z.array(postSchema).parse(rawPosts)

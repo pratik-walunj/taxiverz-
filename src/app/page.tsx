@@ -5,6 +5,7 @@ import { CtaBand } from '@/components/sections/CtaBand'
 import { FaqSection } from '@/components/sections/FaqSection'
 import { FleetStrip } from '@/components/sections/FleetStrip'
 import { HowBooking } from '@/components/sections/HowBooking'
+import { NepalBand } from '@/components/sections/NepalBand'
 import { ServicesGrid } from '@/components/sections/ServicesGrid'
 import { homeFaqs } from '@/data/copy/home'
 import { Button } from '@/components/ui/Button'
@@ -66,6 +67,7 @@ export default function HomePage() {
 
       <ServicesGrid title="Cabs for every kind of trip" />
       <FleetStrip />
+      <NepalBand />
       <HowBooking />
       <FaqSection faqs={homeFaqs} />
       <CtaBand
