@@ -1,6 +1,12 @@
 import { Phone } from 'lucide-react'
 import { business } from '@/config/business'
 import { FareWidget } from '@/components/booking/FareWidget'
+import { CtaBand } from '@/components/sections/CtaBand'
+import { FaqSection } from '@/components/sections/FaqSection'
+import { FleetStrip } from '@/components/sections/FleetStrip'
+import { HowBooking } from '@/components/sections/HowBooking'
+import { ServicesGrid } from '@/components/sections/ServicesGrid'
+import { homeFaqs } from '@/data/copy/home'
 import { Button } from '@/components/ui/Button'
 import { Section } from '@/components/ui/Section'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
@@ -57,6 +63,17 @@ export default function HomePage() {
           <FareWidget />
         </div>
       </Section>
+
+      <ServicesGrid title="Cabs for every kind of trip" />
+      <FleetStrip />
+      <HowBooking />
+      <FaqSection faqs={homeFaqs} />
+      <CtaBand
+        title="Ready to book?"
+        text="Check the fare online, send your trip on WhatsApp, or call us."
+        whatsappMessage="Hi Taxiverz, I'd like to book a cab."
+        placement="home-cta"
+      />
 
       <JsonLd
         data={[

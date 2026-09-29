@@ -1,4 +1,6 @@
 import type { City } from '@/lib/schemas/content'
+import { gorakhpurCity } from './copy/gorakhpur'
+import type { PageCopy } from './copy/types'
 
 /**
  * Every origin and destination used by a route, plus the Pune branch city.
@@ -201,13 +203,20 @@ const input: CityInput[] = [
   { slug: 'pokhara', name: 'Pokhara', nameHi: 'पोखरा', state: 'Gandaki', country: 'NP' },
 ]
 
-export const cities: City[] = input.map((c) => ({
-  aliases: [],
-  isBranch: false,
-  isOrigin: false,
-  geo: null,
-  intro: null,
-  faqs: [],
-  status: 'draft',
-  ...c,
-}))
+/** Hub copy lives in data/copy/; `publish` there sets the status. */
+const copy: Record<string, PageCopy> = { gorakhpur: gorakhpurCity }
+
+export const cities: City[] = input.map((c) => {
+  const text = copy[c.slug]
+  return {
+    aliases: [],
+    isBranch: false,
+    isOrigin: false,
+    geo: null,
+    summary: text?.summary ?? null,
+    intro: text?.intro ?? null,
+    faqs: text?.faqs ?? [],
+    status: text?.publish ? 'published' : 'draft',
+    ...c,
+  }
+})

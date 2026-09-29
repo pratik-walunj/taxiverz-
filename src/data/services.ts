@@ -1,4 +1,7 @@
 import type { Service, ServiceCity } from '@/lib/schemas/content'
+import { gorakhpurServices } from './copy/gorakhpur'
+import type { PageCopy } from './copy/types'
+import { serviceCopy } from './copy/services'
 
 /**
  * The 13 service hubs (REBUILD_PLAN §2.2). Intros and FAQs are written in
@@ -109,12 +112,22 @@ const input: ServiceInput[] = [
   },
 ]
 
+/** Copy (summary, intro, FAQs) lives in data/copy/; `publish` there sets the status. */
+function withCopy(copy: PageCopy | undefined) {
+  return copy
+    ? {
+        summary: copy.summary,
+        intro: copy.intro,
+        faqs: copy.faqs,
+        status: copy.publish ? ('published' as const) : ('draft' as const),
+      }
+    : { summary: null, intro: null, faqs: [], status: 'draft' as const }
+}
+
 export const services: Service[] = input.map((s) => ({
   subPages: [],
-  intro: null,
-  faqs: [],
-  status: 'draft',
   ...s,
+  ...withCopy(serviceCopy[s.slug]),
 }))
 
 /**
@@ -136,10 +149,10 @@ const allowList: [service: string, city: string][] = [
   ['bike-rental', 'gorakhpur'],
 ]
 
+const cityCopy: Record<string, Record<string, PageCopy>> = { gorakhpur: gorakhpurServices }
+
 export const serviceCities: ServiceCity[] = allowList.map(([service, city]) => ({
   service,
   city,
-  intro: null,
-  faqs: [],
-  status: 'draft',
+  ...withCopy(cityCopy[city]?.[service]),
 }))
