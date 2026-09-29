@@ -11,14 +11,62 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
 | 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
 | 5 — Premium and growth verticals | ✅ done 2026-09-29 — pushed; premium, bus, self-drive, bike and packages publish when the owner supplies vehicles/prices |
-| 6 — Trust and support | 📝 plan written, waiting for owner "go" |
+| 6 — Trust and support | ✅ done 2026-09-29 — pushed; terms, refund, reviews and payment notice publish when the owner supplies H1/F3 |
 | 7–8 | not started |
 
 ---
 
 ---
 
-## Phase 6 — Trust and support (plan, 2026-09-29)
+## Phase 6 — Trust and support (2026-09-29)
+
+Owner said "go" with all four recommendations:
+- (A) About with confirmed facts only;
+- (B) Privacy now, with the business contacts until a grievance officer is named;
+- (C) terms, refund and the payment notice held until H1;
+- (D) both partner pages.
+
+### Done
+- **Published:**
+  - `/contact/` — both offices, one number, email, Google Maps links and a contact form. Hours and Google reviews links appear when configured.
+  - `/about/` — confirmed facts only; the story and credentials render once the owner supplies them.
+  - `/faq/` — 17 new questions in 6 groups, each group linking to its page.
+  - `/privacy/` — generated from config.
+  - `/attach-your-taxi/` and `/drive-with-us/`.
+  - Old `about.html`, `contact.html` and `faq.html` now reach their pages.
+- **Built, held by rule (`lib/content/static-pages.ts`):**
+  - `/terms/` publishes when cancellation hours, advance %, refund days, payment methods and the owner's review date are all set.
+  - `/refund-policy/` needs cancellation hours, refund days and the review date.
+  - `/reviews/` needs at least one real review with permission (`src/data/reviews.ts`; no Review JSON-LD, ever).
+  - The payment-safety notice (contact, terms, booking confirmation) renders once `paymentAccounts` is set.
+- **Config:** `business.ts` gains `registrations`, `policies`, `paymentMethods`, `paymentAccounts`, `grievanceOfficer` and `policyReviewed`, all empty or null (F2, H1).
+- **Privacy policy** (`lib/policies.ts`) says only what the code does:
+  - what each form collects;
+  - where it goes;
+  - the browser storage used (trip draft for the session, attribution for 90 days);
+  - analytics only if GTM or Clarity is actually enabled at build;
+  - 24-month retention; DPDP Act 2023 rights; the Data Protection Board; under-18s.
+  - It names no payment, cancellation or refund terms (unit-tested).
+- **Forms:** `EnquiryForm` gains `kind` (`contact`, `attach`, `driver` alongside `enquiry` and `corporate`). The lead details gain vehicle, year, permit, licence, years driving and languages, and flow through to the email, Telegram and webhook text. Every form's consent line, and the booking flow's, links to `/privacy/`.
+
+### Verification
+- `npm run check` ✅ — 127 unit tests; qa OK on 39 pages; highest near-duplicate score 0.24 (`/about/` ~ `/cabs/gorakhpur/`).
+- e2e ✅ 36 tests:
+  - new: contact form (message required, reference); attach form (vehicle and city required, details sent); legacy about, contact and FAQ URLs; terms, refund and reviews answer 404;
+  - the sitemap walk now allows for policy pages (inform, don't sell) and counts lead forms as a way to act; its timeout scales with the page count.
+- `redirects:check` ✅ one hop for all; with `--launch`, URLs landing on `/` went **82 → 79**.
+- Screenshots at 360, 768 and 1280: contact, about, FAQ, privacy, drive-with-us. Fixed: partner forms now require the fields their labels imply (city; licence for drivers).
+- Lighthouse: accessibility, best practices and SEO 100 on `/contact/`, `/about/` and `/privacy/`. Performance 47–68 was measured with the machine heavily loaded (CPU benchmark 190–495 — the owner's own browser was busy), so it isn't comparable; carried into Phase 7.
+
+### Not done / limits
+- No terms, refund policy, payment notice, reviews, hours, credentials or story: each waits for owner input (H1, F3, C7, F2).
+- Privacy names `cabtaxiverz@gmail.com`, the phone and the head office for requests until a grievance officer is set; C4 (which inbox receives leads) is still open.
+- `docs/PRIVACY_POLICY_DRAFT.md` is superseded by `/privacy/`; left in `docs/` as the owner-review record.
+
+### Dependencies
+None added.
+
+### Plan (as approved)
 
 ### Scan
 - Hotfix still not live: no merge yet.

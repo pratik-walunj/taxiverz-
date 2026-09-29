@@ -158,9 +158,11 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 
 **F2 🟠 Credentials.** Year started, trips or customers served, GSTIN, registrations and permits (tourist permits, All-India permit), insurance. Only what is true and provable.
 - *Until answered:* none shown.
+- **Phase 6:** `/about/` is live with confirmed facts only. Send your own story (how and when Taxiverz started, who runs it) and it goes in as "Our story"; credentials appear under it.
 
 **F3 🟠 Reviews.** Your Google Business Profile link. Any reviews you're allowed to quote (name or initials, date, trip).
 - *Until answered:* the reviews section is hidden. The fake testimonials and the 4.8/150 rating are removed.
+- **Built (Phase 6):** `/reviews/` appears once there is one real review with the customer's permission (`src/data/reviews.ts`). The Google profile link shows on `/contact/` once added to the branch.
 
 **F4 🟢 Clients.** Corporate or wedding clients who gave written permission to be named.
 - *Until answered:* none.
@@ -192,6 +194,7 @@ then put `DATABASE_URL=postgres://taxiverz:choose-a-password@localhost:5432/taxi
 
 **H1 🟠 Policies.** Free-cancellation window, advance payment, refund timeline, payment methods, the official accounts or UPI IDs for the payment-safety notice, grievance contact. (The S-Class page currently says "No refund on cancellation".)
 - *Until answered:* policy pages are generated from `null` config and marked "owner review"; no promises in the funnel.
+- **Built (Phase 6):** once you give these, they go into `src/config/business.ts` (`policies`, `paymentMethods`, `paymentAccounts`, `grievanceOfficer`), and `/terms/`, `/refund-policy/` and the "pay only to our official accounts" notice appear on their own. `/privacy/` is live now; please read it. Until you name a grievance officer, it gives cabtaxiverz@gmail.com, the phone and the head office as the contact for data requests.
 
 **H2 🟠 Service promises.** Is 24/7 true? What callback time can you always keep? GPS tracking? "Pickup within 10 minutes"?
 - *Until answered:* none claimed.
