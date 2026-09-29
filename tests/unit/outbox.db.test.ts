@@ -27,6 +27,7 @@ describe.skipIf(!url)('Postgres outbox', () => {
     pickupAddress: null,
     message: null,
     trip: { type: 'one-way', from: 'gorakhpur', to: 'kathmandu' },
+    details: null,
     fromLabel: 'Gorakhpur',
     toLabel: 'Kathmandu',
     vehicleLabel: 'Sedan',

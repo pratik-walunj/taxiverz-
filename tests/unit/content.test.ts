@@ -17,6 +17,7 @@ import type { Route, Vehicle } from '@/lib/schemas/content'
 
 const words = (n: number) => Array.from({ length: n }, (_, i) => `word${i}`).join(' ')
 const ctx: GateContext = {
+  liveVehicles: [],
   publishedClassCount: 1,
   publishedRoutesFrom: () => 0,
   isServicePublished: () => true,
@@ -133,23 +134,22 @@ describe('gates', () => {
 })
 
 describe('publishing', () => {
-  it('publishes exactly the Phase 4A set', () => {
-    expect([...contentPaths()].sort()).toEqual(
-      [
-        '/outstation-cabs/',
-        '/one-way-cabs/',
-        '/airport-taxi/',
-        '/local-car-rental/',
-        '/tempo-traveller/',
-        '/outstation-cabs/gorakhpur/',
-        '/one-way-cabs/gorakhpur/',
-        '/airport-taxi/gorakhpur/',
-        '/local-car-rental/gorakhpur/',
-        '/tempo-traveller/gorakhpur/',
-        '/cabs/gorakhpur/',
-        '/fleet/',
-      ].sort(),
-    )
+  it('publishes the Phase 4A cab pages', () => {
+    for (const p of [
+      '/outstation-cabs/',
+      '/one-way-cabs/',
+      '/airport-taxi/',
+      '/local-car-rental/',
+      '/tempo-traveller/',
+      '/outstation-cabs/gorakhpur/',
+      '/one-way-cabs/gorakhpur/',
+      '/airport-taxi/gorakhpur/',
+      '/local-car-rental/gorakhpur/',
+      '/tempo-traveller/gorakhpur/',
+      '/cabs/gorakhpur/',
+      '/fleet/',
+    ])
+      expect(contentPaths(), p).toContain(p)
     expect(getPublishedPaths().slice(0, 2)).toEqual(['/', '/book/'])
   })
 

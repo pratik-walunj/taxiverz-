@@ -48,8 +48,14 @@ test('every page in the sitemap renders, can be booked from and passes axe', asy
 
 test('drafts are not served', async ({ request }) => {
   for (const path of [
-    '/nepal-taxi/',
     '/wedding-cars/',
+    '/shoot-car-rental/',
+    '/shoot-car-rental/pre-wedding/',
+    '/bus-rental/',
+    '/packages/',
+    '/packages/everest-mountain-flight/',
+    '/blog/',
+    '/blog/buddhist-circuit-by-car/',
     '/cabs/pune/',
     '/cabs/raxaul/',
     '/fleet/audi-a4/',

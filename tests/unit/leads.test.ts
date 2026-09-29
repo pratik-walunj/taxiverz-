@@ -292,6 +292,7 @@ describe('sinks', () => {
       date: '2026-10-05',
       time: '07:30',
     },
+    details: null,
     fromLabel: 'Gorakhpur',
     toLabel: 'Kathmandu',
     vehicleLabel: 'Sedan — Dzire, Etios or similar',
