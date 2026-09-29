@@ -15,6 +15,9 @@ export const geo = z.object({
 const country = z.enum(['IN', 'NP'])
 const nullableText = z.string().trim().min(1).nullable()
 
+/** One or two sentences: the meta description and the card text. */
+const summary = z.string().trim().min(50).max(155).nullable()
+
 export const faqSchema = z.object({ q: z.string().min(1), a: z.string().min(1) })
 
 // ---------------------------------------------------------------- places
@@ -31,6 +34,7 @@ export const citySchema = z.object({
   isBranch: z.boolean(),
   /** Routes start here (a city hub may exist). */
   isOrigin: z.boolean(),
+  summary,
   intro: nullableText,
   faqs: z.array(faqSchema),
   status,
@@ -228,6 +232,7 @@ export const serviceSchema = z.object({
   widgetTab: z.enum(['one-way', 'round-trip', 'local', 'airport']).nullable(),
   /** Sub-pages that are not cities (shoot-car-rental's shoot types). */
   subPages: z.array(z.object({ slug, name: z.string().min(1) })),
+  summary,
   intro: nullableText,
   faqs: z.array(faqSchema),
   status,
@@ -236,6 +241,7 @@ export const serviceSchema = z.object({
 export const serviceCitySchema = z.object({
   service: slug,
   city: slug,
+  summary,
   intro: nullableText,
   faqs: z.array(faqSchema),
   status,

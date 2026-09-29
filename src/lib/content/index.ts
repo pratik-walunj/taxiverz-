@@ -99,6 +99,19 @@ export const getServices = (): Service[] => liveServices
 export const getService = (slug: string): Service | undefined =>
   liveServices.find((s) => s.slug === slug)
 export const getServiceCities = (): ServiceCity[] => liveServiceCities
+export const getServiceCity = (service: string, city: string): ServiceCity | undefined =>
+  liveServiceCities.find((sc) => sc.service === service && sc.city === city)
+export const getServiceCitiesFor = (service: string): ServiceCity[] =>
+  liveServiceCities.filter((sc) => sc.service === service)
+export const getServiceCitiesIn = (city: string): ServiceCity[] =>
+  liveServiceCities.filter((sc) => sc.city === city)
+
+/** Airports, stations and border points that belong to a city (for its hub page). */
+export const getPlacesIn = (city: string): Place[] => places.filter((p) => p.citySlug === city)
+
+/** Pages the /cabs/ directory lists; it publishes only with at least three (no thin hub). */
+const DIRECTORY_MIN = 3
+const directoryEntries = () => liveCities.length + liveRoutes.length
 
 // ---------------------------------------------------------------- publishing
 
@@ -111,8 +124,9 @@ export function contentPaths(): string[] {
     ...liveRoutes.map(routePath),
     ...liveVehicles.map((v) => vehiclePath(v.slug)),
   ]
-  if (liveCities.length) paths.push('/cabs/')
-  if (liveVehicles.length) paths.push('/fleet/')
+  if (directoryEntries() >= DIRECTORY_MIN) paths.push('/cabs/')
+  // The fleet hub lists vehicle classes, so it is live as soon as one class is.
+  if (liveClasses.length) paths.push('/fleet/')
   return paths
 }
 

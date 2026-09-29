@@ -1,4 +1,5 @@
 import type { Branch, Business } from '@/lib/schemas/business'
+import type { Faq } from '@/lib/schemas/content'
 import { site } from '@/config/site'
 import { absoluteUrl } from '@/lib/seo/metadata'
 
@@ -96,6 +97,39 @@ export function breadcrumbJsonLd(crumbs: readonly Crumb[]): JsonLdObject {
       position: i + 1,
       name: c.name,
       item: absoluteUrl(c.path),
+    })),
+  }
+}
+
+/** A service offered from a place (service hubs, service × city, city hubs). No offers or prices until verified. */
+export function serviceJsonLd(input: {
+  name: string
+  description: string
+  path: string
+  serviceType: string
+  areaServed: readonly string[]
+}): JsonLdObject {
+  return compact({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    serviceType: input.serviceType,
+    provider: { '@id': ORG_ID },
+    areaServed: input.areaServed.map((name) => ({ '@type': 'City', name })),
+  })
+}
+
+/** FAQPage for meaning only; no rich result is promised (REBUILD_PLAN §3.7). */
+export function faqJsonLd(faqs: readonly Faq[]): JsonLdObject {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   }
 }

@@ -48,6 +48,7 @@ export function cityGate(city: City, ctx: GateContext): string[] {
   const reasons: string[] = []
   if (!city.isBranch && ctx.publishedRoutesFrom(city.slug) < 3)
     reasons.push('not a branch city and fewer than 3 published routes from it')
+  if (!city.summary) reasons.push('no summary (meta description)')
   if (wordCount(city.intro) < 150) reasons.push('intro under 150 words')
   return reasons
 }
@@ -55,6 +56,7 @@ export function cityGate(city: City, ctx: GateContext): string[] {
 /** Not in §5: a hub page needs real content too, so the same bar as a city hub plus FAQs. */
 export function serviceGate(service: Service): string[] {
   const reasons: string[] = []
+  if (!service.summary) reasons.push('no summary (meta description)')
   if (wordCount(service.intro) < 150) reasons.push('intro under 150 words')
   if (service.faqs.length < 4) reasons.push('fewer than 4 FAQs')
   return reasons
@@ -63,6 +65,7 @@ export function serviceGate(service: Service): string[] {
 export function serviceCityGate(sc: ServiceCity, ctx: GateContext): string[] {
   const reasons: string[] = []
   if (!ctx.isServicePublished(sc.service)) reasons.push('its service hub is not published')
+  if (!sc.summary) reasons.push('no summary (meta description)')
   if (wordCount(sc.intro) < 200) reasons.push('under 200 words of local specifics')
   if (sc.faqs.length < 4) reasons.push('fewer than 4 FAQs')
   return reasons

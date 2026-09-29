@@ -16,19 +16,19 @@ export function Breadcrumbs({ trail }: { trail: readonly Crumb[] }) {
   ]
   return (
     <>
-      <nav aria-label="Breadcrumb" className="text-muted text-sm">
+      <nav aria-label="Breadcrumb" className="text-sm">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           {crumbs.map((c, i) => {
             const isLast = i === crumbs.length - 1
             return (
               <li key={c.path} className="flex items-center gap-2">
                 {isLast ? (
-                  <span aria-current="page" className="text-ink">
+                  <span aria-current="page" className="font-semibold">
                     {c.name}
                   </span>
                 ) : (
                   <>
-                    <Link href={c.path} className="hover:text-brand-deep">
+                    <Link href={c.path} className="opacity-75 hover:underline hover:opacity-100">
                       {c.name}
                     </Link>
                     <span aria-hidden="true">/</span>
