@@ -49,4 +49,10 @@ export const business: Business = {
   sisterSites: [], // C6
   googleSiteVerification: '23ajximOhjcSaplr5OFe6VXTGeWWE8bWWp-hZwpNMpI',
   claims: { available24x7: null, gpsTracked: null, callbackMinutes: null }, // H2
+  registrations: [], // F2
+  policies: { freeCancellationHours: null, advancePercent: null, refundDays: null }, // H1
+  paymentMethods: [], // H1
+  paymentAccounts: [], // H1 — the payment-safety notice appears once set
+  grievanceOfficer: null, // H1
+  policyReviewed: { privacy: null, terms: null, refund: null },
 }

@@ -328,6 +328,22 @@ export const postSchema = z.object({
   status,
 })
 
+/**
+ * A real customer review the owner is allowed to quote (F3). Never invented,
+ * never marked up as Review/AggregateRating JSON-LD (self-serving, CLAUDE.md).
+ */
+export const reviewSchema = z.object({
+  /** Name or initials, as the customer agreed. */
+  author: z.string().min(1).max(60),
+  text: z.string().min(20).max(1200),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  trip: z.string().min(1).max(80).nullable(),
+  source: z.enum(['google', 'whatsapp', 'email', 'in-person']),
+  /** Link to the review on Google, when it is public there. */
+  url: z.string().url().nullable(),
+  permission: z.literal(true),
+})
+
 export type City = z.infer<typeof citySchema>
 export type Place = z.infer<typeof placeSchema>
 export type Route = z.infer<typeof routeSchema>
@@ -341,3 +357,4 @@ export type Package = z.infer<typeof packageSchema>
 export type Destination = z.infer<typeof destinationSchema>
 export type Guide = z.infer<typeof guideSchema>
 export type Post = z.infer<typeof postSchema>
+export type Review = z.infer<typeof reviewSchema>

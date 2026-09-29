@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { Phone } from 'lucide-react'
 import { business } from '@/config/business'
@@ -14,6 +15,21 @@ import { postLead, prepareWhatsAppWindow } from './lead-client'
 import { PhoneField, toE164, validMobile, type CountryCode } from './PhoneField'
 
 const MONTHLY = ['1–10', '11–50', '51–200', 'More than 200'] as const
+const PERMITS = [
+  'All-India tourist permit',
+  'State tourist permit',
+  'Local taxi permit',
+  'Not sure',
+] as const
+const LICENCES = [
+  'LMV (car)',
+  'LMV transport / commercial',
+  'Heavy vehicle (HMV / HTV)',
+  'Not sure',
+] as const
+
+/** Which fields the form shows. */
+export type EnquiryKind = 'enquiry' | 'corporate' | 'contact' | 'attach' | 'driver'
 
 interface Values {
   name: string
@@ -27,13 +43,19 @@ interface Values {
   company: string
   gstin: string
   monthlyTrips: string
+  vehicle: string
+  vehicleYear: string
+  permit: string
+  licence: string
+  yearsDriving: string
+  languages: string
   message: string
 }
 
 /**
- * Enquiry form for enquire-mode services (luxury, wedding, shoots, buses,
- * self-drive, bikes, packages) and, with `corporate`, the company form
- * (REBUILD_PLAN §7 Phase 5). Same pipeline as bookings: reference number on
+ * One lead form, several field sets (`kind`): enquiries for enquire-mode
+ * services (Phase 5), the corporate form, the contact form and the two
+ * partner forms (Phase 6). Same pipeline as bookings: reference number on
  * success, WhatsApp with the same details if saving fails.
  */
 export function EnquiryForm({
@@ -42,7 +64,7 @@ export function EnquiryForm({
   title,
   occasions,
   defaultCity = '',
-  corporate = false,
+  kind = 'enquiry',
   dark = false,
 }: {
   leadType: LeadType
@@ -51,9 +73,10 @@ export function EnquiryForm({
   title: string
   occasions?: readonly string[]
   defaultCity?: string
-  corporate?: boolean
+  kind?: EnquiryKind
   dark?: boolean
 }) {
+  const isCorporate = kind === 'corporate'
   const id = useId()
   const startedAt = useRef(0)
   useEffect(() => {
@@ -71,6 +94,12 @@ export function EnquiryForm({
     company: '',
     gstin: '',
     monthlyTrips: '',
+    vehicle: '',
+    vehicleYear: '',
+    permit: '',
+    licence: '',
+    yearsDriving: '',
+    languages: '',
     message: '',
   })
   const [website, setWebsite] = useState('')
@@ -82,27 +111,42 @@ export function EnquiryForm({
 
   function details(): LeadDetails {
     const size = Number(v.groupSize)
+    const year = Number(v.vehicleYear)
+    const driving = Number(v.yearsDriving)
     return {
       subject,
       ...(v.date && { date: v.date }),
       ...(v.city.trim() && { city: v.city.trim() }),
       ...(Number.isInteger(size) && size > 0 && { groupSize: size }),
       ...(v.occasion && { occasion: v.occasion }),
-      ...(corporate && v.company.trim() && { company: v.company.trim() }),
-      ...(corporate && v.gstin.trim() && { gstin: v.gstin.trim().toUpperCase() }),
-      ...(corporate && v.monthlyTrips && { monthlyTrips: v.monthlyTrips }),
+      ...(isCorporate && v.company.trim() && { company: v.company.trim() }),
+      ...(isCorporate && v.gstin.trim() && { gstin: v.gstin.trim().toUpperCase() }),
+      ...(isCorporate && v.monthlyTrips && { monthlyTrips: v.monthlyTrips }),
+      ...(kind === 'attach' && v.vehicle.trim() && { vehicle: v.vehicle.trim() }),
+      ...(kind === 'attach' && Number.isInteger(year) && year >= 1990 && { vehicleYear: year }),
+      ...(kind === 'attach' && v.permit && { permit: v.permit }),
+      ...(kind === 'driver' && v.licence && { licence: v.licence }),
+      ...(kind === 'driver' &&
+        v.yearsDriving !== '' &&
+        Number.isInteger(driving) && { yearsDriving: driving }),
+      ...(kind === 'driver' && v.languages.trim() && { languages: v.languages.trim() }),
     }
   }
 
   function summary(reference: string | null) {
     const d = details()
     return [
-      `Hi Taxiverz, an enquiry about ${subject}:`,
+      kind === 'contact' ? 'Hi Taxiverz,' : `Hi Taxiverz, an enquiry about ${subject}:`,
       '',
       reference && `Reference: ${reference}`,
       d.company && `Company: ${d.company}`,
       d.gstin && `GSTIN: ${d.gstin}`,
       d.monthlyTrips && `Trips per month: ${d.monthlyTrips}`,
+      d.vehicle && `Vehicle: ${d.vehicle}${d.vehicleYear ? ` (${d.vehicleYear})` : ''}`,
+      d.permit && `Permit: ${d.permit}`,
+      d.licence && `Licence: ${d.licence}`,
+      d.yearsDriving !== undefined && `Years driving: ${d.yearsDriving}`,
+      d.languages && `Languages: ${d.languages}`,
       d.occasion && `Occasion: ${d.occasion}`,
       d.date && `Date: ${d.date}`,
       d.city && `City: ${d.city}`,
@@ -120,8 +164,20 @@ export function EnquiryForm({
     if (!v.name.trim()) e.name = 'Enter your name.'
     if (!validMobile(v.cc, v.mobile)) e.mobile = 'Enter a valid mobile number.'
     if (v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) e.email = 'Check the email address.'
-    if (corporate && !v.company.trim()) e.company = 'Enter the company name.'
-    if (corporate && v.gstin && !GSTIN_PATTERN.test(v.gstin.trim().toUpperCase()))
+    if (isCorporate && !v.company.trim()) e.company = 'Enter the company name.'
+    if (kind === 'contact' && !v.message.trim()) e.message = 'Write your message.'
+    if (kind === 'attach' && !v.vehicle.trim()) e.vehicle = 'Enter the vehicle model.'
+    if ((kind === 'attach' || kind === 'driver') && !v.city.trim()) e.city = 'Enter your city.'
+    if (kind === 'driver' && !v.licence) e.licence = 'Choose your licence type.'
+    if (kind === 'attach' && v.vehicleYear && !/^(19[9]\d|20\d\d)$/.test(v.vehicleYear))
+      e.vehicleYear = 'Enter the year, e.g. 2021.'
+    if (
+      kind === 'driver' &&
+      v.yearsDriving &&
+      !(Number(v.yearsDriving) >= 0 && Number(v.yearsDriving) <= 60)
+    )
+      e.yearsDriving = 'Enter a number of years.'
+    if (isCorporate && v.gstin && !GSTIN_PATTERN.test(v.gstin.trim().toUpperCase()))
       e.gstin = 'Check the GSTIN — 15 characters, e.g. 09AAAAA0000A1Z5.'
     if (v.groupSize && !(Number(v.groupSize) >= 1 && Number(v.groupSize) <= 500))
       e.groupSize = 'Enter a number of people.'
@@ -169,8 +225,12 @@ export function EnquiryForm({
       <div role={state === 'failed' ? 'alert' : 'status'} className="grid gap-4">
         <h2 className="text-h3 font-bold">
           {state === 'sent'
-            ? 'Thanks — we have your enquiry'
-            : 'Please send your enquiry on WhatsApp'}
+            ? kind === 'contact'
+              ? 'Thanks — we have your message'
+              : 'Thanks — we have your enquiry'
+            : kind === 'contact'
+              ? 'Please send your message on WhatsApp'
+              : 'Please send your enquiry on WhatsApp'}
         </h2>
         <p>
           {state === 'sent'
@@ -250,7 +310,7 @@ export function EnquiryForm({
       <h2 id={`${id}-title`} className="text-h3 font-bold sm:col-span-2">
         {title}
       </h2>
-      {corporate && field('company', 'Company', text('company', 'text', 'organization'), true)}
+      {isCorporate && field('company', 'Company', text('company', 'text', 'organization'), true)}
       {field('name', 'Your name', text('name', 'text', 'name'))}
       <div
         className={
@@ -267,7 +327,55 @@ export function EnquiryForm({
           error={errors.mobile ?? null}
         />
       </div>
-      {corporate ? (
+      {kind === 'contact' ? (
+        field('email', 'Email (optional)', text('email', 'email', 'email'), true)
+      ) : kind === 'attach' ? (
+        <>
+          {field('vehicle', 'Vehicle model', text('vehicle'))}
+          {field('vehicleYear', 'Year (optional)', text('vehicleYear', 'number'))}
+          {field(
+            'permit',
+            'Permit (optional)',
+            <select
+              id={`${id}-permit`}
+              value={v.permit}
+              onChange={(e) => set('permit', e.target.value)}
+              className={input}
+            >
+              <option value="">Choose…</option>
+              {PERMITS.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>,
+          )}
+          {field('city', 'City', text('city', 'text', 'address-level2'))}
+        </>
+      ) : kind === 'driver' ? (
+        <>
+          {field(
+            'licence',
+            'Driving licence',
+            <select
+              id={`${id}-licence`}
+              value={v.licence}
+              onChange={(e) => set('licence', e.target.value)}
+              className={input}
+            >
+              <option value="">Choose…</option>
+              {LICENCES.map((l) => (
+                <option key={l} value={l}>
+                  {l}
+                </option>
+              ))}
+            </select>,
+          )}
+          {field('yearsDriving', 'Years driving (optional)', text('yearsDriving', 'number'))}
+          {field('languages', 'Languages you speak (optional)', text('languages'))}
+          {field('city', 'City', text('city', 'text', 'address-level2'))}
+        </>
+      ) : isCorporate ? (
         <>
           {field('email', 'Work email (optional)', text('email', 'email', 'email'))}
           {field('gstin', 'GSTIN (optional)', text('gstin'))}
@@ -318,10 +426,16 @@ export function EnquiryForm({
       )}
       {field(
         'message',
-        corporate ? 'What do you need? (optional)' : 'Anything else? (optional)',
+        kind === 'contact'
+          ? 'Your message'
+          : isCorporate
+            ? 'What do you need? (optional)'
+            : 'Anything else? (optional)',
         <textarea
           id={`${id}-message`}
-          rows={3}
+          rows={kind === 'contact' ? 5 : 3}
+          aria-invalid={errors.message ? true : undefined}
+          aria-describedby={errors.message ? `${id}-message-err` : undefined}
           value={v.message}
           onChange={(e) => set('message', e.target.value)}
           className={cx(input, 'py-2')}
@@ -339,7 +453,12 @@ export function EnquiryForm({
         className="hidden"
       />
       <p className={cx('text-sm sm:col-span-2', muted)}>
-        We use your details only to answer this enquiry. No payment is taken.
+        We use your details only to answer this {kind === 'contact' ? 'message' : 'enquiry'}
+        {kind === 'attach' || kind === 'driver' ? '' : '. No payment is taken'}. See our{' '}
+        <Link href="/privacy/" className="underline">
+          privacy policy
+        </Link>
+        .
       </p>
       <div className="grid gap-3 sm:col-span-2 sm:grid-cols-2">
         <button
@@ -350,7 +469,7 @@ export function EnquiryForm({
             dark ? 'bg-champagne text-night' : 'bg-brand text-ink',
           )}
         >
-          {state === 'sending' ? 'Sending…' : 'Send enquiry'}
+          {state === 'sending' ? 'Sending…' : kind === 'contact' ? 'Send message' : 'Send enquiry'}
         </button>
         <button
           type="button"
@@ -358,7 +477,8 @@ export function EnquiryForm({
           onClick={() => void submit(true)}
           className="bg-whatsapp text-ink rounded-control inline-flex min-h-12 items-center justify-center gap-2 px-5 font-bold"
         >
-          <WhatsAppIcon className="size-5" /> Enquire on WhatsApp
+          <WhatsAppIcon className="size-5" />{' '}
+          {kind === 'contact' ? 'Send on WhatsApp' : 'Enquire on WhatsApp'}
         </button>
       </div>
     </form>

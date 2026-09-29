@@ -40,6 +40,11 @@ export function leadText(lead: LeadRecord): string {
         d.company && `Company: ${d.company}`,
         d.gstin && `GSTIN: ${d.gstin}`,
         d.monthlyTrips && `Trips per month: ${d.monthlyTrips}`,
+        d.vehicle && `Vehicle: ${d.vehicle}${d.vehicleYear ? ` (${d.vehicleYear})` : ''}`,
+        d.permit && `Permit: ${d.permit}`,
+        d.licence && `Licence: ${d.licence}`,
+        d.yearsDriving !== undefined && `Years driving: ${d.yearsDriving}`,
+        d.languages && `Languages: ${d.languages}`,
       ].filter(Boolean)
     : []
   const extra = [

@@ -77,6 +77,13 @@ export const leadDetailsSchema = z
     company: shortText(120),
     gstin: z.string().trim().toUpperCase().regex(GSTIN_PATTERN, 'Check the GSTIN'),
     monthlyTrips: shortText(40),
+    /** Partner forms (attach your taxi / drive with us). */
+    vehicle: shortText(80),
+    vehicleYear: z.number().int().min(1990).max(2100),
+    permit: shortText(60),
+    licence: shortText(60),
+    yearsDriving: z.number().int().min(0).max(60),
+    languages: shortText(80),
   })
   .partial()
 

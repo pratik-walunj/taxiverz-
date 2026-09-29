@@ -44,6 +44,37 @@ export const businessSchema = z.object({
     gpsTracked: z.boolean().nullable(),
     callbackMinutes: z.number().int().positive().nullable(),
   }),
+  /** Registrations, permits and licences the owner can prove (F2). */
+  registrations: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })),
+  /** Booking policies (H1). null = not decided: the terms and refund pages stay draft. */
+  policies: z.object({
+    freeCancellationHours: z.number().int().nonnegative().nullable(),
+    advancePercent: z.number().min(0).max(100).nullable(),
+    refundDays: z.number().int().positive().nullable(),
+  }),
+  /** How customers can pay, e.g. "UPI", "Cash to the driver" (H1). */
+  paymentMethods: z.array(z.string().min(1)),
+  /** The only official accounts payments go to; shown in the payment-safety notice (H1). */
+  paymentAccounts: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })),
+  /** DPDP Act grievance officer (H1). Until named, privacy requests go to the business contacts. */
+  grievanceOfficer: z
+    .object({ name: z.string().min(1), email: z.string().email(), phone: e164India.nullable() })
+    .nullable(),
+  /** The date the owner last reviewed each policy page (YYYY-MM-DD). */
+  policyReviewed: z.object({
+    privacy: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .nullable(),
+    terms: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .nullable(),
+    refund: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .nullable(),
+  }),
 })
 
 export type Business = z.infer<typeof businessSchema>

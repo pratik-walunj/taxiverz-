@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Phone } from 'lucide-react'
@@ -447,7 +448,11 @@ export function BookingFlow({
               className="hidden"
             />
             <p className="text-muted text-sm">
-              We use your details only to arrange this trip and contact you about it.
+              We use your details only to arrange this trip and contact you about it. See our{' '}
+              <Link href="/privacy/" className="underline">
+                privacy policy
+              </Link>
+              .
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
               <button
