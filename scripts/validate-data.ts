@@ -208,6 +208,8 @@ const entrySchema = z.object({
   type: z.string(),
   target: z.string().regex(pathRe),
   fallback: z.string().regex(pathRe).nullable(),
+  fallbacks: z.array(z.string().regex(pathRe)).optional(),
+  gone: z.boolean().optional(),
   confidence: z.enum(['high', 'medium', 'needs-owner']),
   inSitemap: z.boolean(),
   linkedFrom: z.enum(['anchor', 'js-only', 'orphan']),
@@ -280,7 +282,11 @@ else {
       ...guides.map((g) => `/destinations/${g.place}/${g.guide}/`),
     ])
     const targets = [
-      ...map.data.entries.flatMap((e) => [e.target, ...(e.fallback ? [e.fallback] : [])]),
+      ...map.data.entries.flatMap((e) => [
+        e.target,
+        ...(e.fallback ? [e.fallback] : []),
+        ...(e.fallbacks ?? []),
+      ]),
       ...map.data.aliases.map((a) => a.target),
     ]
     for (const t of new Set(targets)) {

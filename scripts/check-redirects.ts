@@ -2,7 +2,8 @@
  * npm run redirects:check — starts the production server (`next start`, after
  * `npm run build`) and proves every legacy URL in docs/legacy-url-map.json:
  *   - answers 301 in ONE hop to its effective destination (target if published,
- *     else fallback, else /), for the exact path, a lower-case and an upper-case variant;
+ *     else the first published fallback, else /), for the exact path, a lower-case and an
+ *     upper-case variant — or 410 Gone for an offer the owner has discontinued;
  *   - the destination itself answers 200.
  * Set BASE_URL to check an already running server instead (e.g. production).
  *
@@ -13,6 +14,7 @@
 import { spawn, type ChildProcess } from 'node:child_process'
 import {
   buildLegacyTable,
+  GONE,
   legacyEntries,
   legacyKey,
   legacyUrlsLandingOnHome,
@@ -63,11 +65,16 @@ async function main() {
 
     for (const entry of legacyEntries) {
       const expected = table.get(legacyKey(entry.legacyPath))!
-      destinations.add(expected)
+      if (expected !== GONE) destinations.add(expected)
       for (const path of variants(entry.legacyPath)) {
         checked++
         const res = await fetch(`${base}${path}`, { redirect: 'manual' })
         const location = res.headers.get('location')
+        // A discontinued offer answers 410 Gone (owner decision), never a redirect.
+        if (expected === GONE) {
+          if (res.status !== 410) errors.push(`${path}: status ${res.status} (want 410)`)
+          continue
+        }
         if (res.status !== 301) {
           errors.push(`${path}: status ${res.status} (want 301)`)
           continue

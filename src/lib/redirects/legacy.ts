@@ -5,14 +5,26 @@ export interface LegacyEntry {
   legacyPath: string
   target: string
   fallback?: string | null
+  /** Further fallbacks, nearest relevant first (Phase 7). */
+  fallbacks?: readonly string[]
+  /** The owner has discontinued the offer: answer 410 Gone, don't redirect. */
+  gone?: boolean
 }
 
+/** Marker for a legacy URL that answers 410 Gone. */
+export const GONE = '410'
+
 const entries: LegacyEntry[] = [
-  ...legacyMap.entries.map((e) => ({
-    legacyPath: e.legacyPath,
-    target: e.target,
-    fallback: e.fallback,
-  })),
+  ...legacyMap.entries.map((e) => {
+    const extra = e as { fallbacks?: string[]; gone?: boolean }
+    return {
+      legacyPath: e.legacyPath,
+      target: e.target,
+      fallback: e.fallback,
+      fallbacks: extra.fallbacks ?? [],
+      gone: extra.gone ?? false,
+    }
+  }),
   ...legacyMap.aliases.map((a) => ({ legacyPath: a.legacyPath, target: a.target, fallback: null })),
 ]
 
@@ -27,13 +39,18 @@ export function legacyKey(pathname: string): string {
   return decoded.toLowerCase()
 }
 
-/** Target if published, otherwise fallback if published, otherwise the home page. */
+/**
+ * Target if published, otherwise the first published fallback (`fallback`,
+ * then `fallbacks` in order), otherwise the home page. A discontinued offer
+ * (`gone`) returns GONE (410) — unless its target has been published again.
+ */
 export function effectiveDestination(
   entry: LegacyEntry,
   isPublished: (path: string) => boolean = defaultIsPublished,
 ): string {
   if (isPublished(entry.target)) return entry.target
-  if (entry.fallback && isPublished(entry.fallback)) return entry.fallback
+  if (entry.gone) return GONE
+  for (const f of [entry.fallback, ...(entry.fallbacks ?? [])]) if (f && isPublished(f)) return f
   return '/'
 }
 

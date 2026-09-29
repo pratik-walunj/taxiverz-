@@ -3,7 +3,7 @@
   "generated": "2026-09-28",
   "rules": {
     "matching": "Case-insensitive; match both raw and %20-encoded forms; also match without the leading slash variants the server may log. The live Apache server is case-sensitive today (e.g. /Gypsy.html is 200, /gypsy.html is 404).",
-    "redirect": "301, single hop. At build time each legacy URL points at `target` if that page is published, otherwise at `fallback`, otherwise '/'. Phase 7 asserts the effective destination returns 200.",
+    "redirect": "301, single hop. At build time each legacy URL points at `target` if that page is published, otherwise at `fallback`, otherwise at the first published path in `fallbacks` (nearest relevant published page, Phase 7), otherwise '/'. An entry with `gone: true` (an offer the owner has discontinued) answers 410 Gone instead. Phase 7 asserts every effective destination returns 200.",
     "home": "'/' itself is not redirected. '/index.html' -> '/'.",
     "confidence": "high = target is certain; medium = sensible default, owner may change the slug; needs-owner = depends on an OWNER_TODO answer.",
     "linkedFrom": "anchor = linked with a crawlable <a href>; js-only = reachable only via onclick/JS or non-anchor markup; orphan = referenced by no other page.",
@@ -34,7 +34,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": "2-2-ac-bus.html and luxurybus.html describe the same 2x2 AC bus; consolidated."
+      "note": "2-2-ac-bus.html and luxurybus.html describe the same 2x2 AC bus; consolidated.",
+      "fallbacks": [
+        "/tempo-traveller/"
+      ]
     },
     {
       "legacyPath": "/Advertisement-Shoots.html",
@@ -265,7 +268,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/audi-a6.html",
@@ -276,7 +282,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/audi-a8.html",
@@ -287,7 +296,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/audi-q3.html",
@@ -298,7 +310,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/audi-q5.html",
@@ -309,7 +324,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/audi-q7.html",
@@ -320,7 +338,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/ayodhya-to-kushinagar.html",
@@ -331,7 +352,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/outstation-cabs/"
+      ]
     },
     {
       "legacyPath": "/ayodhya-to-prayagraj.html",
@@ -342,7 +366,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/outstation-cabs/"
+      ]
     },
     {
       "legacyPath": "/bajaj-avenger.html",
@@ -386,7 +413,10 @@
       "confidence": "medium",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": "City slug normalised: Banaras -> varanasi."
+      "note": "City slug normalised: Banaras -> varanasi.",
+      "fallbacks": [
+        "/outstation-cabs/"
+      ]
     },
     {
       "legacyPath": "/bike-rental.html",
@@ -419,7 +449,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/bmw-520.html",
@@ -430,7 +463,10 @@
       "confidence": "medium",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": "Page says 'BMW 520'; image and car-rental.html say 520d."
+      "note": "Page says 'BMW 520'; image and car-rental.html say 520d.",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/bmw-mz-convertible.html",
@@ -441,7 +477,10 @@
       "confidence": "needs-owner",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": "'BMW MZ Convertible' is not a real model; image says 'bmw m convertible', car-rental.html says Z4. Repoint to /fleet/{model}/ once the owner confirms the car."
+      "note": "'BMW MZ Convertible' is not a real model; image says 'bmw m convertible', car-rental.html says Z4. Repoint to /fleet/{model}/ once the owner confirms the car.",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/bmw-x1.html",
@@ -452,7 +491,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/bullet-classic-350.html",
@@ -529,7 +571,10 @@
       "confidence": "needs-owner",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": "Long-distance route (legacy distance over 600 km): stays draft until the owner confirms Taxiverz runs it; until then the redirect uses the fallback (OWNER_TODO E3)."
+      "note": "Long-distance route (legacy distance over 600 km): stays draft until the owner confirms Taxiverz runs it; until then the redirect uses the fallback (OWNER_TODO E3).",
+      "fallbacks": [
+        "/outstation-cabs/"
+      ]
     },
     {
       "legacyPath": "/faq.html",
@@ -1167,7 +1212,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/jaguar-xf.html",
@@ -1178,7 +1226,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/jaguar-xjl.html",
@@ -1189,7 +1240,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/jawa-classic.html",
@@ -1211,7 +1265,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/"
+      ]
     },
     {
       "legacyPath": "/kathmandu-to-janakpur.html",
@@ -1222,7 +1279,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/"
+      ]
     },
     {
       "legacyPath": "/kathmandu-to-manokamana.html",
@@ -1233,7 +1293,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/"
+      ]
     },
     {
       "legacyPath": "/kathmandu-to-nagarkot.html",
@@ -1244,7 +1307,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/"
+      ]
     },
     {
       "legacyPath": "/kathmandu-to-pokhara.html",
@@ -1255,7 +1321,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/"
+      ]
     },
     {
       "legacyPath": "/local-taxi-booking-gorakhpur.html",
@@ -1277,7 +1346,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/outstation-cabs/"
+      ]
     },
     {
       "legacyPath": "/luxury-car-rental-in-gorakhpur.html",
@@ -1288,7 +1360,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/luxury3-2bus.html",
@@ -1299,7 +1374,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "orphan",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/tempo-traveller/"
+      ]
     },
     {
       "legacyPath": "/luxurybus.html",
@@ -1310,7 +1388,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "orphan",
-      "note": "2-2-ac-bus.html and luxurybus.html describe the same 2x2 AC bus; consolidated."
+      "note": "2-2-ac-bus.html and luxurybus.html describe the same 2x2 AC bus; consolidated.",
+      "fallbacks": [
+        "/tempo-traveller/"
+      ]
     },
     {
       "legacyPath": "/mercedes-c-class.html",
@@ -1321,7 +1402,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/mercedes-e-class.html",
@@ -1332,7 +1416,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/mercedes-maybach.html",
@@ -1343,7 +1430,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/mercedes-s-class.html",
@@ -1354,7 +1444,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/mercedes-slk.html",
@@ -1365,7 +1458,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": "Legacy lists 5 seats on one page and 2 on others for a 2-seat roadster."
+      "note": "Legacy lists 5 seats on one page and 2 on others for a 2-seat roadster.",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/noneacbus.html",
@@ -1376,7 +1472,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "orphan",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/tempo-traveller/"
+      ]
     },
     {
       "legacyPath": "/off-road-bikes.html",
@@ -1442,7 +1541,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/raxaul-to-janakpur.html",
@@ -1453,7 +1555,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/raxaul-to-kathmandu.html",
@@ -1464,7 +1569,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/raxaul-to-lumbini.html",
@@ -1475,7 +1583,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/raxaul-to-manokamana.html",
@@ -1486,7 +1597,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/raxaul-to-muktinath.html",
@@ -1497,7 +1611,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/raxaul-to-pokhara.html",
@@ -1508,7 +1625,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/nepal-taxi/raxaul/"
+      ]
     },
     {
       "legacyPath": "/self-drive-car-rental-in-gorakhpur.html",
@@ -1530,7 +1650,10 @@
       "confidence": "high",
       "inSitemap": false,
       "linkedFrom": "orphan",
-      "note": ""
+      "note": "",
+      "fallbacks": [
+        "/tempo-traveller/"
+      ]
     },
     {
       "legacyPath": "/swift-dezire.html",
@@ -1629,7 +1752,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": "Titled 'Local Taxi' but is the all-routes list; becomes the cities-and-routes directory."
+      "note": "Titled 'Local Taxi' but is the all-routes list; becomes the cities-and-routes directory.",
+      "fallbacks": [
+        "/cabs/gorakhpur/"
+      ]
     },
     {
       "legacyPath": "/toyota-fortuner.html",
@@ -1684,7 +1810,10 @@
       "confidence": "medium",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": "Which vintage cars exist is unknown (OWNER_TODO); slug is generic until then."
+      "note": "Which vintage cars exist is unknown (OWNER_TODO); slug is generic until then.",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/vintage-luxury-car.html",
@@ -1695,7 +1824,10 @@
       "confidence": "medium",
       "inSitemap": false,
       "linkedFrom": "js-only",
-      "note": "Which vintage cars exist is unknown (OWNER_TODO); slug is generic until then."
+      "note": "Which vintage cars exist is unknown (OWNER_TODO); slug is generic until then.",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/wagnor.html",
@@ -1717,7 +1849,10 @@
       "confidence": "high",
       "inSitemap": true,
       "linkedFrom": "anchor",
-      "note": "Target of 6 separate wedding menu links on legacy."
+      "note": "Target of 6 separate wedding menu links on legacy.",
+      "fallbacks": [
+        "/fleet/"
+      ]
     },
     {
       "legacyPath": "/yamaha-fascino.html",

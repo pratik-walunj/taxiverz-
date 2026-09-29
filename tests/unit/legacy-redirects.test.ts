@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildLegacyTable,
+  GONE,
   effectiveDestination,
   legacyEntries,
   legacyKey,
@@ -55,5 +56,39 @@ describe('legacy redirects', () => {
     expect(onHome).not.toContain('/index.html')
     expect(onHome).not.toContain('/popular-routes-section.html')
     expect(onHome.length).toBe(158 - 3)
+  })
+
+  it('tries fallbacks in order after the first fallback', () => {
+    const entry = {
+      legacyPath: '/audi-a4.html',
+      target: '/fleet/audi-a4/',
+      fallback: '/luxury-car-rental/',
+      fallbacks: ['/fleet/', '/'],
+    }
+    expect(effectiveDestination(entry, (p) => p === '/fleet/')).toBe('/fleet/')
+    expect(effectiveDestination(entry, (p) => p === '/luxury-car-rental/' || p === '/fleet/')).toBe(
+      '/luxury-car-rental/',
+    )
+  })
+
+  it('answers 410 for a discontinued offer, unless its page comes back', () => {
+    const entry = {
+      legacyPath: '/bajaj-pulsar.html',
+      target: '/fleet/bajaj-pulsar/',
+      fallback: '/bike-rental/',
+      gone: true,
+    }
+    expect(effectiveDestination(entry, (p) => p === '/bike-rental/')).toBe(GONE)
+    expect(effectiveDestination(entry, (p) => p === '/fleet/bajaj-pulsar/')).toBe(
+      '/fleet/bajaj-pulsar/',
+    )
+  })
+
+  it('launch: only shoots, bikes and self-drive still land on / today', () => {
+    const map = new Map(legacyEntries.map((e) => [e.legacyPath, e]))
+    for (const path of legacyUrlsLandingOnHome()) {
+      const t = map.get(path)!.target
+      expect(t, path).toMatch(/^\/(shoot-car-rental|bike-rental|self-drive-car-rental|fleet)\//)
+    }
   })
 })
