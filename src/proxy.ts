@@ -12,8 +12,9 @@ const legacyTable = buildLegacyTable()
 export function proxy(request: NextRequest) {
   const destination = legacyTable.get(legacyKey(request.nextUrl.pathname))
   if (!destination) return NextResponse.next()
-  const url = request.nextUrl.clone()
-  url.pathname = destination // query string kept, so UTM tags on old links survive
+  // A plain URL, not nextUrl.clone(): NextURL drops the trailing slash on pathname,
+  // which would add a second (308) hop. Query string kept, so UTM tags survive.
+  const url = new URL(`${destination}${request.nextUrl.search}`, request.url)
   return NextResponse.redirect(url, 301)
 }
 
