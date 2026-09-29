@@ -11,9 +11,62 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
 | 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
 | 5 — Premium and growth verticals | ✅ done 2026-09-29 — pushed; premium, bus, self-drive, bike and packages publish when the owner supplies vehicles/prices |
-| 6–8 | not started |
+| 6 — Trust and support | 📝 plan written, waiting for owner "go" |
+| 7–8 | not started |
 
 ---
+
+---
+
+## Phase 6 — Trust and support (plan, 2026-09-29)
+
+### Scan
+- Hotfix still not live: no merge yet.
+- **Owner facts Phase 6 depends on — none answered yet:**
+  - the company's story and credentials (F2: year started, registrations, GSTIN);
+  - reviews and the Google Business Profile link (F3) and clients (F4);
+  - policies (H1: cancellation window, advance, refund timeline, payment methods, official payment accounts, grievance contact);
+  - promises (H2: 24/7, callback time);
+  - hours (C7) and which inbox receives leads (C4).
+- **What's already confirmed:** the brand, the one phone and WhatsApp number, both branch addresses, the email used on the legacy site (`cabtaxiverz@gmail.com`), the service list, the car classes, 24-month lead retention (L2), and how the booking funnel works.
+- **The business config lacks the policy fields in REBUILD_PLAN §3.1:** `policies`, `paymentMethods`, payment accounts, `responseTimeMins`, `registrations`, grievance contact.
+- **Legacy URLs:** `about.html`, `contact.html` and `faq.html` target `/about/`, `/contact/` and `/faq/`, and currently land on `/` at launch.
+- The partner lead types `partner-attach` and `partner-driver` already exist in the lead schema.
+
+### Plan
+1. **Config:** add the §3.1 fields to `business.ts` and its schema, all `null` or empty until the owner answers. Every page below renders only what is set.
+2. **Contact** `/contact/`:
+   - both branches (address, call, WhatsApp, Google Maps link; hours only when C7 is answered), the email, and a contact form (lead type `contact`, same pipeline and WhatsApp fallback);
+   - LocalBusiness JSON-LD for each branch.
+3. **About** `/about/`:
+   - confirmed facts only: who we are and where (Gorakhpur head office at the station, Pune branch), what we run (the live services and car classes), how booking works, and how we handle your details;
+   - no founding year, trip counts, awards or "trusted by" lines until F2 and F4. A story section appears when the owner writes it.
+4. **FAQ** `/faq/`:
+   - general questions grouped as Booking, Fares, Cars, Nepal, Airport and local, Enquiries and corporate;
+   - answers only from confirmed facts; each group links to the page with more detail. FAQPage JSON-LD.
+   - Written fresh rather than copying page FAQs (the near-duplicate rule).
+5. **Policies**, one template rendering sections from config, each marked "reviewed by Taxiverz on {date}" only once reviewed:
+   - **Privacy** `/privacy/`: everything the site controls today — what we collect in each form, why, the sinks (email, Telegram, webhook, WhatsApp), analytics (GTM, and Clarity if enabled), attribution storage for 90 days, 24-month retention, your rights under India's DPDP Act 2023, how to ask for deletion, changes.
+   - **Terms** `/terms/` and **Refund policy** `/refund-policy/`: built, but **draft until H1**. They would otherwise have to invent cancellation and refund terms.
+6. **Reviews** `/reviews/`: a data file for real reviews only (name or initials, date, trip, source), plus the template. Unpublished until F3. The home and contact pages link to the Google profile once `googleBusinessUrl` is set.
+7. **Partner pages** `/attach-your-taxi/` and `/drive-with-us/`:
+   - Short, factual pages with forms. Attach-your-taxi asks for vehicle, model, year, permit type and city; drive-with-us asks for licence type, years driving, city and languages.
+   - Lead types `partner-attach` and `partner-driver`; no promises of earnings or volume.
+8. **Payment-safety notice:** "We only take payment via …", shown on `/book/confirmed/`, the contact page and the terms, **only once official payment accounts are configured** (H1). Hidden until then.
+9. **Links:** the footer's Company group lights up as pages publish, and gains a Partners group. Consent text on the booking and enquiry forms links to `/privacy/`.
+10. **Checks:**
+    - `npm run check`; e2e for the contact and partner forms (mocked API, WhatsApp fallback); the sitemap walk; drafts answer 404.
+    - Screenshots at 360, 768 and 1280.
+    - `redirects:check --launch` count; Lighthouse on `/contact/`.
+
+### Decisions to confirm
+- **A. Publish About now with confirmed facts only**, with the story added when you write it. Alternative: hold About until F2.
+- **B. Publish Privacy now.** For deletion requests and grievances it would name the business email `cabtaxiverz@gmail.com`, the phone and the head-office address until you name a grievance officer (H1). Its retention clause is your 24-month decision. Alternative: hold Privacy, but the booking and enquiry forms already collect personal data, and the DPDP Act expects a notice.
+- **C. Terms, refund policy and the payment-safety notice stay draft until H1**, because each would need promises only you can make.
+- **D. Publish the two partner pages** (attach your taxi, drive with us). Alternative: hold them if you're not taking partners right now.
+
+### Owner inputs that would unlock more
+F2 → About story and credentials · F3 → reviews · H1 → terms, refund and payment notice · H2 → response-time line on contact · C7 → hours · C4 → the right lead inbox.
 
 ---
 
