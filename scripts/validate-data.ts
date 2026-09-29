@@ -57,8 +57,35 @@ walk(business, 'business')
 const dupes = (ids: string[]) => ids.filter((id, i) => ids.indexOf(id) !== i)
 
 if (data && content) {
-  const { cities, places, routes, vehicleClasses, vehicles, services, serviceCities } = data
-  walk({ cities, places, routes, vehicleClasses, vehicles, services, serviceCities }, 'data')
+  const {
+    cities,
+    places,
+    routes,
+    vehicleClasses,
+    vehicles,
+    services,
+    serviceCities,
+    packages,
+    destinations,
+    guides,
+    posts,
+  } = data
+  walk(
+    {
+      cities,
+      places,
+      routes,
+      vehicleClasses,
+      vehicles,
+      services,
+      serviceCities,
+      packages,
+      destinations,
+      guides,
+      posts,
+    },
+    'data',
+  )
 
   // ---- uniqueness
   const citySlugs = new Set(cities.map((c) => c.slug))
@@ -78,6 +105,10 @@ if (data && content) {
     ['service × city', serviceCities.map((sc) => `${sc.service}/${sc.city}`)],
     ['legacy URL claimed by a route', routes.flatMap((r) => r.legacyUrls)],
     ['legacy URL claimed by a vehicle', vehicles.flatMap((v) => v.legacyUrls)],
+    ['package', packages.map((p) => p.slug)],
+    ['destination', destinations.map((d) => d.place)],
+    ['guide', guides.map((g) => `${g.place}/${g.guide}`)],
+    ['blog post', posts.map((p) => p.slug)],
   ]
   for (const [what, ids] of checks)
     for (const d of new Set(dupes(ids))) fail(`duplicate ${what}: ${d}`)
@@ -109,6 +140,35 @@ if (data && content) {
     if (!citySlugs.has(sc.city)) fail(`service × city ${sc.service}/${sc.city}: unknown city`)
   }
 
+  for (const d of destinations)
+    if (!citySlugs.has(d.place)) fail(`destination ${d.place}: unknown city`)
+  for (const g of guides)
+    if (!citySlugs.has(g.place)) fail(`guide ${g.place}/${g.guide}: unknown city`)
+  for (const p of packages)
+    for (const v of p.variants)
+      if (!citySlugs.has(v.origin)) fail(`package ${p.slug}: unknown variant origin ${v.origin}`)
+
+  // ---- MDX bodies: every guide and post has one; published guides have ≥ 400 words (§5)
+  const mdxWords = (file: string) =>
+    readFileSync(file, 'utf8')
+      .replace(/\{\/\*[\s\S]*?\*\/\}/g, ' ') // MDX comments
+      .replace(/^(import|export) .*$/gm, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\]\([^)]*\)/g, ' ') // link targets
+      .match(/[\p{L}\p{N}]+/gu)?.length ?? 0
+  for (const g of guides) {
+    const file = join('content', 'destinations', g.place, `${g.guide}.mdx`)
+    if (!existsSync(file)) fail(`guide ${g.place}/${g.guide}: missing ${file}`)
+    else if (g.status === 'published' && mdxWords(file) < 400)
+      fail(`guide ${g.place}/${g.guide} is published but has ${mdxWords(file)} words (need 400)`)
+    else if (PLACEHOLDER.test(readFileSync(file, 'utf8').replace(/\{\/\*[\s\S]*?\*\/\}/g, '')))
+      fail(`guide ${g.place}/${g.guide}: placeholder text in the body`)
+  }
+  for (const p of posts) {
+    const file = join('content', 'blog', `${p.slug}.mdx`)
+    if (!existsSync(file)) fail(`blog post ${p.slug}: missing ${file}`)
+  }
+
   // ---- images exist
   for (const v of vehicles)
     for (const img of v.images)
@@ -127,6 +187,10 @@ if (data && content) {
     ['cities', cities.map((c) => ({ status: c.status, id: c.slug }))],
     ['routes', routes.map((r) => ({ status: r.status, id: r.slug }))],
     ['vehicles', vehicles.map((v) => ({ status: v.status, id: v.slug }))],
+    ['packages', packages.map((p) => ({ status: p.status, id: p.slug }))],
+    ['destination guides', guides.map((g) => ({ status: g.status, id: content!.guidePath(g) }))],
+    ['destinations', destinations.map((d) => ({ status: d.status, id: d.place }))],
+    ['blog posts', posts.map((p) => ({ status: p.status, id: p.slug }))],
   ]
   for (const [entity, items] of statusOf)
     for (const item of items.filter((i) => i.status === 'published')) {
@@ -186,7 +250,7 @@ else {
 
   // Every target/fallback must name something the data defines (or a planned page).
   if (data) {
-    const { cities, routes, vehicles, services, serviceCities } = data
+    const { cities, routes, vehicles, services, serviceCities, packages, guides } = data
     const plannedStatic = [
       '/',
       '/cabs/',
@@ -212,6 +276,8 @@ else {
       ...services.map((s) => `/${s.slug}/`),
       ...services.flatMap((s) => s.subPages.map((p) => `/${s.slug}/${p.slug}/`)),
       ...serviceCities.map((sc) => `/${sc.service}/${sc.city}/`),
+      ...packages.map((p) => `/packages/${p.slug}/`),
+      ...guides.map((g) => `/destinations/${g.place}/${g.guide}/`),
     ])
     const targets = [
       ...map.data.entries.flatMap((e) => [e.target, ...(e.fallback ? [e.fallback] : [])]),
@@ -219,9 +285,7 @@ else {
     ]
     for (const t of new Set(targets)) {
       if (known.has(t)) continue
-      // Packages and destination guides arrive with their data in Phase 5.
-      if (/^\/(packages|destinations)\//.test(t)) pendingTargets.add(t)
-      else fail(`legacy-url-map: target ${t} matches no data entity or planned page`)
+      fail(`legacy-url-map: target ${t} matches no data entity or planned page`)
     }
   }
 }

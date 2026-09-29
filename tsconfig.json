@@ -18,7 +18,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@docs/*": ["./docs/*"]
+      "@docs/*": ["./docs/*"],
+      "@content/*": ["./content/*"]
     }
   },
   "include": [

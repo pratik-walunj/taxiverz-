@@ -1,3 +1,4 @@
+import createMDX from '@next/mdx'
 import type { NextConfig } from 'next'
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants'
 
@@ -10,9 +11,13 @@ const securityHeaders = [
   { key: 'Strict-Transport-Security', value: 'max-age=31536000' },
 ]
 
+// MDX bodies (content/destinations, content/blog) are imported by pages, never
+// routed directly, so pageExtensions stays unchanged.
+const withMDX = createMDX({})
+
 export default function config(phase: string): NextConfig {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER
-  return {
+  return withMDX({
     output: 'standalone',
     trailingSlash: true,
     poweredByHeader: false,
@@ -28,5 +33,5 @@ export default function config(phase: string): NextConfig {
     async headers() {
       return [{ source: '/:path*', headers: securityHeaders }]
     },
-  }
+  })
 }

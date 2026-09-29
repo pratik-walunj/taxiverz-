@@ -10,7 +10,16 @@ import { ServicesGrid } from '@/components/sections/ServicesGrid'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { Prose } from '@/components/ui/Prose'
 import { Section } from '@/components/ui/Section'
-import { cityPath, getCities, getCity, getPlacesIn, getRoutesFrom } from '@/lib/content'
+import Link from 'next/link'
+import {
+  cityPath,
+  getCities,
+  getCity,
+  getGuides,
+  getPlacesIn,
+  getRoutesFrom,
+  guidePath,
+} from '@/lib/content'
 import { localBusinessJsonLd } from '@/lib/seo/jsonld'
 import { buildMetadata, buildTitle } from '@/lib/seo/metadata'
 import type { Route } from '@/lib/schemas/content'
@@ -87,6 +96,17 @@ export default async function CityHubPage({ params }: { params: Params }) {
           Getting around {city.name} with Taxiverz
         </h2>
         <Prose text={city.intro} className="mt-4" />
+        {getGuides(city.slug).length > 0 && (
+          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+            {getGuides(city.slug).map((g) => (
+              <li key={g.guide}>
+                <Link href={guidePath(g)} className="text-brand-deep font-semibold underline">
+                  {g.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </Section>
 
       <ServicesGrid title={`Services in ${city.name}`} city={city.slug} />
