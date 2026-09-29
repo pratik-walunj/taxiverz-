@@ -12,14 +12,80 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
 | 5 — Premium and growth verticals | ✅ done 2026-09-29 — pushed; premium, bus, self-drive, bike and packages publish when the owner supplies vehicles/prices |
 | 6 — Trust and support | ✅ done 2026-09-29 — pushed; terms, refund, reviews and payment notice publish when the owner supplies H1/F3 |
-| 7 — SEO hardening, QA, performance | 📝 plan written, waiting for owner "go" |
+| 7 — SEO hardening, QA, performance | ✅ done 2026-09-29 — pushed; budgets met except LCP/performance score (reasons and fix plan below) |
 | 8 | not started |
 
 ---
 
 ---
 
-## Phase 7 — SEO hardening, QA, performance (plan, 2026-09-29)
+## Phase 7 — SEO hardening, QA, performance (2026-09-29)
+
+Owner said "go" with all four recommendations: (A) fallback chains, (B) the 410 mechanism, (C) `lighthouse` pinned, (D) a native `<dialog>` instead of Radix.
+
+### Done
+- **Redirects:**
+  - The legacy map gains `fallbacks` (tried in order after `fallback`): luxury cars → `/fleet/`, Raxaul routes → `/nepal-taxi/raxaul/`, Kathmandu-origin routes → `/nepal-taxi/`, buses → `/tempo-traveller/`, other-origin routes → `/outstation-cabs/`, the old all-routes page → `/cabs/gorakhpur/`, wedding → `/fleet/`. 45 entries in all.
+  - A `gone: true` entry answers **410 Gone** with a small page (home link, phone), unless its target is published again. No entry is marked yet; that waits for the owner.
+  - `redirects:check` expects 410 for gone entries.
+- **SEO:**
+  - Share images (`next/og`, `src/lib/og.tsx`, generated at build) for service pages, service × city and shoot types, city hubs, routes (with a milestone showing the verified km), vehicles, packages, guides and destination overviews. `buildMetadata({ image: null })` points `og:image` at the trailing-slash URL: Next's own link omits the slash, which would cost scrapers a 308.
+  - `/llms.txt` from data. robots disallows `/api/`. The sitemap carries `lastModified` for guides and posts.
+  - The footer's Services, Popular routes and Travel guides groups come from data (published only), capped at 60 links.
+- **qa gains:**
+  - a JSON-LD structure check (`src/lib/seo/jsonld-check.ts`: required properties per `@type`, no empty values, no unknown types, never AggregateRating/Review);
+  - `og:title`, `og:description` and `og:url`; breadcrumbs on every page except home; JSON-LD present on every indexable page.
+- **The review schema now follows CLAUDE.md:** `source` is google | direct, a Google review needs its URL, and `verifiedAt` is required.
+- **New tools:**
+  - `npm run links:check`: crawls the sitemap; every internal link and asset must answer 200 (or one redirect to a 200), and internal links must end in a slash.
+  - `npm run bundle:report`: gzipped JS per page, budget 210 KB, `--verbose` for chunks.
+  - `npm run perf`: Lighthouse via the pinned `lighthouse` 12.8.2 dev dependency; 3 runs, median, CPU benchmark printed; `--low-end` (6× CPU with the full Slow 4G profile); `--assert`.
+  - `npm run test:templates`: axe on the draft templates via their dev previews, in a separate `next dev` with its own build folder (`NEXT_DIST_DIR=.next-templates`) so it never collides with the production build `check` typechecks.
+  - `tests/e2e/inp.spec.ts`: Event Timing at 4× CPU on the fare box and the mobile menu, plus the menu focus test.
+- **Performance fixes:**
+  - The mobile menu is a native `<dialog>` (Radix removed, about 16 KB less).
+  - The first keystroke in the Pickup box took **1.2 s**, half of it the browser loading a Devanagari font to show Hindi names in the suggestions. Hindi names now show only when the query is in Hindi (they still match as search terms).
+  - The heading font (Anek) is no longer preloaded, and Mukta's unused 500 weight is gone. Text never waits on the heading font: `/fleet/` LCP went from 3.36 s to 2.86 s on the same machine, at the cost of a small swap shift (CLS 0.03).
+
+### Budgets (CLAUDE.md) — met, or reason and fix plan
+Measured with `npm run perf` on `next start`, Lighthouse 12.8.2 mobile, medians of 3. The CPU benchmark varied 360–1340 during the session because the owner's own browser was busy; results below 800 are pessimistic.
+
+| Budget | Result | Status |
+|---|---|---|
+| Accessibility ≥ 95 | 100 on every page measured | ✅ |
+| SEO = 100 | 100 on every page measured | ✅ |
+| CLS < 0.05 | 0.000–0.034 | ✅ |
+| JS per page | 184–194 KB gzipped (budget 210; was ~203) | ✅ |
+| INP < 200 ms | 304–488 ms worst case at 4× on this machine (fare box and menu), was 880–1,224 ms | ⚠ reason below |
+| LCP < 2.5 s | 2.9–3.3 s (4×); 3.1–3.7 s (6× low-end) | ❌ reason below |
+| Performance ≥ 90 | 81–89 (4×; home 89); 70–89 (6×) | ❌ reason below |
+
+- **Why LCP and the score miss.** On every page the LCP element is text that has arrived by about 1 s in the simulation (TTFB about 0.5 s, no load delay). The rest is *render delay*: Lighthouse's model counts the early CSS, the preloaded body fonts and the ~150 KB React/Next runtime as work before the text can paint on Slow 4G. What we control is already cut: fonts, the logo, the fade, Radix, Zod. The runtime is the floor for this stack.
+- **Fix plan for LCP and the score:**
+  - (1) Measure on the VPS with PageSpeed Insights (real server, HTTP/2 and Brotli through Cloudflare, a calibrated machine), Phase 8.
+  - (2) If still short, try Next's Partial Prerendering / `experimental.optimizeCss` for the critical CSS.
+  - (3) Self-host a subset of Mukta (Latin + ₹ only).
+  - (4) Load the fare widget's client code after first paint (it is above the fold on home).
+  - Each will be measured before it is kept.
+- **Why INP isn't asserted at 200 ms here:** this PC's CPU benchmark is often 500–700, so a 4× throttle here is roughly 6–8× the calibrated device. The tests guard against regressions at 1,000 ms (they would have caught the 1.2 s bug) and log every sample.
+  - **Fix plan:** web-vitals INP reported to GA4 from real visitors (Phase 8), with the 200 ms budget checked on field data. The remaining first-keystroke cost is the first render of the suggestion list; if field data shows it above budget, render the list container on focus rather than on the first character.
+- **Route and vehicle pages** (named in the budget) have no published page yet. Their templates pass axe and have no sideways scroll or layout shift in the dev previews. Lighthouse runs on the first real route and vehicle as soon as they publish; they share the layout, fonts and runtime of the pages above.
+
+### Verification
+- `npm run check` ✅ — 135 unit tests; qa OK on 39 pages with the new SEO and JSON-LD checks.
+- e2e ✅ 40 passed (2 skipped: the menu tests are mobile-only). `test:templates` ✅ 14/14 (7 previews × 2 widths).
+- `links:check` ✅ 38 pages, 60 internal URLs, all 200. `bundle:report` ✅ all pages ≤ 194 KB.
+- `redirects:check` ✅ 158 URLs, one hop. With `--launch`, URLs landing on `/` went **79 → 34**: 16 shoot pages, 15 bikes, self-drive and 2 more, all waiting on B3/E5/E6 (publish, or mark `gone`).
+
+### Not done / limits
+- The launch rule is not yet met (34 URLs). It can only be closed by the owner: confirm the vehicles (pages publish and absorb them), or say the offer is discontinued (`gone: true` → 410).
+- Share images use the default sans font (the brand fonts are woff2-only through next/font). The title renders in regular weight.
+- Next adds `.next-templates` type paths to `tsconfig.json` on each template run; they're kept.
+
+### Dependencies
+Added `lighthouse` 12.8.2 (dev, pinned). Removed `@radix-ui/react-dialog`.
+
+### Plan (as approved)
 
 ### Scan
 - **Launch redirect rule:** 79 legacy URLs still land on `/`, in these groups:

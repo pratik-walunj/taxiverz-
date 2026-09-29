@@ -146,6 +146,7 @@ Is one of the four demo prototypes the look you want, or should the plan's defau
 - *Until answered:* self-drive is enquiry-only with no car list.
 
 **E6 🟢 Election-campaign cars and off-road bikes.** Are these real offers?
+- **Phase 7:** 34 old URLs (16 shoot pages, 15 bikes and scooters, self-drive and a few more) still land on the home page, which Google treats as a soft 404. For each offer, tell us either that it's real (confirm the vehicles, and its pages publish) or that it's discontinued. Discontinued offers then answer "410 Gone", which tells Google to drop them cleanly.
 - *Until answered:* not migrated.
 
 ---
