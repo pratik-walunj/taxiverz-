@@ -6,7 +6,8 @@ import { business } from '@/config/business'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { cx } from '@/lib/cx'
 import { formatIndianPhone, telHref } from '@/lib/phone'
-import { GSTIN_PATTERN, type LeadDetails, type LeadType } from '@/lib/schemas/lead'
+import type { LeadDetails, LeadType } from '@/lib/schemas/lead'
+import { GSTIN_PATTERN } from '@/lib/schemas/lead-constants'
 import { track } from '@/lib/tracking/track'
 import { whatsappHref } from '@/lib/whatsapp'
 import { postLead, prepareWhatsAppWindow } from './lead-client'
@@ -254,7 +255,7 @@ export function EnquiryForm({
       <div
         className={
           dark
-            ? '[&_input]:bg-night [&_select]:bg-night [&_input]:text-ivory [&_select]:text-ivory'
+            ? '[&_input]:bg-night [&_select]:bg-night [&_input]:text-ivory [&_select]:text-ivory [&_input]:border-ivory/30 [&_select]:border-ivory/30'
             : undefined
         }
       >

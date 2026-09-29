@@ -61,8 +61,9 @@ export const attributionSchema = z
   })
   .partial()
 
-/** GSTIN: 2-digit state code, PAN, entity number, "Z", checksum (format check only). */
-export const GSTIN_PATTERN = /^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/
+import { GSTIN_PATTERN } from './lead-constants'
+
+export { GSTIN_PATTERN }
 
 /** Extra fields of enquiry and corporate forms (Phase 5). All optional. */
 export const leadDetailsSchema = z

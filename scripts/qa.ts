@@ -191,6 +191,16 @@ function main() {
         )
     }
 
+  // The validator (Zod) must never reach the browser: it is ~60 KB gzipped and
+  // client forms only need plain constants (src/lib/schemas/lead-constants.ts).
+  const CHUNKS = join('.next', 'static', 'chunks')
+  if (existsSync(CHUNKS))
+    for (const f of readdirSync(CHUNKS).filter((x) => x.endsWith('.js')))
+      if (readFileSync(join(CHUNKS, f), 'utf8').includes('ZodError'))
+        errors.push(
+          `client chunk ${f} contains Zod — import constants, not schemas, in client code`,
+        )
+
   // `npm run qa -- --similarity` lists the closest pairs, to see the margin under the limit.
   if (process.argv.includes('--similarity'))
     pairs

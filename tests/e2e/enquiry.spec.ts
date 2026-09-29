@@ -1,8 +1,8 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const REF = 'TVZ-260929-7K2M'
 
-async function fillCorporate(page: import('@playwright/test').Page) {
+async function fillCorporate(page: Page) {
   await page.goto('/corporate-car-rental/')
   const form = page.getByRole('form', { name: 'Set up car travel for your company' })
   await form.getByLabel('Company').fill('Sample Traders Pvt Ltd')
