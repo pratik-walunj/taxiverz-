@@ -83,6 +83,10 @@ export function PlaceCombobox({
     [places, filter, value.text],
   )
   const expanded = open && options.length > 0
+  // Hindi names show only when the visitor types in Hindi: the first Devanagari text on
+  // a page makes the browser load a Devanagari font, which cost ~0.3–0.5 s on the first
+  // keystroke (INP, Phase 7). Hindi names always match as search terms.
+  const showHindi = /[\u0900-\u097F]/.test(value.text)
 
   function choose(p: FareIndexPlace) {
     onChange({ id: p.id, text: p.name })
@@ -168,7 +172,7 @@ export function PlaceCombobox({
             </span>
             <span className="text-muted text-sm">
               {TYPE_LABEL[p.type]}
-              {p.nameHi && (
+              {showHindi && p.nameHi && (
                 <span lang="hi" className="ml-2">
                   {p.nameHi}
                 </span>

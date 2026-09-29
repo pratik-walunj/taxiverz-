@@ -19,6 +19,9 @@ export default function config(phase: string): NextConfig {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER
   return withMDX({
     output: 'standalone',
+    // The template tests run `next dev` in their own folder so they never clash with
+    // the production build that `npm run check` typechecks (Phase 7).
+    distDir: process.env.NEXT_DIST_DIR ?? '.next',
     trailingSlash: true,
     poweredByHeader: false,
     reactStrictMode: true,

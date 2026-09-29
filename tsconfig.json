@@ -15,7 +15,11 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@/*": ["./src/*"],
       "@docs/*": ["./docs/*"],
@@ -30,7 +34,9 @@
     "tests/**/*.ts",
     "*.ts",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    ".next-templates/types/**/*.ts",
+    ".next-templates/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules", "legacy"]
 }

@@ -16,15 +16,19 @@ import './globals.css'
 // and load only on pages that show Hindi text, such as milestone labels.
 const mukta = Mukta({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  // 500 is not loaded: font-medium text falls back to the nearest loaded weight.
+  weight: ['400', '600', '700'],
   variable: '--font-mukta',
   display: 'swap',
 })
 
+// Headings only: not preloaded, so the page's text never waits on it (LCP);
+// headings render in the fallback for a moment and swap in when it arrives.
 const anek = Anek_Latin({
   subsets: ['latin'],
   variable: '--font-anek',
   display: 'swap',
+  preload: false,
 })
 
 export const metadata: Metadata = {

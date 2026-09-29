@@ -8,3 +8,4 @@ test-results/
 *.md
 drizzle/
 content/
+.next-templates/

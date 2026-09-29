@@ -26,6 +26,16 @@ const runs = Number(args.find((a) => a.startsWith('--runs='))?.split('=')[1] ?? 
 const lowEnd = args.includes('--low-end')
 const assert = args.includes('--assert')
 
+/** Lighthouse's default mobile throttling (Slow 4G), as in its constants. */
+const SLOW_4G = {
+  rttMs: 150,
+  throughputKbps: 1638.4,
+  requestLatencyMs: 562.5,
+  downloadThroughputKbps: 1474.56,
+  uploadThroughputKbps: 675,
+  cpuSlowdownMultiplier: 4,
+}
+
 /** CLAUDE.md "Performance" budgets. */
 const BUDGET = { performance: 90, accessibility: 95, seo: 100, lcp: 2500, cls: 0.05 }
 
@@ -55,7 +65,9 @@ async function main() {
             output: 'json',
             logLevel: 'error',
             onlyCategories: ['performance', 'accessibility', 'seo'],
-            ...(lowEnd && { throttling: { cpuSlowdownMultiplier: 6 } as never }),
+            // The flags replace the whole throttling object, so the low-end run passes the
+            // full mobile Slow 4G profile with only the CPU multiplier changed.
+            ...(lowEnd && { throttling: { ...SLOW_4G, cpuSlowdownMultiplier: 6 } }),
           })
           const lhr = result!.lhr
           samples.push({
@@ -88,7 +100,11 @@ async function main() {
         if (m.cls >= BUDGET.cls) misses.push(`${path}: CLS ${m.cls.toFixed(3)} ≥ ${BUDGET.cls}`)
       }
     } finally {
-      await chrome.kill()
+      try {
+        await chrome.kill()
+      } catch {
+        // Windows: Chrome can still hold its temp profile for a moment; the results are already in.
+      }
     }
     if (misses.length) {
       console.log(`\n${misses.length} budget miss(es):`)

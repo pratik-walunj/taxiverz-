@@ -28,7 +28,8 @@
     "distances:apply": "tsx scripts/fetch-distances.ts --apply",
     "links:check": "tsx scripts/check-links.ts",
     "bundle:report": "tsx scripts/bundle-report.ts",
-    "perf": "tsx scripts/perf.ts"
+    "perf": "tsx scripts/perf.ts",
+    "test:templates": "playwright test -c playwright.templates.config.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
