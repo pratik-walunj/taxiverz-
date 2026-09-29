@@ -12,8 +12,10 @@ import { StickyActionBar } from '@/components/layout/StickyActionBar'
 import { Tracking } from '@/components/tracking/Tracking'
 import './globals.css'
 
+// Only Latin is preloaded; the Devanagari faces stay in the CSS (unicode-range)
+// and load only on pages that show Hindi text, such as milestone labels.
 const mukta = Mukta({
-  subsets: ['latin', 'devanagari'],
+  subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-mukta',
   display: 'swap',

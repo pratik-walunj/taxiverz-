@@ -22,8 +22,10 @@ export function Header() {
           <Image
             src="/images/brand/logo.png"
             alt=""
-            width={330}
-            height={158}
+            // Shown at 48 px high (330 × 158 source): the size here sets the 1x/2x srcset.
+            width={100}
+            height={48}
+            preload
             className="h-12 w-auto"
           />
         </Link>

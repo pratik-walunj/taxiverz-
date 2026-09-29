@@ -89,14 +89,14 @@
   }
 }
 
-/* The one orchestrated moment: home hero rises in on first load (DESIGN.md §9). */
+/* The one orchestrated moment: home hero rises in on first load (DESIGN.md §9).
+   Movement only, no fade: text that starts at opacity 0 doesn't count as painted,
+   which delayed the home page's first paint and LCP by ~2 s in Lighthouse. */
 @keyframes rise-in {
   from {
-    opacity: 0;
     transform: translateY(8px);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
