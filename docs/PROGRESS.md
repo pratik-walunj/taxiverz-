@@ -10,9 +10,77 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
 | 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
 | 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
-| 5–8 | not started |
+| 5 — Premium and growth verticals | 📝 plan written, waiting for owner "go" |
+| 6–8 | not started |
 
 ---
+
+---
+
+## Phase 5 — Premium and growth verticals (plan, 2026-09-29)
+
+### Scan
+- Hotfix still not live (`/whatsapp-forms.js` → 404): no merge yet.
+- **Owner answers Phase 5 depends on — none in yet:**
+  - B3: fleet not confirmed — no luxury car, bus, self-drive car or bike is confirmed.
+  - F1: no own photos.
+  - D1–D3: border, charges, documents.
+  - D7: helicopter and mountain-flight operator.
+  - E5/E6: self-drive and bikes.
+- The only owner-given Nepal wording is the hotfix sentence (2026-09-28): "Indian citizens don't need a visa for Nepal. Carry a valid passport or Voter ID card. Call or WhatsApp us for the full document checklist before you travel."
+- **Legacy URLs waiting on Phase 5 targets:** 16 shoot pages, 3 bike, 2 luxury, 3 Nepal, 3 bus (via `/bus-rental/`), 1 self-drive, 1 wedding, 2 packages, and 1 destination (`blog.html`).
+- **No data yet** for packages, destinations or blog; no `content/` folder.
+- **Leads:** the lead schema already has the enquiry types (`enquiry-luxury`, `-wedding`, `-shoot`, `-group`, `-corporate`, `-package`, `-bike`) but no fields for occasion, date, group size or company details.
+
+### Plan
+1. **Enquiry forms**:
+   - One `EnquiryForm` (name, mobile, date, pickup city, group size, occasion, message) for luxury, wedding, shoot, bus, self-drive and bike.
+   - One `CorporateForm` (company, GSTIN — optional and format-checked, monthly trips, contact).
+   - Both post to `/api/leads/` with their lead type and use the same WhatsApp fallback and reference number as bookings.
+   - A new optional `details` object in the lead schema, stored in a new `details` jsonb column (migration `0001`). Sinks and the webhook payload include it.
+2. **Premium verticals (luxury register):**
+   - Luxury car rental, wedding cars, and cars for shoots (a hub plus the 6 shoot types at `/shoot-car-rental/{type}/`), built on `ServicePage`.
+   - The hero offers "Enquire" instead of a fare box; pages list the confirmed vehicles for the vertical; photo-led layout.
+   - **They stay draft until B3 confirms at least one vehicle for that vertical and F1 gives at least one own photo.** Copy is written now so they publish the moment those arrive.
+3. **Nepal:**
+   - The nepal-taxi hub, Gorakhpur and Raxaul pages, with a dark "India to Nepal" band.
+   - Copy uses public facts only: crossings as places, Lumbini, Kathmandu, Pokhara. Documents use only the owner's own sentence above.
+   - Border steps, Bhansar, charges and whether vehicles cross stay out until D1–D3. The route list appears once routes publish.
+4. **Corporate** `/corporate-car-rental/` with its form. No claims about GST invoices, credit terms or clients (F4) until confirmed.
+5. **Group, self-drive and bikes:**
+   - Bus rental, self-drive and bike rental: page, copy and enquiry form, **draft until B3/E5/E6**.
+   - Tempo traveller is already live.
+6. **Packages:**
+   - Zod schema: itinerary days, inclusions, exclusions, price, operator, `from-{city}` variants.
+   - Hub, template and variant route.
+   - Helicopter charter and Everest mountain flight migrated as drafts (D7).
+   - The hub publishes only once it has a published package; none can be published yet (no verified price).
+7. **Destinations (MDX):**
+   - `@next/mdx` with an exported, Zod-validated `metadata` per file in `content/destinations/{place}/{guide}.mdx`.
+   - Overview `/destinations/{place}/`, live once one of its guides is; hub `/destinations/`, live once it has any.
+   - **Write and publish:**
+     - `gorakhpur/places-to-visit` (the `blog.html` target);
+     - places-to-visit and best-time-to-visit for Kushinagar, Ayodhya, Varanasi and Lumbini.
+     - 9 guides, ≥ 400 words each, public facts only, nothing regulatory.
+   - `how-to-reach-from-gorakhpur` waits for verified distances.
+8. **Blog (MDX):**
+   - `/blog/` and `/blog/{slug}/`: live only when the owner sets `published`.
+   - Write 3 drafts from the report's §12.4 long-tail topics, picked when I read it at build time.
+9. **Internal links:** destination guide ↔ city hub ↔ service pages; the footer adds Destinations when it's live.
+10. **Checks:**
+    - `npm run check`; e2e for the enquiry and corporate forms (API mocked, including the WhatsApp fallback) and the sitemap walk (axe, one H1, a way to book); qa similarity report.
+    - Screenshots at 360, 768 and 1280, including dev previews of the draft luxury and shoot pages.
+    - `redirects:check --launch` count before and after.
+    - Lighthouse on one guide.
+
+### Decisions to confirm
+- **A. Premium, bus, self-drive and bike pages stay draft until B3 (and F1 for luxury, wedding and shoot)**, but are fully built. Alternative: publish them now as enquiry-only pages with no vehicles or photos. I don't recommend it: thin pages making implied fleet claims.
+- **B. Publish the Nepal hub + Gorakhpur + Raxaul now** with public facts and your document sentence only. Alternative: wait for D1–D3.
+- **C. Publish nine destination guides** as listed. Alternative: only the Gorakhpur guide the legacy map needs.
+- **D. MDX dependencies:** `@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`, `@types/mdx`. Alternative: plain TypeScript copy as in Phase 4, with no new dependencies but clumsier for long guides with headings and lists.
+
+### Owner inputs that would unlock more
+B3 + F1 → luxury, wedding, shoot and vehicle pages · E5/E6 → self-drive and bikes · D1–D3 → Nepal border block · D7 → helicopter and mountain-flight packages · L3 → routes and how-to-reach guides.
 
 ---
 
