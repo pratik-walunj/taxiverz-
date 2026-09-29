@@ -28,6 +28,7 @@ export const leads = pgTable(
     message: text('message'),
     /** Trip as submitted (type, from, to, dates, class). */
     trip: jsonb('trip'),
+    details: jsonb('details'),
     /** Server-recomputed quote: status, total, lines, included/excluded, isEstimate. */
     fare: jsonb('fare'),
     clientTotal: integer('client_total'),

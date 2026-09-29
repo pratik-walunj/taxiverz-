@@ -13,6 +13,7 @@ export const LEAD_TYPES = [
   'enquiry-corporate',
   'enquiry-package',
   'enquiry-bike',
+  'enquiry-self-drive',
   'partner-attach',
   'partner-driver',
   'contact',
@@ -60,9 +61,28 @@ export const attributionSchema = z
   })
   .partial()
 
+/** GSTIN: 2-digit state code, PAN, entity number, "Z", checksum (format check only). */
+export const GSTIN_PATTERN = /^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/
+
+/** Extra fields of enquiry and corporate forms (Phase 5). All optional. */
+export const leadDetailsSchema = z
+  .object({
+    /** What the enquiry is about: the page's service, shoot type, vehicle or package. */
+    subject: shortText(120),
+    date: date,
+    city: shortText(80),
+    groupSize: z.number().int().min(1).max(500),
+    occasion: shortText(80),
+    company: shortText(120),
+    gstin: z.string().trim().toUpperCase().regex(GSTIN_PATTERN, 'Check the GSTIN'),
+    monthlyTrips: shortText(40),
+  })
+  .partial()
+
 const leadBaseSchema = z.object({
   type: z.enum(LEAD_TYPES),
   trip: tripInputSchema.optional(),
+  details: leadDetailsSchema.optional(),
   contact: z.object({
     name: shortText(80).default(''),
     phone: phoneE164,
@@ -91,6 +111,7 @@ export type LeadInput = z.infer<typeof leadInputSchema>
 export type LeadInputDraft = z.input<typeof leadInputSchema>
 export type TripInput = z.infer<typeof tripInputSchema>
 export type Attribution = z.infer<typeof attributionSchema>
+export type LeadDetails = z.infer<typeof leadDetailsSchema>
 
 export const leadResponseSchema = z.object({
   ok: z.boolean(),

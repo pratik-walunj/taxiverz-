@@ -29,7 +29,21 @@ export function leadText(lead: LeadRecord): string {
     pickupAddress: lead.pickupAddress ?? undefined,
     message: lead.message ?? undefined,
   })
+  const d = lead.details
+  const detailLines = d
+    ? [
+        d.subject && `About: ${d.subject}`,
+        d.occasion && `Occasion: ${d.occasion}`,
+        d.date && `Date: ${d.date}`,
+        d.city && `City: ${d.city}`,
+        d.groupSize && `People: ${d.groupSize}`,
+        d.company && `Company: ${d.company}`,
+        d.gstin && `GSTIN: ${d.gstin}`,
+        d.monthlyTrips && `Trips per month: ${d.monthlyTrips}`,
+      ].filter(Boolean)
+    : []
   const extra = [
+    ...detailLines,
     `Lead type: ${lead.type}`,
     `WhatsApp offers: ${lead.whatsappOptIn ? 'yes' : 'no'}`,
     `Page: ${lead.page}`,
@@ -68,6 +82,7 @@ export function webhookPayload(lead: LeadRecord) {
     quotedFareIsEstimate: lead.fare?.isEstimate ?? null,
     pickupAddress: lead.pickupAddress,
     message: lead.message,
+    details: lead.details,
     whatsappOptIn: lead.whatsappOptIn,
     attribution: lead.attribution,
     page: lead.page,

@@ -2,7 +2,7 @@ import { and, eq, inArray, lt, lte, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/client'
 import { leadDeliveries, leads, type LeadRow } from '@/server/db/schema'
 import type { FareQuote } from '@/lib/pricing/types'
-import type { Attribution, LeadType, TripInput } from '@/lib/schemas/lead'
+import type { Attribution, LeadDetails, LeadType, TripInput } from '@/lib/schemas/lead'
 import type { DueDelivery, LeadRecord, OutboxStore } from './types'
 
 interface LabelsAndVehicle {
@@ -23,6 +23,7 @@ function toRecord(row: LeadRow): LeadRecord {
     pickupAddress: row.pickupAddress,
     message: row.message,
     trip: trip ? (tripOnly as TripInput) : null,
+    details: (row.details as LeadDetails | null) ?? null,
     fromLabel: labels?.fromLabel ?? null,
     toLabel: labels?.toLabel ?? null,
     vehicleLabel: labels?.vehicleLabel ?? null,
@@ -65,6 +66,7 @@ export function drizzleOutbox(db: Db): OutboxStore {
                   },
                 }
               : null,
+            details: lead.details,
             fare: lead.fare,
             clientTotal: lead.clientTotal === null ? null : Math.round(lead.clientTotal),
             whatsappOptIn: lead.whatsappOptIn,

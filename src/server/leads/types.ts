@@ -1,5 +1,5 @@
 import type { FareQuote } from '@/lib/pricing/types'
-import type { Attribution, LeadType, TripInput } from '@/lib/schemas/lead'
+import type { Attribution, LeadDetails, LeadType, TripInput } from '@/lib/schemas/lead'
 
 /** A lead as stored in the outbox and handed to every sink. */
 export interface LeadRecord {
@@ -11,6 +11,8 @@ export interface LeadRecord {
   pickupAddress: string | null
   message: string | null
   trip: TripInput | null
+  /** Enquiry and corporate form fields (occasion, group size, company …). */
+  details: LeadDetails | null
   /** Human labels resolved on the server ("Gorakhpur", "Kathmandu"). */
   fromLabel: string | null
   toLabel: string | null

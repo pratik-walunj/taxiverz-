@@ -108,6 +108,7 @@ export async function submitLead(
     pickupAddress: input.contact.pickupAddress || null,
     message: input.contact.message || null,
     trip: input.trip ?? null,
+    details: input.details ?? null,
     ...recomputed,
     clientTotal: input.clientTotal ?? null,
     whatsappOptIn: input.consent.whatsappOptIn,
