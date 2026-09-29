@@ -8,6 +8,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { parse, type HTMLElement } from 'node-html-parser'
 import { isPublished } from '../src/lib/content/published'
+import { jsonLdProblems } from '../src/lib/seo/jsonld-check'
 
 const APP_DIR = join('.next', 'server', 'app')
 const SITE = 'https://taxiverz.com'
@@ -119,6 +120,11 @@ function main() {
       }
       if (/"@type"\s*:\s*"(AggregateRating|Review)"/.test(raw))
         fail(page, 'AggregateRating/Review markup about Taxiverz')
+      try {
+        for (const p of jsonLdProblems(JSON.parse(raw))) fail(page, `JSON-LD ${p}`)
+      } catch {
+        // invalid JSON is reported above
+      }
     }
 
     // Links: no dead CTAs.
@@ -175,6 +181,12 @@ function main() {
     if (canonical !== `${SITE}${page.path}`)
       fail(page, `canonical is "${canonical}" (want "${SITE}${page.path}")`)
     if (!root.querySelector('meta[property="og:image"]')) fail(page, 'missing og:image')
+    for (const prop of ['og:title', 'og:description', 'og:url'])
+      if (!root.querySelector(`meta[property="${prop}"]`)?.getAttribute('content'))
+        fail(page, `missing ${prop}`)
+    if (page.path !== '/' && !root.querySelector('nav[aria-label="Breadcrumb"]'))
+      fail(page, 'missing breadcrumbs')
+    if (!root.querySelector('script[type="application/ld+json"]')) fail(page, 'no JSON-LD')
   }
 
   // Near-duplicate indexable pages.

@@ -16,7 +16,12 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { place, guide } = await params
   const g = getGuide(place, guide)
   if (!g?.summary) return {}
-  return buildMetadata({ title: buildTitle([g.title]), description: g.summary, path: guidePath(g) })
+  return buildMetadata({
+    image: null,
+    title: buildTitle([g.title]),
+    description: g.summary,
+    path: guidePath(g),
+  })
 }
 
 export default async function GuideRoutePage({ params }: { params: Params }) {

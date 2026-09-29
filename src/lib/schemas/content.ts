@@ -329,20 +329,26 @@ export const postSchema = z.object({
 })
 
 /**
- * A real customer review the owner is allowed to quote (F3). Never invented,
- * never marked up as Review/AggregateRating JSON-LD (self-serving, CLAUDE.md).
+ * A real customer review the owner is allowed to quote (F3, CLAUDE.md "Reviews"):
+ * `source` is google (with the review's URL) or direct (told to us, with a URL
+ * if one exists), and `verifiedAt` records when the owner checked it. Never
+ * invented; never Review/AggregateRating JSON-LD (self-serving).
  */
-export const reviewSchema = z.object({
-  /** Name or initials, as the customer agreed. */
-  author: z.string().min(1).max(60),
-  text: z.string().min(20).max(1200),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  trip: z.string().min(1).max(80).nullable(),
-  source: z.enum(['google', 'whatsapp', 'email', 'in-person']),
-  /** Link to the review on Google, when it is public there. */
-  url: z.string().url().nullable(),
-  permission: z.literal(true),
-})
+export const reviewSchema = z
+  .object({
+    /** Name or initials, as the customer agreed. */
+    author: z.string().min(1).max(60),
+    text: z.string().min(20).max(1200),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    trip: z.string().min(1).max(80).nullable(),
+    source: z.enum(['google', 'direct']),
+    url: z.string().url().nullable(),
+    verifiedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  })
+  .refine((r) => r.source !== 'google' || r.url !== null, {
+    message: 'A Google review needs its URL',
+    path: ['url'],
+  })
 
 export type City = z.infer<typeof citySchema>
 export type Place = z.infer<typeof placeSchema>

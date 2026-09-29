@@ -15,12 +15,11 @@ type Params = Promise<{ vehicle: string }>
 export async function generateMetadata({ params }: { params: Params }) {
   const v = getVehicle((await params).vehicle)
   if (!v) return {}
-  const photo = v.images.find((i) => i.source === 'own')
   return buildMetadata({
+    image: null,
     title: buildTitle([`${v.name} on Rent in Gorakhpur`]),
     description: `Book the ${v.name}${v.seats ? ` (${v.seats} seats)` : ''} with Taxiverz: prices, specs and photos. Enquire on WhatsApp or call to book.`,
     path: vehiclePath(v.slug),
-    image: photo?.src,
   })
 }
 

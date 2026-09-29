@@ -28,7 +28,11 @@ export interface PageMeta {
   title: string
   description: string
   path: string
-  image?: string
+  /**
+   * Share image path. `null` = the route has an `opengraph-image.tsx` (lib/og.tsx);
+   * metadata then points at that generated image.
+   */
+  image?: string | null
   noindex?: boolean
 }
 
@@ -39,7 +43,9 @@ export function buildMetadata({ title, description, path, image, noindex }: Page
       `Description over ${DESCRIPTION_MAX} characters (${description.length}): ${description}`,
     )
   const url = absoluteUrl(path)
-  const ogImage = image ?? site.defaultOgImage
+  // A generated image is named at its trailing-slash URL: Next's own og:image link
+  // omits the slash, which would cost share scrapers a 308 hop (trailingSlash: true).
+  const ogImage = image === null ? `${url}opengraph-image/` : (image ?? site.defaultOgImage)
   return {
     title: { absolute: title },
     description,
@@ -53,7 +59,12 @@ export function buildMetadata({ title, description, path, image, noindex }: Page
       description,
       images: [{ url: ogImage, width: 1200, height: 630, alt: site.name }],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
     robots: noindex ? { index: false, follow: true } : { index: true, follow: true },
   }
 }

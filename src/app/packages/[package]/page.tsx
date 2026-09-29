@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const pkg = getPackage((await params).package)
   if (!pkg?.summary) return {}
   return buildMetadata({
+    image: null,
     title: buildTitle([pkg.name, 'Package']),
     description: pkg.summary,
     path: packagePath(pkg.slug),

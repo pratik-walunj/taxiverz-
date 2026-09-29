@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   if (!d?.summary) return {}
   const name = getCity(d.place)?.name ?? d.place
   return buildMetadata({
+    image: null,
     title: buildTitle([`${name} Travel Guide`]),
     description: d.summary,
     path: destinationPath(d.place),

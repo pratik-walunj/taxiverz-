@@ -61,6 +61,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const page = await load(params)
   if (!page) return {}
   return buildMetadata({
+    image: null,
     title: buildTitle([
       page.kind === 'type'
         ? `Cars for ${page.sub.name}`

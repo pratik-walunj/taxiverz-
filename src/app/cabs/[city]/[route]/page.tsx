@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { route, origin, destination } = page
   const from = fromPrice(routeFareTable(buildFareIndex(), route))
   return buildMetadata({
+    image: null,
     title: buildTitle([
       `${origin.name} to ${destination.name} Taxi`,
       from !== null ? `Fare from ${formatINR(from)}` : 'One Way & Round Trip',

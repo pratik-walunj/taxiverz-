@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const city = await live(params)
   if (!city?.summary) return {}
   return buildMetadata({
+    image: null,
     title: buildTitle([`${city.name} Taxi Service`, 'Local & Outstation Cabs']),
     description: city.summary,
     path: cityPath(city.slug),

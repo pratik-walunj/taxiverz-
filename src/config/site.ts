@@ -24,31 +24,12 @@ export const mainNav: readonly NavItem[] = [
   { label: 'Contact', href: '/contact/' },
 ]
 
-/** Footer link groups; same publish rule. At most ~60 links in total. */
+/**
+ * Static footer groups (company, partners); same publish rule. The Services,
+ * Routes and Travel guides groups are generated from data in lib/nav.ts.
+ * At most ~60 links in total (CLAUDE.md).
+ */
 export const footerGroups: readonly { title: string; links: readonly NavItem[] }[] = [
-  {
-    title: 'Services',
-    links: [
-      { label: 'Outstation cabs', href: '/outstation-cabs/' },
-      { label: 'One-way cabs', href: '/one-way-cabs/' },
-      { label: 'Airport taxi', href: '/airport-taxi/' },
-      { label: 'Car rental with driver', href: '/local-car-rental/' },
-      { label: 'India–Nepal taxi', href: '/nepal-taxi/' },
-      { label: 'Wedding cars', href: '/wedding-cars/' },
-      { label: 'Tempo traveller', href: '/tempo-traveller/' },
-      { label: 'Corporate travel', href: '/corporate-car-rental/' },
-    ],
-  },
-  {
-    title: 'Travel guides',
-    links: [
-      { label: 'Gorakhpur', href: '/destinations/gorakhpur/' },
-      { label: 'Kushinagar', href: '/destinations/kushinagar/' },
-      { label: 'Ayodhya', href: '/destinations/ayodhya/' },
-      { label: 'Varanasi', href: '/destinations/varanasi/' },
-      { label: 'Lumbini', href: '/destinations/lumbini/' },
-    ],
-  },
   {
     title: 'Company',
     links: [

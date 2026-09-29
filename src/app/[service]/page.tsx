@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const service = getService((await params).service)
   if (!service?.summary) return {}
   return buildMetadata({
+    image: null,
     title: buildTitle([service.name, 'Book by class']),
     description: service.summary,
     path: servicePath(service.slug),
