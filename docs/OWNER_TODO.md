@@ -224,6 +224,11 @@ then put `DATABASE_URL=postgres://taxiverz:choose-a-password@localhost:5432/taxi
 **L3 🟠 Google Maps API key** for `scripts/fetch-distances.ts` (Routes API enabled, billing on the Google Cloud project), in `.env.local` as `GOOGLE_MAPS_API_KEY`. Needed before Phase 4B.
 - *Until answered:* distances stay unverified; no route page is published.
 - **Noted (2026-09-28):** the owner adds it before Phase 4B.
+- **Ready (Phase 4):** the script is built and tested. Once the key is in `.env.local`, run (cmd):
+  ```
+  npm run distances:fetch
+  ```
+  It writes `docs/route-distances.csv`: legacy km and Google km side by side for all 56 routes. Open it in Excel, check each row, put your own figure in `owner_km` / `owner_time_mins` if Google is wrong, and type `yes` in `reviewed`. Then run `npm run distances:apply`. Only reviewed rows reach the site. Nepal rows go through the border you name in D1; until then the CSV says Google chose the crossing.
 
 **L4 🔴 `https://www.taxiverz.com` shows a certificate error.** The SSL certificate doesn't cover `www`: `http://www…` redirects to `https://www…`, which then fails with "certificate not valid for this name". The hotfix's www → apex redirect can't run until the certificate covers `www`. Fix in hPanel → Security → SSL: issue or reinstall the certificate for both `taxiverz.com` and `www.taxiverz.com`.
 - *Until answered:* anyone typing `www.taxiverz.com` gets a security warning instead of the site.
@@ -235,6 +240,14 @@ then put `DATABASE_URL=postgres://taxiverz:choose-a-password@localhost:5432/taxi
 
 **L7 🟢 Pokhara airport code.** The plan listed `PKR`, which was the old domestic airport replaced in 2023. The new international airport's code isn't in the data yet (left `null` rather than guessed).
 - *Until answered:* the autocomplete finds Pokhara airport by name only.
+
+**L8 🟠 Please review the new page copy (Phase 4).** I wrote the text for the pages that are now ready to publish. It states only facts you've confirmed (address, phone, branches, the car classes) plus public facts about Gorakhpur (stations, airports, landmarks, NH 27). It makes no promises about 24/7 service, response times, prices, payment or cancellation. Please read it and tell me anything that's wrong or that you'd put differently:
+- the five service pages: `/outstation-cabs/`, `/one-way-cabs/`, `/airport-taxi/`, `/local-car-rental/`, `/tempo-traveller/` (text in `src/data/copy/services.ts`);
+- the same five for Gorakhpur (`/outstation-cabs/gorakhpur/` …) and the Gorakhpur hub `/cabs/gorakhpur/` (`src/data/copy/gorakhpur.ts`);
+- the home-page FAQs (`src/data/copy/home.ts`).
+
+In particular, confirm the sentences that describe how you work: pickup from Gorakhpur Junction and Gorakhpur Airport; airports covered (GOP, KBK, LKO, VNS); one-way drops into Bihar (e.g. Gopalganj); tempo travellers for baraats; that the driver waits during a function on a round trip; local packages 6 h/60 km, 8 h/80 km, 12 h/120 km with extra hours and km charged on top.
+- *Until answered:* the pages are published in the repo (nothing is deployed before Phase 8), and anything you correct is changed before launch.
 
 ---
 

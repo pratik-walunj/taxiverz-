@@ -9,14 +9,60 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 1 — Foundation | ✅ done 2026-09-28 — pushed |
 | 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
 | 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
-| 4 — Core pages | 📝 plan written, waiting for owner "go" |
+| 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
 | 5–8 | not started |
 
 ---
 
 ---
 
-## Phase 4 — Core pages (plan, 2026-09-28)
+## Phase 4 — Core pages (2026-09-29)
+
+Owner said "go" with all three recommendations: (A) copy publishes when it passes its gate, owner reviews from OWNER_TODO L8; (B) the 4A publish set below; (C) route content waits for the reviewed distances CSV and D1.
+
+### Done
+- **Now published (12 content pages + home):**
+  - the service hubs `/outstation-cabs/`, `/one-way-cabs/`, `/airport-taxi/`, `/local-car-rental/` and `/tempo-traveller/`;
+  - the same five × Gorakhpur;
+  - the Gorakhpur hub `/cabs/gorakhpur/`;
+  - `/fleet/` (the 14 classes, no photos).
+- **Still draft:**
+  - built but held: nepal-taxi (+ Gorakhpur, Raxaul); luxury, wedding, shoot, bus, self-drive, bike and corporate;
+  - waiting on data or owner answers: the Pune hub (C7), every route (distances), every vehicle (B3/F1);
+  - `/cabs/`, which publishes only once it lists ≥ 3 entries.
+- **Templates** (REBUILD_PLAN §4):
+  - `ServicePage` for hubs and × city, with the luxury register;
+  - the city hub, with a branch block linking to Google Maps and no embedded map (no verified geo);
+  - `RoutePage`: when nothing is priced, its fare table becomes "choose a car" links into `/book/`;
+  - `VehiclePage`: own photos only.
+  - Routes use `app/[service]`, `[service]/[city]`, `cabs/[city]/[route]` and `fleet/[vehicle]` with `dynamicParams = false`, instead of 13 static folders: one template, and only live slugs are built. The plan's static folders were an implementation note, not a requirement.
+- **Sections:** FAQ (`<details>` + FAQPage JSON-LD), CTA band with the three closes, services grid, fleet strip (keyboard-scrollable region), how booking works, route list (milestones), Prose. Service JSON-LD added.
+- **Copy** in `src/data/copy/`, following the §5 voice and truth rules. My own review removed several unverifiable claims: "started in Gorakhpur", "trips we run most", a roof carrier, "on a budget", airport proximity, and a town not in the data. Word counts are 203–245 on hubs and 200–260 on × city pages.
+- **Distances pipeline:** `npm run distances:fetch` (Google Routes API → `docs/route-distances.csv`; keeps the owner's review columns; Nepal via the D1 border waypoint), then `npm run distances:apply` (reviewed rows → `src/data/route-distances.generated.ts` → route data). Dry-run proven with a stubbed API; not run for real (no key).
+- **Fixed a Phase 1 redirect bug:** `NextURL` dropped the trailing slash, so legacy URLs reached hub pages in two hops (301 then 308). They now arrive in one 301 with the query kept. It was invisible while every destination was `/`.
+- **qa:** a static page that calls `notFound()` (the unpublished `/cabs/`) is built as Next's 404 error shell. qa now skips those, and fails if a *published* path is one. `npm run qa -- --similarity` lists the closest page pairs.
+
+### Verification
+- `npm run check` ✅ — 107 unit tests (3 DB tests skipped), qa OK on 14 pages. Highest near-duplicate score 0.18 (limit 0.35).
+- `npm run test:e2e` ✅ — 22 tests. New: every sitemap page renders at 360 and 1280 with one H1, a way to book, live-only breadcrumbs, no serious axe issues and no sideways scroll; drafts answer 404; service pages open the right widget tab.
+- `npm run redirects:check` ✅ all 158 legacy URLs, one hop. With `--launch`, URLs landing on `/` went from **155 → 86**. Most of the rest are vehicles, bikes, shoots, luxury and Nepal pages (B3/F1, Phase 5) plus about, contact and FAQ (Phase 6).
+- Screenshots at 360, 768 and 1280 reviewed for home, hub, × city, city hub and fleet, and in dev for the route and vehicle template previews (`/styleguide/route/`, `/styleguide/vehicle/`). Fixed: breadcrumb contrast on dark pages, and the "Get a quote" wall on route tables.
+- **Lighthouse mobile (local, `next start`, lighthouse 12):**
+  - Accessibility, Best Practices and SEO score 100 on every page tested.
+  - **Performance: home 72–82, hubs 83–89, `/fleet/` 78–89.** Target was ≥ 90, so not met locally.
+  - Fixes applied: the logo was the LCP element and lazy-loaded at 768 px wide (now eager, 1x/2x at its shown size); five fonts (~300 KB) were preloaded (now Latin only, ~100 KB); the hero's fade-in hid the LCP text for ~2 s (movement kept, fade removed).
+  - `experimental.inlineCss` was tried and reverted: it doubled the CSS into the RSC payload (HTML 256 KB) and scored lower.
+  - What's left is the React/Next runtime (~150 KB gzipped) in Lighthouse's simulated slow 4G. The local numbers are pessimistic: the CPU benchmark index is ~1000 and scores swing ±6 between runs. Carried into Phase 7, measured with PageSpeed Insights on the VPS.
+
+### Not done / limits
+- 4B route content: waits for L3 (key) → reviewed CSV → D1. The template is built and previewed.
+- No hero photo, trust line, "why Taxiverz", reviews, Nepal band or packages on home: each needs verified facts or photos (F1, H2, D1–D3).
+- Next logs `Error: Internal: NoFallbackError` once for each 404 under a dynamic route (for example `/nepal-taxi/`). The response is a correct 404; the line is log noise to filter in Phase 8 logging.
+
+### Dependencies
+None added. Lighthouse ran via `npx lighthouse@12`.
+
+### Plan (as approved)
 
 ### Scan
 - `validate:data`: 14 vehicle classes published; **everything else is draft**. 13 services and 12 service × city pages have no intro or FAQs yet. 42 cities: only Gorakhpur and Pune are branches (the other 40 need 3 published routes). All 56 routes are missing verified distances and content. 81 vehicles are waiting on B3 (fleet confirmed) and F1 (own photos).
