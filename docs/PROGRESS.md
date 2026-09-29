@@ -12,9 +12,75 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
 | 5 — Premium and growth verticals | ✅ done 2026-09-29 — pushed; premium, bus, self-drive, bike and packages publish when the owner supplies vehicles/prices |
 | 6 — Trust and support | ✅ done 2026-09-29 — pushed; terms, refund, reviews and payment notice publish when the owner supplies H1/F3 |
-| 7–8 | not started |
+| 7 — SEO hardening, QA, performance | 📝 plan written, waiting for owner "go" |
+| 8 | not started |
 
 ---
+
+---
+
+## Phase 7 — SEO hardening, QA, performance (plan, 2026-09-29)
+
+### Scan
+- **Launch redirect rule:** 79 legacy URLs still land on `/`, in these groups:
+
+  | Count | Legacy pages | Current fallback | Nearest published page |
+  |---|---|---|---|
+  | 21 | luxury-car pages | `/luxury-car-rental/` (draft) | `/fleet/` |
+  | 16 | shoot pages | `/shoot-car-rental/` (draft) | none |
+  | 15 | bikes and scooters | `/bike-rental/` (draft) | none |
+  | 7 | Raxaul routes | `/cabs/raxaul/` (draft) | `/nepal-taxi/raxaul/` |
+  | 5 | Kathmandu-origin routes | `/cabs/kathmandu/` (draft) | `/nepal-taxi/` |
+  | 5 | buses | `/bus-rental/` (draft) | `/tempo-traveller/` |
+  | 5 | Ayodhya, Varanasi, Delhi and Lucknow routes | `/cabs/` (draft) | `/outstation-cabs/` |
+  | 5 | others: self-drive, wedding, the old all-routes page, the S-Class page | draft | — |
+
+- **Performance** (local, noisy; CPU benchmark swings 190–1000): home 72–82; hubs and guides 75–89. Accessibility, Best Practices and SEO score 100 everywhere measured.
+  - JavaScript is about 200 KB gzipped per page, of which about 150 KB is React/Next. Radix Dialog (MobileNav only) is about 16 KB; lucide about 10 KB.
+  - Fonts: Mukta Latin (4 weights) plus Anek Latin (variable, 44 KB).
+- **Budgets can't be measured on the named templates yet:** CLAUDE.md sets them on home, *a route page* and *a vehicle page*, and no route or vehicle is published (distances, B3/F1).
+- **Not built yet:** dynamic OG images, `llms.txt`, a link checker, a bundle report, a JSON-LD structure check, a canonical check in qa, INP measurement. robots doesn't disallow `/api/`.
+- **Mismatch:** the review schema doesn't follow CLAUDE.md, which requires `source` = google | direct (with URL) and a non-null `verifiedAt`. Phase 6 used a different shape; I'll fix it here.
+- Hotfix still not live.
+
+### Plan
+1. **Legacy map: fallback chains.** Change `fallback` to an ordered `fallbacks` list; the effective destination is target, then the first published fallback, then `/`. Add the nearest-relevant second fallbacks from the table above. Expected: **79 → ~31** landing on `/`, just the shoots and bikes. Every redirect still takes one hop.
+2. **Discontinued offers → 410 Gone** (decision B): a `gone` flag in the map, so a legacy URL for something Taxiverz doesn't offer answers 410 with a helpful page rather than a soft-404 redirect to home. The flag stays unset until the owner says an offer is gone (E6 bikes, B3 cars, the shoot types).
+3. **SEO checks in `qa`:**
+   - canonical = the page's own URL;
+   - OG title, description and image present;
+   - title ≤ 60 and description ≤ 155 on the rendered page;
+   - JSON-LD structure per `@type` (Organization, WebSite, LocalBusiness, BreadcrumbList, FAQPage, Service, Article, TouristTrip, BlogPosting — required properties present, no empty values);
+   - breadcrumbs on every page except home;
+   - builder unit tests for every JSON-LD builder.
+4. **Dynamic OG images** (`next/og`), one design in the brand style (logo, page title, a milestone for routes), for service pages, city hubs, routes, vehicles, packages and guides, generated at build. Previews matter because links get shared on WhatsApp. The default stays `og-default.jpg`.
+5. **Link checker** `npm run links:check`: crawls every sitemap page on `next start` and checks every internal link, image and asset answers 200 (or redirects in one hop to a 200). Fails on anything else.
+6. **Bundle report** `npm run bundle:report`: gzipped JS per sitemap route with the top chunks; budget 210 KB gzipped per route (today ~200), and fail if a route exceeds it.
+7. **Performance work:**
+   - replace Radix Dialog in MobileNav with a native `<dialog>` (focus trap, Esc and inert background handled natively; about −16 KB, and one dependency removed);
+   - check what each remaining first-party chunk carries;
+   - Anek Latin: preload the one weight used above the fold, or subset.
+8. **Measurement discipline:**
+   - add `lighthouse` as a pinned dev dependency and `npm run perf`: 3 runs per URL (median), mobile defaults (Slow 4G, 4× CPU), printing the CPU benchmark so noisy runs are visible;
+   - a low-end run at 6× CPU;
+   - INP measured with Playwright (CPU throttled 4×, typing in the fare box, switching tabs, opening the menu, recording Event Timing).
+9. **The route and vehicle budgets:** measured on their dev previews for layout and CLS only (dev builds aren't representative for LCP/TBT). A written reason and fix plan for the rest: they're measured on the first real route and vehicle as soon as those publish.
+10. **Also:**
+    - robots disallows `/api/`;
+    - `/llms.txt` summarising the business and its published pages (from data);
+    - the footer's Services and Travel guides lists come from data (published only, ≤ 60 links);
+    - sitemap `lastModified` from data where known (guides);
+    - fix the review schema per CLAUDE.md.
+11. **Checks:** axe on every template, including the draft ones through the dev previews in a separate Playwright project; the full e2e suite; `redirects:check --launch`; everything above.
+
+### Decisions to confirm
+- **A. Fallback chains to the nearest relevant published page**, as in the table (luxury cars → `/fleet/`, Raxaul and Kathmandu routes → the Nepal pages, buses → `/tempo-traveller/`, other routes → `/outstation-cabs/`). Alternative: leave them landing on `/` until their own pages publish.
+- **B. Build the 410 Gone mechanism now** and use it only when you confirm an offer is discontinued (bikes, shoots or specific cars). Alternative: always redirect.
+- **C. Add `lighthouse` (pinned) as a dev dependency** for repeatable runs. Alternative: keep `npx lighthouse@12` ad hoc.
+- **D. Replace Radix Dialog with a native `<dialog>`** in the mobile menu. Alternative: keep Radix and its ~16 KB.
+
+### Owner inputs that would unlock more
+B3/F1 → vehicle pages measurable and the luxury/shoot legacy URLs resolved · L3 → route pages measurable · E6 → bikes published or marked gone.
 
 ---
 
