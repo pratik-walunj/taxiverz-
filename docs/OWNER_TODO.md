@@ -248,6 +248,16 @@ then put `DATABASE_URL=postgres://taxiverz:choose-a-password@localhost:5432/taxi
 
 In particular, confirm the sentences that describe how you work: pickup from Gorakhpur Junction and Gorakhpur Airport; airports covered (GOP, KBK, LKO, VNS); one-way drops into Bihar (e.g. Gopalganj); tempo travellers for baraats; that the driver waits during a function on a round trip; local packages 6 h/60 km, 8 h/80 km, 12 h/120 km with extra hours and km charged on top.
 - *Until answered:* the pages are published in the repo (nothing is deployed before Phase 8), and anything you correct is changed before launch.
+- **Added in Phase 5 — please review these too:**
+  - the Nepal pages `/nepal-taxi/`, `/nepal-taxi/gorakhpur/`, `/nepal-taxi/raxaul/` (`src/data/copy/verticals.ts`). They use your document sentence word for word and say nothing about border steps or charges.
+  - the corporate page `/corporate-car-rental/`: it promises no GST invoices, credit or billing terms, only that we'll propose how bookings and billing can work.
+  - the nine travel guides under `/destinations/` (`content/destinations/`).
+  - not yet live, ready for when you confirm vehicles: luxury, wedding and shoot pages (`src/data/copy/premium.ts`, `shoots.ts`) and bus, self-drive and bike pages (`verticals.ts`).
+
+**L9 🟠 Three blog drafts need your approval** (`content/blog/`): "The Buddhist circuit by car", "Gorakhpur to Kathmandu by road", "Planning wedding cars in Gorakhpur". The notes at the top of each file list the facts only you can supply (crossing, documents, decoration, distances). Each goes live only when you approve it.
+- *Until answered:* `/blog/` stays unpublished.
+
+**L10 🟢 Database migration for enquiry details.** When the database is set up (G3), run `npm run db:migrate` (cmd). It now also adds the `details` column used by the enquiry and corporate forms.
 
 ---
 

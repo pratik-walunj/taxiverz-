@@ -10,14 +10,75 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 2 — Data layer and migration | ✅ done 2026-09-28 — pushed |
 | 3 — Fare engine and booking funnel | ✅ done 2026-09-28 — pushed |
 | 4 — Core pages | ✅ 4A done 2026-09-29 — pushed; 4B route content waits for reviewed distances (L3) and D1 |
-| 5 — Premium and growth verticals | 📝 plan written, waiting for owner "go" |
+| 5 — Premium and growth verticals | ✅ done 2026-09-29 — pushed; premium, bus, self-drive, bike and packages publish when the owner supplies vehicles/prices |
 | 6–8 | not started |
 
 ---
 
 ---
 
-## Phase 5 — Premium and growth verticals (plan, 2026-09-29)
+## Phase 5 — Premium and growth verticals (2026-09-29)
+
+Owner said "go" with all four recommendations:
+- (A) the vehicle-dependent verticals stay draft until vehicles are live;
+- (B) Nepal pages publish now with public facts and the owner's document sentence;
+- (C) nine destination guides;
+- (D) MDX.
+
+### Done
+- **Now published (19 new pages, 33 indexable in total):**
+  - `/nepal-taxi/`, `/nepal-taxi/gorakhpur/`, `/nepal-taxi/raxaul/`;
+  - `/corporate-car-rental/`;
+  - `/destinations/` plus 5 destination overviews (Gorakhpur, Kushinagar, Ayodhya, Varanasi, Lumbini) and 9 guides (places to visit × 5; best time to visit × 4).
+  - The home page gains the dark "India to Nepal" band. The footer gains "Corporate travel" and a Travel guides group.
+  - Old `blog.html` now lands on `/destinations/gorakhpur/places-to-visit/`.
+- **Built, copy written, draft by rule:**
+  - luxury, wedding and shoot hubs plus the 6 shoot types; bus, self-drive and bike rental.
+  - The **vehicle gate** (`VERTICAL_VEHICLES` in `lib/content/gates.ts`) keeps each one unpublished until a fitting vehicle is live. A live vehicle already needs fleet confirmation (B3) and its own photo (F1). Their copy is `publish: false` for the same reason; flip it when the vehicles arrive.
+  - Dev preview: `/styleguide/service/?s=wedding-cars`, `?s=shoot-car-rental&t=pre-wedding`.
+- **Enquiry forms:**
+  - `EnquiryForm` covers luxury, wedding, shoot, bus, self-drive, bike and package enquiries; with `corporate` it adds company, GSTIN (format-checked, optional) and trips per month.
+  - Same pipeline as bookings: a reference number on success, and the same details handed to WhatsApp if saving fails.
+  - The lead schema gains an optional `details` object, stored in the new `details` jsonb column (migration `drizzle/0001_*.sql`) and included in email, Telegram and the webhook. New lead type `enquiry-self-drive`.
+- **Packages:**
+  - Zod schema, gate (itinerary, inclusions, exclusions, **verified price**), hub, template and `from-{city}` variant route (each variant needs its own verified price). TouristTrip JSON-LD, with an Offer only when the price is verified.
+  - Helicopter charter and Everest mountain flight migrated as drafts; the legacy claims are kept as notes only (D7).
+- **Destinations and blog (MDX):**
+  - `@next/mdx` with bodies in `content/`; metadata in Zod-checked TypeScript (`src/data/destinations.ts`, `src/data/blog.ts`), so the publish list stays synchronous for the proxy and sitemap.
+  - `validate:data` checks every guide and post has its file and every published guide has ≥ 400 words.
+  - 3 blog drafts from report §12.4: Buddhist circuit by car, Gorakhpur to Kathmandu by road, planning wedding cars. Each is `ownerApproved: false`, with MDX comments listing the owner facts needed.
+  - `content/` is excluded from Prettier: it rewrote `{/* … */}` MDX comments into visible text.
+- **Copy review (my own)** removed or softened:
+  - Business claims: "trained driver", "on a budget", "cheaper", buses in the corporate text, and "the places our passengers travel to most".
+  - Facts I couldn't back up: Raxaul's train list, the Butwal–Pokhara direction, and where Ramgarh Tal sits in the city.
+  - A gendered reference to the driver.
+- **Performance regression caught and fixed:** `EnquiryForm` imported a constant from the Zod lead schema, shipping Zod (~60 KB gzipped) on every service page, including those without a form. The constant now lives in `lib/schemas/lead-constants.ts`, and `qa` fails if any client chunk contains Zod.
+
+### Verification
+- `npm run check` ✅ — 119 unit tests (3 DB tests skipped), qa OK on 33 pages; highest near-duplicate score 0.19.
+- `npm run test:e2e` ✅ — 30 tests at 360 and 1280:
+  - every sitemap page (one H1, a way to book, axe, no sideways scroll);
+  - the corporate form (GSTIN error, reference on success, WhatsApp fallback carrying the company);
+  - an MDX guide renders with no comments leaking;
+  - `blog.html` → the Gorakhpur guide;
+  - drafts (wedding, shoot, bus, packages, blog) answer 404.
+- `redirects:check` ✅ all 158 legacy URLs in one hop. With `--launch`, URLs landing on `/` went **86 → 82**. Most of the rest wait on B3/F1 (vehicles, shoots, luxury, bikes) or on Phase 6 (about, contact, FAQ).
+- Screenshots at 360, 768 and 1280: Nepal × Gorakhpur, corporate, guide, destination, home, and dev previews of wedding and pre-wedding. Fixed: phone-field borders invisible on dark forms.
+- **Lighthouse mobile:**
+  - Accessibility, Best Practices and SEO 100 on every page tested.
+  - Performance, measured while the machine was loaded (CPU benchmark 570–850, against ~1,000 in Phase 4): Kushinagar guide 84, `/outstation-cabs/` 76, `/nepal-taxi/` 75, corporate 68 (the heaviest client form).
+  - Carried into Phase 7 with the Phase 4 note.
+
+### Not done / limits
+- Nothing about border steps, Bhansar, charges or whether vehicles cross (D1–D3). The Nepal pages say "we confirm the crossing and how the journey is arranged when you book".
+- "How to reach from Gorakhpur" guides wait for verified distances (L3).
+- The luxury, wedding, shoot, bus, self-drive and bike × Gorakhpur pages have no copy yet. They can't publish before their hubs; they'll be written when the hubs can go live.
+- `npm audit`: 4 moderate advisories, all in `drizzle-kit`'s bundled esbuild (a dev-only tool, pre-existing); none from the MDX packages.
+
+### Dependencies added
+`@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`, `@types/mdx`.
+
+### Plan (as approved)
 
 ### Scan
 - Hotfix still not live (`/whatsapp-forms.js` → 404): no merge yet.
