@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ConfirmedView } from '@/components/booking/ConfirmedView'
+import { PaymentNotice } from '@/components/sections/PaymentNotice'
 import { Section } from '@/components/ui/Section'
 import { REFERENCE_PATTERN } from '@/server/leads/reference'
 
@@ -19,6 +20,7 @@ export default async function ConfirmedPage({
   return (
     <Section className="pt-8 md:pt-12">
       <ConfirmedView reference={ref} />
+      <PaymentNotice />
     </Section>
   )
 }

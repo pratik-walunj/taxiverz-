@@ -1,4 +1,5 @@
 import { contentPaths } from '@/lib/content'
+import { staticPagePaths } from './static-pages'
 
 /**
  * Paths that exist and are published. Links, the sitemap and redirect
@@ -13,7 +14,7 @@ export const unlistedPaths: ReadonlySet<string> = new Set(['/book/'])
 let cache: readonly string[] | undefined
 
 export function getPublishedPaths(): readonly string[] {
-  cache ??= [...staticPublishedPaths, ...contentPaths()]
+  cache ??= [...staticPublishedPaths, ...staticPagePaths(), ...contentPaths()]
   return cache
 }
 

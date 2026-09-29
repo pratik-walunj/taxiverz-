@@ -191,7 +191,7 @@ export function ServicePage({
               subject={topic}
               title={enquiry.title}
               occasions={enquiry.occasions}
-              corporate={enquiry.corporate}
+              kind={enquiry.corporate ? 'corporate' : 'enquiry'}
               defaultCity={city?.name ?? ''}
               dark={luxury}
             />

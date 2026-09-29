@@ -58,6 +58,14 @@ export const footerGroups: readonly { title: string; links: readonly NavItem[] }
       { label: 'Terms', href: '/terms/' },
       { label: 'Privacy', href: '/privacy/' },
       { label: 'Refund policy', href: '/refund-policy/' },
+      { label: 'Reviews', href: '/reviews/' },
+    ],
+  },
+  {
+    title: 'Partners',
+    links: [
+      { label: 'Attach your taxi', href: '/attach-your-taxi/' },
+      { label: 'Drive with us', href: '/drive-with-us/' },
     ],
   },
 ]

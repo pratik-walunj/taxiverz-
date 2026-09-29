@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { cities as rawCities } from '@/data/cities'
 import { destinations as rawDestinations, guides as rawGuides } from '@/data/destinations'
 import { posts as rawPosts } from '@/data/blog'
+import { reviews as rawReviews } from '@/data/reviews'
 import { packages as rawPackages } from '@/data/packages'
 import { places as rawPlaces } from '@/data/places'
 import { routes as rawRoutes } from '@/data/routes'
@@ -13,6 +14,7 @@ import {
   destinationSchema,
   guideSchema,
   postSchema,
+  reviewSchema,
   packageSchema,
   placeSchema,
   routeSchema,
@@ -37,3 +39,4 @@ export const packages = z.array(packageSchema).parse(rawPackages)
 export const destinations = z.array(destinationSchema).parse(rawDestinations)
 export const guides = z.array(guideSchema).parse(rawGuides)
 export const posts = z.array(postSchema).parse(rawPosts)
+export const reviews = z.array(reviewSchema).parse(rawReviews)

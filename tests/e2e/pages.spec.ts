@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+const POLICY_PAGES = new Set(['/privacy/', '/terms/', '/refund-policy/'])
+
 /**
  * Every published, indexable page (read from the sitemap, so new pages are
  * covered automatically): renders, one H1, a way to book, breadcrumbs that
@@ -10,10 +12,11 @@ test('every page in the sitemap renders, can be booked from and passes axe', asy
   page,
   request,
 }) => {
-  test.setTimeout(180_000)
   const xml = await (await request.get('/sitemap.xml')).text()
   const paths = [...xml.matchAll(/<loc>https:\/\/taxiverz\.com(\/[^<]*)<\/loc>/g)].map((m) => m[1]!)
   expect(paths.length).toBeGreaterThan(5)
+  // The walk grows with the site: allow ~15 s per page (axe is the slow part).
+  test.setTimeout(30_000 + paths.length * 15_000)
 
   for (const path of paths) {
     const response = await page.goto(path)
@@ -22,10 +25,14 @@ test('every page in the sitemap renders, can be booked from and passes axe', asy
 
     const widget = page.getByRole('button', { name: 'Check fare' })
     const enquire = page.getByRole('link', { name: /Enquire on WhatsApp|WhatsApp us/ })
-    expect(
-      (await widget.count()) + (await enquire.count()),
-      `${path} has no way to book`,
-    ).toBeGreaterThan(0)
+    // Legal pages are the exception: they inform, they don't sell.
+    if (!POLICY_PAGES.has(path))
+      expect(
+        (await widget.count()) +
+          (await enquire.count()) +
+          (await page.locator('main form').count()),
+        `${path} has no way to book`,
+      ).toBeGreaterThan(0)
 
     for (const href of await page
       .getByRole('navigation', { name: 'Breadcrumb' })
@@ -56,6 +63,9 @@ test('drafts are not served', async ({ request }) => {
     '/packages/everest-mountain-flight/',
     '/blog/',
     '/blog/buddhist-circuit-by-car/',
+    '/terms/',
+    '/refund-policy/',
+    '/reviews/',
     '/cabs/pune/',
     '/cabs/raxaul/',
     '/fleet/audi-a4/',
