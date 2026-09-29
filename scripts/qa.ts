@@ -7,6 +7,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { parse, type HTMLElement } from 'node-html-parser'
+import { isPublished } from '../src/lib/content/published'
 
 const APP_DIR = join('.next', 'server', 'app')
 const SITE = 'https://taxiverz.com'
@@ -68,7 +69,7 @@ function main() {
     process.exit(1)
   }
 
-  const pages: Page[] = walk(APP_DIR)
+  const all: Page[] = walk(APP_DIR)
     .map((file) => {
       const html = readFileSync(file, 'utf8')
       const root = parse(html, { comment: false })
@@ -79,6 +80,15 @@ function main() {
 
   const errors: string[] = []
   const fail = (page: Page, msg: string) => errors.push(`${page.path} — ${msg}`)
+
+  // A static page that called notFound() (an unpublished hub such as /cabs/) is built as
+  // Next's 404 error shell. That is correct for a draft; a published page must never be one.
+  const isErrorShell = (p: Page) =>
+    p.root.querySelector('html')?.getAttribute('id') === '__next_error__'
+  for (const p of all.filter(isErrorShell)) {
+    if (isPublished(p.path)) fail(p, 'published page was built as a 404 error shell')
+  }
+  const pages = all.filter((p) => !isErrorShell(p))
   const titles = new Map<string, string>()
   const descriptions = new Map<string, string>()
 
@@ -170,14 +180,23 @@ function main() {
   // Near-duplicate indexable pages.
   const indexable = pages.filter((p) => !p.noindex)
   const sets = indexable.map((p) => shingles(visibleText(p.root.querySelector('main') ?? p.root)))
+  const pairs: { a: string; b: string; score: number }[] = []
   for (let i = 0; i < indexable.length; i++)
     for (let j = i + 1; j < indexable.length; j++) {
       const score = jaccard(sets[i]!, sets[j]!)
+      pairs.push({ a: indexable[i]!.path, b: indexable[j]!.path, score })
       if (score > NEAR_DUPLICATE)
         errors.push(
           `${indexable[i]!.path} ~ ${indexable[j]!.path} — near-duplicate content (Jaccard ${score.toFixed(2)})`,
         )
     }
+
+  // `npm run qa -- --similarity` lists the closest pairs, to see the margin under the limit.
+  if (process.argv.includes('--similarity'))
+    pairs
+      .toSorted((x, y) => y.score - x.score)
+      .slice(0, 8)
+      .forEach((p) => console.log(`  ${p.score.toFixed(2)}  ${p.a} ~ ${p.b}`))
 
   if (errors.length) {
     console.error(`qa found ${errors.length} problem(s) in ${pages.length} rendered pages:`)

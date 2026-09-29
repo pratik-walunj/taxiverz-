@@ -8,9 +8,10 @@ test('home page renders its heading and contact actions', async ({ page }) => {
 })
 
 test('a legacy URL lands on its effective destination', async ({ page }) => {
+  // The route is still draft, so it lands on its published fallback, the Gorakhpur hub.
   const response = await page.goto('/Gorakhpur-To-Kathmandu.HTML')
   expect(response?.status()).toBe(200)
-  expect(new URL(page.url()).pathname).toBe('/')
+  expect(new URL(page.url()).pathname).toBe('/cabs/gorakhpur/')
 })
 
 test('unknown pages show the 404 page', async ({ page }) => {

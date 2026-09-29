@@ -98,6 +98,8 @@ test('the fare widget works from the keyboard', async ({ page }) => {
 
   const pickup = page.getByRole('combobox', { name: 'Pickup' })
   await pickup.fill('Gorakh')
+  // The fare index loads lazily on first use: wait for the options before using the keyboard.
+  await expect(page.getByRole('option', { name: /Gorakhpur/ }).first()).toBeVisible()
   await page.keyboard.press('ArrowDown')
   await page.keyboard.press('Enter')
   await expect(pickup).toHaveValue(/Gorakhpur/)

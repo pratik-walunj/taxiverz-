@@ -133,8 +133,32 @@ describe('gates', () => {
 })
 
 describe('publishing', () => {
-  it('publishes nothing from data until entities pass their gates', () => {
-    expect(contentPaths()).toEqual([])
-    expect(getPublishedPaths()).toEqual(['/', '/book/'])
+  it('publishes exactly the Phase 4A set', () => {
+    expect([...contentPaths()].sort()).toEqual(
+      [
+        '/outstation-cabs/',
+        '/one-way-cabs/',
+        '/airport-taxi/',
+        '/local-car-rental/',
+        '/tempo-traveller/',
+        '/outstation-cabs/gorakhpur/',
+        '/one-way-cabs/gorakhpur/',
+        '/airport-taxi/gorakhpur/',
+        '/local-car-rental/gorakhpur/',
+        '/tempo-traveller/gorakhpur/',
+        '/cabs/gorakhpur/',
+        '/fleet/',
+      ].sort(),
+    )
+    expect(getPublishedPaths().slice(0, 2)).toEqual(['/', '/book/'])
+  })
+
+  it('keeps the /cabs/ directory unpublished until it lists three pages', () => {
+    expect(contentPaths()).not.toContain('/cabs/')
+  })
+
+  it('never publishes a vehicle or a route yet', () => {
+    expect(contentPaths().some((p) => /^\/fleet\/.+/.test(p))).toBe(false)
+    expect(routes.some((r) => contentPaths().includes(routePath(r)))).toBe(false)
   })
 })
