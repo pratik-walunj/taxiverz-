@@ -1,4 +1,5 @@
 import { Section } from '@/components/ui/Section'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 
 /**
  * How booking works — the real sequence of the /book/ funnel, so numbered
@@ -26,25 +27,33 @@ const STEPS = [
 export function HowBooking() {
   return (
     <Section labelledBy="how-title">
-      <h2 id="how-title" className="text-h2 font-bold">
-        How booking works
-      </h2>
-      <ol className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {STEPS.map((s, i) => (
-          <li key={s.title} className="flex gap-4">
-            <span
-              aria-hidden="true"
-              className="font-heading bg-brand text-ink flex size-10 shrink-0 items-center justify-center rounded-full text-lg font-bold"
-            >
-              {i + 1}
-            </span>
-            <div>
-              <h3 className="font-semibold">{s.title}</h3>
+      <SectionHeading
+        id="how-title"
+        eyebrow="Booking"
+        title="How booking works"
+        intro="Four steps, and no payment to send a booking."
+      />
+      <div className="relative mt-10">
+        {/* Joins the step circles: from the first circle's centre to the last one's. */}
+        <span
+          aria-hidden="true"
+          className="from-brand/70 to-brand/20 absolute top-6 right-[calc(25%-3rem)] left-6 hidden h-0.5 bg-gradient-to-r lg:block"
+        />
+        <ol className="relative grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="relative">
+              <span
+                aria-hidden="true"
+                className="font-heading bg-brand text-ink ring-paper relative flex size-12 items-center justify-center rounded-full text-xl font-extrabold shadow-md ring-8"
+              >
+                {i + 1}
+              </span>
+              <h3 className="font-heading mt-4 text-lg font-bold">{s.title}</h3>
               <p className="text-muted mt-1">{s.text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+            </li>
+          ))}
+        </ol>
+      </div>
     </Section>
   )
 }

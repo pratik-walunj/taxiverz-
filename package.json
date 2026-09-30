@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.check.json",
     "test": "vitest run --coverage",
     "test:e2e": "playwright test",
     "validate:data": "tsx scripts/validate-data.ts",

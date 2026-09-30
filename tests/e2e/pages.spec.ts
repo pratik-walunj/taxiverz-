@@ -55,10 +55,12 @@ test('every page in the sitemap renders, can be booked from and passes axe', asy
 
 test('drafts are not served', async ({ request }) => {
   for (const path of [
-    '/wedding-cars/',
-    '/shoot-car-rental/',
-    '/shoot-car-rental/pre-wedding/',
-    '/bus-rental/',
+    '/self-drive-car-rental/',
+    '/cabs/pune/',
+    '/cabs/raxaul/',
+    '/fleet/audi-a4/',
+    '/fleet/tvs-duet/',
+    '/cabs/gorakhpur/gorakhpur-to-goa/',
     '/packages/',
     '/packages/everest-mountain-flight/',
     '/blog/',
@@ -66,10 +68,6 @@ test('drafts are not served', async ({ request }) => {
     '/terms/',
     '/refund-policy/',
     '/reviews/',
-    '/cabs/pune/',
-    '/cabs/raxaul/',
-    '/fleet/audi-a4/',
-    '/cabs/gorakhpur/gorakhpur-to-kathmandu/',
   ])
     expect((await request.get(path)).status(), path).toBe(404)
 })

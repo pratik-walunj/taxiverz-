@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import Image from 'next/image'
+import { placeScenes, sceneFor } from '@/config/imagery'
 import Link from 'next/link'
 import { FareWidget } from '@/components/booking/FareWidget'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
@@ -29,6 +31,7 @@ export function GuidePage({ guide, children }: { guide: Guide; children: ReactNo
   const others = getGuides(guide.place).filter((g) => g.guide !== guide.guide)
   const home = guide.place === 'gorakhpur'
   const path = guidePath(guide)
+  const scene = sceneFor(placeScenes[guide.place])
   return (
     <>
       <Section className="pt-6 md:pt-10" labelledBy="page-title">
@@ -45,6 +48,27 @@ export function GuidePage({ guide, children }: { guide: Guide; children: ReactNo
         <p className="text-muted mt-2 text-sm">
           Updated <time dateTime={guide.updated}>{formatDate(guide.updated)}</time>
         </p>
+        {scene && (
+          <figure className="mt-6 max-w-4xl">
+            <Image
+              src={scene.src}
+              alt={scene.alt}
+              width={scene.width}
+              height={scene.height}
+              sizes="(min-width: 1024px) 896px, 100vw"
+              preload
+              quality={60}
+              className="rounded-panel aspect-[21/9] w-full object-cover"
+            />
+            <figcaption className="text-muted mt-1 text-xs">
+              Photo:{' '}
+              <a href={scene.url} target="_blank" rel="noopener" className="underline">
+                {scene.credit}
+              </a>{' '}
+              / Unsplash
+            </figcaption>
+          </figure>
+        )}
         <article className="mt-6 max-w-3xl text-lg">{children}</article>
       </Section>
 

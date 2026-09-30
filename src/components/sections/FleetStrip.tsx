@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import { ClassCard } from '@/components/cards/ClassCard'
 import { Section } from '@/components/ui/Section'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 import { getVehicleClasses } from '@/lib/content'
 import { isPublished } from '@/lib/content/published'
 import type { VehicleClass } from '@/lib/schemas/content'
@@ -21,27 +21,24 @@ export function FleetStrip({
   if (classes.length === 0) return null
   return (
     <Section register="mist" labelledBy="fleet-title">
-      <div className="flex flex-wrap items-end justify-between gap-2">
-        <h2 id="fleet-title" className="text-h2 font-bold">
-          {title}
-        </h2>
-        {isPublished('/fleet/') && (
-          <Link href="/fleet/" className="text-brand-deep font-semibold underline">
-            See the whole fleet
-          </Link>
-        )}
-      </div>
-      {intro && <p className="text-muted mt-2 max-w-2xl">{intro}</p>}
+      <SectionHeading
+        id="fleet-title"
+        eyebrow="The fleet"
+        title={title}
+        intro={intro}
+        action={isPublished('/fleet/') ? { href: '/fleet/', label: 'See the whole fleet' } : null}
+      />
+
       {/* Scrollable, so it must be reachable by keyboard (axe: scrollable-region-focusable). */}
       <div
         role="region"
         aria-label={title}
         tabIndex={0}
-        className="-mx-4 mt-6 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
+        className="-mx-4 mt-8 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
       >
         <ul className="flex snap-x snap-mandatory gap-4">
           {classes.map((c) => (
-            <li key={c.slug} className="w-64 shrink-0 snap-start">
+            <li key={c.slug} className="w-64 shrink-0 snap-start transition hover:-translate-y-1">
               <ClassCard vehicleClass={c} />
             </li>
           ))}

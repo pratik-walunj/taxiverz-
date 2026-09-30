@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
+import { CtaBand } from '@/components/sections/CtaBand'
 import { RouteList } from '@/components/sections/RouteList'
 import { Section } from '@/components/ui/Section'
 import { cityPath, getCities, getCity, getRoutes } from '@/lib/content'
@@ -45,6 +46,12 @@ export default function CabsDirectoryPage() {
         title="All routes"
         routes={routes}
         groupBy={(r) => `From ${getCity(r.origin)?.name ?? r.origin}`}
+      />
+      <CtaBand
+        title="Don’t see your route?"
+        text="Type any two places in the fare box, or send us the trip on WhatsApp — we confirm the fare before you travel."
+        whatsappMessage="Hi Taxiverz, I'd like a cab for a trip."
+        placement="cabs-cta"
       />
     </>
   )

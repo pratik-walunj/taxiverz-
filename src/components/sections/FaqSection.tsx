@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { Section } from '@/components/ui/Section'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 import type { Faq } from '@/lib/schemas/content'
 import { faqJsonLd } from '@/lib/seo/jsonld'
 
@@ -17,12 +18,13 @@ export function FaqSection({
   if (faqs.length === 0) return null
   return (
     <Section labelledBy={`${id}-title`}>
-      <h2 id={`${id}-title`} className="text-h2 font-bold">
-        {title}
-      </h2>
-      <div className="divide-line border-line mt-6 max-w-3xl divide-y border-y">
+      <SectionHeading id={`${id}-title`} eyebrow="FAQ" title={title} />
+      <div className="mt-8 grid max-w-3xl gap-3">
         {faqs.map((f) => (
-          <details key={f.q} className="group">
+          <details
+            key={f.q}
+            className="group bg-mist rounded-panel open:bg-paper open:ring-brand/40 px-5 open:shadow-md open:ring-1"
+          >
             <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-3 font-semibold [&::-webkit-details-marker]:hidden">
               {f.q}
               <ChevronDown

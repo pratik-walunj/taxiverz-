@@ -1,5 +1,6 @@
 import { ogContentType, ogImage, ogSize } from '@/lib/og'
 import { getCity, getService, getSubPage } from '@/lib/content'
+import { inSentence } from '@/lib/sentence'
 // Same pages as the route itself, so every image is generated at build.
 export { generateStaticParams } from './page'
 
@@ -17,7 +18,7 @@ export default async function Image({
   const s = getService(service)
   const sub = getSubPage(service, city)
   const title = sub
-    ? `Cars for ${sub.name.toLowerCase()}`
+    ? `Cars for ${inSentence(sub.name)}`
     : `${s?.name ?? 'Taxiverz'} in ${getCity(city)?.name ?? city}`
   return ogImage({ title, kicker: 'Taxiverz' })
 }

@@ -10,6 +10,7 @@ import {
   serviceCityPath,
 } from '@/lib/content'
 import { buildMetadata, buildTitle } from '@/lib/seo/metadata'
+import { inSentence } from '@/lib/sentence'
 
 /**
  * Second-level service pages: service × city (the allow-listed, live
@@ -82,7 +83,7 @@ export default async function ServiceSecondLevelPage({ params }: { params: Param
       subPage={page.kind === 'type' ? page.sub : undefined}
       heading={
         page.kind === 'type'
-          ? `Cars for ${page.sub.name.toLowerCase()}`
+          ? `Cars for ${inSentence(page.sub.name)}`
           : `${page.service.name} in ${page.city.name}`
       }
       summary={page.summary}

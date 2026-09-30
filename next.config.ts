@@ -25,6 +25,9 @@ export default function config(phase: string): NextConfig {
     trailingSlash: true,
     poweredByHeader: false,
     reactStrictMode: true,
+    // ~100 share images render at build; unlimited concurrency ran the SVG renderer out of
+    // resources on a busy machine ("svgload_buffer: SVG rendering failed"). 3 per worker is reliable.
+    experimental: { staticGenerationMaxConcurrency: 3 },
     // `page.dev.tsx` routes (the /styleguide/) exist only under `next dev`:
     // never built, deployed or listed in production.
     pageExtensions: isDev ? ['dev.tsx', 'tsx', 'ts'] : ['tsx', 'ts'],

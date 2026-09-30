@@ -17,8 +17,10 @@ export async function generateMetadata({ params }: { params: Params }) {
   if (!v) return {}
   return buildMetadata({
     image: null,
-    title: buildTitle([`${v.name} on Rent in Gorakhpur`]),
-    description: `Book the ${v.name}${v.seats ? ` (${v.seats} seats)` : ''} with Taxiverz: prices, specs and photos. Enquire on WhatsApp or call to book.`,
+    // Drops "in Gorakhpur" when a long model name would push the title past 60 characters.
+    title: buildTitle([`${v.name} on Rent`, 'Gorakhpur']),
+    // Each vehicle's own summary (data/copy/vehicles-*.ts); the gate requires one.
+    description: v.summary ?? `The ${v.name} with Taxiverz, Gorakhpur.`,
     path: vehiclePath(v.slug),
   })
 }

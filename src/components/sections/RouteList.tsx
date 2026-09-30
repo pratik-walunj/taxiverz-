@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { Milestone } from '@/components/ui/Milestone'
 import { Section } from '@/components/ui/Section'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 import { getCity, routePath } from '@/lib/content'
+import { isPublished } from '@/lib/content/published'
 import type { Route } from '@/lib/schemas/content'
 
 /** Published routes as milestone cards (DESIGN.md §6), optionally grouped. Hidden when empty. */
@@ -10,11 +12,13 @@ export function RouteList({
   routes,
   groupBy,
   id = 'routes',
+  eyebrow = 'Routes',
 }: {
   title: string
   routes: readonly Route[]
   groupBy?: (r: Route) => string
   id?: string
+  eyebrow?: string
 }) {
   if (routes.length === 0) return null
   const groups = new Map<string, Route[]>()
@@ -24,9 +28,12 @@ export function RouteList({
   }
   return (
     <Section labelledBy={`${id}-title`}>
-      <h2 id={`${id}-title`} className="text-h2 font-bold">
-        {title}
-      </h2>
+      <SectionHeading
+        id={`${id}-title`}
+        eyebrow={eyebrow}
+        title={title}
+        action={isPublished('/cabs/') ? { href: '/cabs/', label: 'All routes' } : null}
+      />
       {[...groups].map(([group, list]) => (
         <div key={group || 'all'} className="mt-6">
           {group && <h3 className="text-h3 font-semibold">{group}</h3>}
@@ -38,7 +45,7 @@ export function RouteList({
                 <li key={r.slug}>
                   <Link
                     href={routePath(r)}
-                    className="group flex flex-col items-center gap-2 text-center"
+                    className="rounded-panel group hover:bg-mist flex flex-col items-center gap-2 p-3 text-center transition hover:-translate-y-1"
                   >
                     <Milestone
                       nameEn={to?.name ?? r.destination}

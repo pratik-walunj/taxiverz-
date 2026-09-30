@@ -110,7 +110,7 @@ export function FareWidget({
   return (
     <section
       aria-labelledby={`${tabsId}-title`}
-      className="bg-paper shadow-lift rounded-panel border-line border p-4 md:p-6"
+      className="bg-paper text-ink shadow-lift rounded-panel border-line border p-4 md:p-6"
     >
       <Heading id={`${tabsId}-title`} className="text-h3 font-bold">
         Check your fare

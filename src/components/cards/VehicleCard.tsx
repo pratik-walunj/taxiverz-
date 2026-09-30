@@ -1,12 +1,13 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { Picture } from '@/components/ui/Picture'
 import { vehiclePath } from '@/lib/content'
+import { isUsableImage } from '@/lib/content/gates'
 import { cx } from '@/lib/cx'
 import type { Vehicle } from '@/lib/schemas/content'
 
-/** A live vehicle: its own photo (F1), name, seats. Only live vehicles are ever passed in. */
+/** A live vehicle: its picture (labelled when representative), name, seats. */
 export function VehicleCard({ vehicle: v, dark = false }: { vehicle: Vehicle; dark?: boolean }) {
-  const photo = v.images.find((i) => i.source === 'own' && !i.bakedInText && !i.modelMismatch)
+  const photo = v.images.find(isUsableImage)
   return (
     <Link
       href={vehiclePath(v.slug)}
@@ -16,13 +17,14 @@ export function VehicleCard({ vehicle: v, dark = false }: { vehicle: Vehicle; da
       )}
     >
       {photo && (
-        <Image
+        <Picture
           src={photo.src}
           alt={photo.alt}
           width={photo.width}
           height={photo.height}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="aspect-[4/3] h-auto w-full object-cover"
+          representative={photo.source !== 'own'}
+          imgClassName="aspect-[4/3]"
         />
       )}
       <div className="p-4">

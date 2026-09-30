@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Phone } from 'lucide-react'
 import { business } from '@/config/business'
 import { serviceEnquiry } from '@/config/enquiry'
+import { sceneFor, serviceHeroScenes } from '@/config/imagery'
 import { EnquiryForm } from '@/components/booking/EnquiryForm'
 import { FareWidget } from '@/components/booking/FareWidget'
 import { VehicleCard } from '@/components/cards/VehicleCard'
@@ -13,6 +14,7 @@ import { HowBooking } from '@/components/sections/HowBooking'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { Button } from '@/components/ui/Button'
 import { Prose } from '@/components/ui/Prose'
+import { HeroSection } from '@/components/ui/HeroSection'
 import { Section } from '@/components/ui/Section'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import {
@@ -25,6 +27,7 @@ import {
 } from '@/lib/content'
 import type { City, Faq, Service, VehicleClass } from '@/lib/schemas/content'
 import { serviceJsonLd } from '@/lib/seo/jsonld'
+import { inSentence } from '@/lib/sentence'
 import { formatIndianPhone, telHref } from '@/lib/phone'
 import { whatsappHref } from '@/lib/whatsapp'
 
@@ -87,59 +90,66 @@ export function ServicePage({
 
   return (
     <>
-      <Section
-        register={luxury ? 'luxury' : 'standard'}
-        className="pt-6 md:pt-10"
+      <HeroSection
+        scene={sceneFor(serviceHeroScenes[service.slug])}
+        luxury={luxury}
         labelledBy="page-title"
       >
-        <Breadcrumbs trail={trail} />
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_minmax(0,34rem)] lg:items-start">
-          <div>
-            <h1 id="page-title" className="text-h1 font-extrabold tracking-tight">
-              {heading}
-            </h1>
-            <p className={luxury ? 'text-night-muted mt-4 text-lg' : 'text-muted mt-4 text-lg'}>
-              {summary}
-            </p>
-          </div>
-          {widget ? (
-            <FareWidget initial={{ type: service.widgetTab!, ...initialFrom }} />
-          ) : (
-            <div className="flex flex-col gap-3">
-              {enquiry && (
-                <Button href="#enquire" size="lg" variant={luxury ? 'luxury' : 'primary'}>
-                  {enquiry.corporate ? 'Tell us what you need' : 'Send an enquiry'}
-                </Button>
+        {(dark) => (
+          <>
+            <Breadcrumbs trail={trail} />
+            <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_minmax(0,34rem)] lg:items-start">
+              <div>
+                <h1
+                  id="page-title"
+                  className="text-display font-extrabold tracking-tight text-balance"
+                >
+                  {heading}
+                </h1>
+                <p className={dark ? 'text-night-muted mt-4 text-lg' : 'text-muted mt-4 text-lg'}>
+                  {summary}
+                </p>
+              </div>
+              {widget ? (
+                <FareWidget initial={{ type: service.widgetTab!, ...initialFrom }} />
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {enquiry && (
+                    <Button href="#enquire" size="lg" variant={dark ? 'luxury' : 'primary'}>
+                      {enquiry.corporate ? 'Tell us what you need' : 'Send an enquiry'}
+                    </Button>
+                  )}
+                  <Button
+                    href={whatsappHref(business.whatsapp, message)}
+                    variant="whatsapp"
+                    size="lg"
+                    data-placement="service-hero"
+                  >
+                    <WhatsAppIcon className="size-5" /> Enquire on WhatsApp
+                  </Button>
+                  <Button
+                    href={telHref(business.phone)}
+                    variant={dark ? 'luxury' : 'secondary'}
+                    size="lg"
+                    data-placement="service-hero"
+                  >
+                    <Phone aria-hidden="true" className="size-5" />
+                    <span className="tabular">Call {formatIndianPhone(business.phone)}</span>
+                  </Button>
+                </div>
               )}
-              <Button
-                href={whatsappHref(business.whatsapp, message)}
-                variant="whatsapp"
-                size="lg"
-                data-placement="service-hero"
-              >
-                <WhatsAppIcon className="size-5" /> Enquire on WhatsApp
-              </Button>
-              <Button
-                href={telHref(business.phone)}
-                variant={luxury ? 'luxury' : 'secondary'}
-                size="lg"
-                data-placement="service-hero"
-              >
-                <Phone aria-hidden="true" className="size-5" />
-                <span className="tabular">Call {formatIndianPhone(business.phone)}</span>
-              </Button>
             </div>
-          )}
-        </div>
-      </Section>
+          </>
+        )}
+      </HeroSection>
 
       <Section labelledBy="about-title">
         <h2 id="about-title" className="text-h2 font-bold">
           {city
             ? `${service.name} in ${city.name}: what to know`
             : subPage
-              ? `Cars for ${subPage.name.toLowerCase()}`
-              : `About our ${service.name.toLowerCase()}`}
+              ? `Cars for ${inSentence(subPage.name)}`
+              : `About our ${inSentence(service.name)}`}
         </h2>
         <Prose text={intro} className="mt-4" />
       </Section>
@@ -202,7 +212,7 @@ export function ServicePage({
       {localPages.length > 0 && (
         <Section labelledBy="where-title">
           <h2 id="where-title" className="text-h2 font-bold">
-            Where we run {service.name.toLowerCase()}
+            Where we run {inSentence(service.name)}
           </h2>
           <ul className="mt-4 flex flex-wrap gap-3">
             {localPages.map((sc) => (
@@ -223,7 +233,7 @@ export function ServicePage({
       <FaqSection faqs={faqs} />
       <CtaBand
         title={`${widget ? 'Book' : 'Ask about'} ${
-          subPage ? `cars for ${subPage.name.toLowerCase()}` : service.name.toLowerCase()
+          subPage ? `cars for ${inSentence(subPage.name)}` : inSentence(service.name)
         }${city ? ` in ${city.name}` : ''}`}
         text={
           widget

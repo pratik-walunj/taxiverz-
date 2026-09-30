@@ -143,3 +143,21 @@ Also without any image: Jaguar F-Type, BMW X3, Ford Endeavour, Hindustan Ambassa
 ## Correction to docs/AUDIT.md
 
 The audit repeated the plan's claim that the Gypsy and Jeep **images** are swapped. Viewing them shows the **filenames** are swapped (`jeep.png` is a Gypsy, `gypsy.jpeg` is an open jeep) but each legacy page displays the right vehicle. The migration names them by what they show.
+
+## Scenery from Unsplash (added 2026-09-30, owner request)
+
+Real photos of places, used in the home hero slider, the photo bands, and the heroes of pages about those places. Downloaded from Unsplash under the [Unsplash License](https://unsplash.com/license) (free for commercial use, no permission needed); credited on the page anyway. Served from `public/images/scenes/` (resized by next/image). No Unsplash photo shows a vehicle presented as Taxiverz's own.
+
+| File | Shows | Photographer | Source | Used on |
+|---|---|---|---|---|
+| `open-road.webp` | An open road through tall trees | Harsh Dubey | [KgP6WCfyznM](https://unsplash.com/photos/KgP6WCfyznM) | Home hero slide 1, home call to action |
+| `nepal-valley.webp` | Green valley below snow peaks near Pokhara | Nirajan Dhakal | [WhZTCXud5Xc](https://unsplash.com/photos/WhZTCXud5Xc) | Home hero slide 2, Nepal band, `/nepal-taxi/` pages, Nepal service card |
+| `wedding-mandap.webp` | A couple under a floral mandap | AMISH THAKKAR | [7O422yG_b80](https://unsplash.com/photos/7O422yG_b80) | Home hero slide 3, wedding band, `/wedding-cars/` hero |
+| `varanasi-ghats.webp` | Boats below the ghats of Varanasi | Srivatsan Balaji | [YpX8_xuV1zE](https://unsplash.com/photos/YpX8_xuV1zE) | Home hero slide 4 |
+| `kathmandu-valley.webp` | Kathmandu valley with the Himalaya | NanC L | [laiJN3Gw1zE](https://unsplash.com/photos/laiJN3Gw1zE) | Routes to Kathmandu and Nagarkot |
+| `pokhara-phewa.webp` | Boats on Phewa Lake, Pokhara | Meera Pankhania | [7cENZhgyf7c](https://unsplash.com/photos/7cENZhgyf7c) | Routes to Pokhara |
+| `varanasi-boats.webp` | Boats before the temples of Varanasi | Srivatsan Balaji | [T5s48osIQTU](https://unsplash.com/photos/T5s48osIQTU) | Routes to Varanasi, Varanasi guides |
+| `ganga-aarti.webp` | Ganga aarti with oil lamps | Chandramouli Bakulapally | [V3kokTYkDvw](https://unsplash.com/photos/V3kokTYkDvw) | (spare) |
+| `himalaya-village.webp` | Hill village in Nepal with snow peaks | Martin Skřivánek | [-sz-PCtnmFI](https://unsplash.com/photos/-sz-PCtnmFI) | (spare) |
+| `wedding-couple.webp` | A couple in Indian wedding clothes by a river | Sean Williams | [d-jyMeP6uNQ](https://unsplash.com/photos/d-jyMeP6uNQ) | Wedding cars service card |
+

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { placeScenes, sceneFor } from '@/config/imagery'
 import { FareWidget } from '@/components/booking/FareWidget'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CtaBand } from '@/components/sections/CtaBand'
@@ -8,6 +9,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Milestone } from '@/components/ui/Milestone'
 import { Price } from '@/components/ui/Price'
 import { Prose } from '@/components/ui/Prose'
+import { HeroSection } from '@/components/ui/HeroSection'
 import { Section } from '@/components/ui/Section'
 import { cityPath, routePath } from '@/lib/content'
 import { isPublished } from '@/lib/content/published'
@@ -56,48 +58,67 @@ export function RoutePage({
 
   return (
     <>
-      <Section className="pt-6 md:pt-10" labelledBy="page-title">
-        <Breadcrumbs
-          trail={[
-            { name: 'Cabs', path: '/cabs/' },
-            { name: origin.name, path: cityPath(origin.slug) },
-            { name: `To ${destination.name}`, path },
-          ]}
-        />
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_minmax(0,34rem)] lg:items-start">
-          <div className="flex items-start gap-5">
-            <Milestone
-              nameEn={destination.name}
-              nameHi={destination.nameHi}
-              km={km}
-              size="lg"
-              className="hidden shrink-0 sm:block"
+      <HeroSection scene={sceneFor(placeScenes[destination.slug])} labelledBy="page-title">
+        {(dark) => (
+          <>
+            <Breadcrumbs
+              trail={[
+                { name: 'Cabs', path: '/cabs/' },
+                { name: origin.name, path: cityPath(origin.slug) },
+                { name: `To ${destination.name}`, path },
+              ]}
             />
-            <div>
-              <h1 id="page-title" className="text-h1 font-extrabold tracking-tight">
-                {origin.name} to {destination.name} Taxi
-              </h1>
-              {(km !== null || mins !== null) && (
-                <p className="text-muted mt-3 text-lg">
-                  {[km !== null && `${km} km`, mins !== null && `about ${formatDuration(mins)}`]
-                    .filter(Boolean)
-                    .join(' · ')}
-                </p>
+            {/* Phones: heading, fare box, then the intro. Wide screens: text left, fare box right. */}
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(0,34rem)] lg:gap-x-8 lg:gap-y-0">
+              <div className="flex items-start gap-5 lg:col-start-1">
+                {/* The wrapper owns visibility: the milestone's own display class would override `hidden`. */}
+                <div className="hidden shrink-0 sm:block">
+                  <Milestone
+                    nameEn={destination.name}
+                    nameHi={destination.nameHi}
+                    km={km}
+                    size="lg"
+                  />
+                </div>
+                <div>
+                  <h1
+                    id="page-title"
+                    className="text-h1 font-extrabold tracking-tight text-balance"
+                  >
+                    {origin.name} to {destination.name} Taxi
+                  </h1>
+                  {(km !== null || mins !== null) && (
+                    <p className={dark ? 'text-ivory/80 mt-3 text-lg' : 'text-muted mt-3 text-lg'}>
+                      {[km !== null && `${km} km`, mins !== null && `about ${formatDuration(mins)}`]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
+                <FareWidget
+                  initial={{
+                    type: 'one-way',
+                    from: origin.slug,
+                    fromLabel: origin.name,
+                    to: destination.slug,
+                    toLabel: destination.name,
+                  }}
+                />
+              </div>
+              {route.content.intro && (
+                <Prose
+                  text={route.content.intro}
+                  className={
+                    dark ? 'text-ivory/90 lg:col-start-1 lg:mt-4' : 'lg:col-start-1 lg:mt-4'
+                  }
+                />
               )}
-              {route.content.intro && <Prose text={route.content.intro} className="mt-4" />}
             </div>
-          </div>
-          <FareWidget
-            initial={{
-              type: 'one-way',
-              from: origin.slug,
-              fromLabel: origin.name,
-              to: destination.slug,
-              toLabel: destination.name,
-            }}
-          />
-        </div>
-      </Section>
+          </>
+        )}
+      </HeroSection>
 
       <Section register="mist" labelledBy="fares-title">
         <h2 id="fares-title" className="text-h2 font-bold">
