@@ -263,6 +263,10 @@ In particular, confirm the sentences that describe how you work: pickup from Gor
 
 **L10 🟢 Database migration for enquiry details.** When the database is set up (G3), run `npm run db:migrate` (cmd). It now also adds the `details` column used by the enquiry and corporate forms.
 
+**L11 🟠 Self-drive and the old self-drive URL.** Self-drive stays unpublished: no vehicle is confirmed for self-drive (E5). Until it is, `/self-drive-car-rental-in-gorakhpur.html` would land on the home page at launch. Either confirm self-drive vehicles, or tell us to send that URL to `/local-car-rental/` (car with driver) instead.
+
+**L12 🟠 Please read the new route and vehicle text.** The route pages (`src/data/routes/copy/`) and vehicle pages (`src/data/copy/vehicles-*.ts`) were written from the old site and checked against known facts. Please read them on the local site and tell us anything that is wrong for how Taxiverz actually works: stops, timings, which cars you really run. Pictures are the old site's, labelled "Representative image", until your own photos arrive (F1).
+
 ---
 
 ## K. Hosting (Phase 8)

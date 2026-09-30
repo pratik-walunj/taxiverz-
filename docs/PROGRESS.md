@@ -13,9 +13,45 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 5 — Premium and growth verticals | ✅ done 2026-09-29 — pushed; premium, bus, self-drive, bike and packages publish when the owner supplies vehicles/prices |
 | 6 — Trust and support | ✅ done 2026-09-29 — pushed; terms, refund, reviews and payment notice publish when the owner supplies H1/F3 |
 | 7 — SEO hardening, QA, performance | ✅ done 2026-09-29 — pushed; budgets met except LCP/performance score (reasons and fix plan below) |
+| 7.5 — Full site and redesign (owner request) | ✅ done 2026-09-30 — pushed; not deployed |
 | 8 | not started |
 
 ---
+
+---
+
+## 7.5 — Full site and redesign (owner request, 2026-09-30)
+
+The owner asked for the whole site end to end, with an attractive, fast, high-converting home page and a hero slider, then for a more expressive, responsive UI with Unsplash photos in the heroes.
+
+### Owner decisions (2026-09-30)
+- **Images:** use the old site's vehicle images, each labelled "Representative image" (`Picture`, `isRepresentativeImage`), until Taxiverz's own photos arrive (F1). Images with baked-in captions or the wrong model are still excluded (the MUV/Ertiga card shows a placeholder for that reason).
+- **Hero:** an auto-advancing slider, allowed only as the home hero (CLAUDE.md updated). It pauses on hover, focus, a hidden tab and as soon as a form field is used; it never auto-plays under reduced motion; it has pause, previous, next and dots.
+- **Content:** old-site text with the facts checked. `routeGate` no longer needs a verified distance (long-distance routes still wait for E3). `vehicleGate` = usable image + summary + intro of 100+ words.
+- **Deploy:** GitHub only.
+
+### Done
+- **Content:** agent-written copy for 45 routes (`src/data/routes/copy/`) and 42 vehicles (`src/data/copy/vehicles-*.ts`), reviewed against the facts file. Luxury, wedding, shoot, bus and bike services publish; self-drive stays draft (no self-drive vehicle, E5). TVS Duet stays draft (not a real model name).
+- **Scenery:** 10 Unsplash photos, self-hosted at 1920 px WebP in `public/images/scenes/` and credited on the page (list in `docs/IMAGE_MAP.md`). They are used only where the photo shows the place: Nepal, Kathmandu, Nagarkot, Pokhara and Varanasi routes and guides, and the wedding pages.
+- **Home:** hero slider (4 slides, only those whose link is live), the fare box overlapping the hero, trust cards, picture service cards, fleet strip, popular routes, a Nepal photo band, a weddings photo band, how booking works, why Taxiverz, guides, a corporate band, the FAQ and a closing photo band.
+- **New UI pieces:** `HeroSection` (dark photo hero when a scene exists), `PhotoBand`, `SectionHeading`, `Picture`.
+- **Fixes found on screenshots (360 / 1280):**
+  - the fare box was white-on-white inside dark heroes;
+  - names were lowercased in headings ("india–nepal taxi"; new `inSentence`);
+  - on phones the route hero put a long intro above the fare box (now heading → fare box → intro);
+  - vehicle pages had no call to action above the fold (summary, spec chips, "Check the fare" and WhatsApp added);
+  - the booking-steps line was mis-placed and was invalid markup inside `<ol>`.
+- **Build:** `experimental.staticGenerationMaxConcurrency: 3` stops the share-image renderer failing under load. `tsconfig.check.json` keeps the typecheck away from a running dev server's `.next/dev`.
+
+### Checks
+- `npm run check`: lint, format, typecheck, 135 unit tests, validate:data, build, qa (138 pages, near-duplicate check passed).
+- e2e: 40 passed, 2 skipped. links:check: 137 pages, 1,516 URLs, all 200. bundle:report: largest page `/book/` 194.5 KB (budget 210). redirects:check: 158 legacy URLs, all one hop.
+- redirects:check `--launch`: 1 problem left — `/self-drive-car-rental-in-gorakhpur.html` would land on `/` because self-drive is unpublished (OWNER_TODO L11).
+- No page scrolls sideways at 360 or 1280 px.
+- Lighthouse mobile (3 runs, median; machine CPU benchmark 575–1536, so noisy): home 86 (was 51 before the redesign), `/outstation-cabs/gorakhpur/` 93, `/cabs/gorakhpur/` 82, Kushinagar guide 92, `/fleet/` 92. Accessibility 100 and SEO 100 on all of them; CLS ≤ 0.031; TBT ≤ 181 ms. LCP is still 2.8–3.9 s against the 2.5 s budget (the same local-throttling cause and fix plan as in Phase 7; re-measure on the real host in Phase 8).
+
+### Next step
+The owner reviews the site locally (`npm run dev`, cmd) and the copy flagged in OWNER_TODO L11–L12. Then Phase 8 (hosting) on "go".
 
 ---
 
