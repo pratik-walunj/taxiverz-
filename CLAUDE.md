@@ -48,7 +48,7 @@ Main competitor: Lakshya Cabs. The goal is to out-convert and out-rank them now,
 - Backend: Next.js Route Handlers on the Node.js runtime (`src/app/api/*`) as thin controllers; business logic in `src/server/*` so it can move to a standalone Node service later
 - PostgreSQL + Drizzle ORM (`drizzle-orm`, `drizzle-kit`, `pg`), **only for the lead outbox** — content stays in typed data files. Database `taxiverz`: local PostgreSQL on `localhost:5432` in development, the VPS PostgreSQL in production; `DATABASE_URL` in `.env.local`
 - Hosting: the owner's Hostinger VPS — Docker (Next.js `output: 'standalone'`) + Nginx + Certbot, Cloudflare in front
-- Banned: Tailwind Play CDN, jQuery, framer-motion, global state libraries, chat widgets, visitor counters, auto-advancing carousels, client-only rendering of content
+- Banned: Tailwind Play CDN, jQuery, framer-motion, global state libraries, chat widgets, visitor counters, client-only rendering of content. Auto-advancing carousels only as the home hero (owner decision 2026-09-30), and only with a pause button, pause on hover/focus/hidden tab, no auto-play under prefers-reduced-motion, and slide 1 server-rendered as the LCP.
 
 ## Commands (created in Phase 1)
 

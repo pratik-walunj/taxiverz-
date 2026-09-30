@@ -9,8 +9,8 @@ import type { PageCopy } from './types'
  */
 export const premiumCopy: Record<string, PageCopy> = {
   'luxury-car-rental': {
-    // Draft until a fitting vehicle is live (B3/F1); the vehicle gate also blocks it.
-    publish: false,
+    // Owner decision 2026-09-30: publishes once a fitting vehicle is live (the vehicle gate).
+    publish: true,
     summary:
       'Luxury cars with a driver for weddings, VIP guests, corporate events and special occasions. Tell us the date and the car you have in mind.',
     intro: `Some occasions call for more than a comfortable car: a groom's arrival, a guest you want to receive properly, a company event, an anniversary. A luxury car with a driver takes care of that part of the day, so you can concentrate on everything else.
@@ -41,8 +41,8 @@ If you have a colour or model in mind, say so. If a particular car isn't free on
   },
 
   'wedding-cars': {
-    // Draft until a fitting vehicle is live (B3/F1); the vehicle gate also blocks it.
-    publish: false,
+    // Owner decision 2026-09-30: publishes once a fitting vehicle is live (the vehicle gate).
+    publish: true,
     summary:
       'Wedding cars with a driver — the groom’s car, the couple’s car for the vidaai and cars for the family. Enquire with your date and timings.',
     intro: `A wedding usually needs more than one car. There is the groom's car for the baraat, a car for the couple after the vidaai, cars to bring close family from the station or the hotel, and often a tempo traveller or two for guests. Booking them together means one plan, one set of timings and one number to call on the day.
@@ -73,8 +73,8 @@ Wedding dates cluster, so enquire as early as you can. We will reply with the ca
   },
 
   'shoot-car-rental': {
-    // Draft until a fitting vehicle is live (B3/F1); the vehicle gate also blocks it.
-    publish: false,
+    // Owner decision 2026-09-30: publishes once a fitting vehicle is live (the vehicle gate).
+    publish: true,
     summary:
       'Cars for pre-wedding and post-wedding shoots, music videos, films, ads and vlogs. Tell us the shoot, the location and the hours.',
     intro: `The right car can carry a shoot — a classic convertible for a pre-wedding story, a sleek sedan for an ad, an open jeep for a road-trip sequence. We supply cars for photographers, videographers and production teams, with a driver who handles the car between set-ups.

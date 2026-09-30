@@ -1,5 +1,6 @@
 import type { Vehicle } from '@/lib/schemas/content'
 import { images, type ImageKey } from '@/data/images.generated'
+import { vehicleCopy } from '@/data/copy/vehicles'
 
 /**
  * Every vehicle the legacy site named (docs/AUDIT.md §2.2, RATE_CARD §6).
@@ -44,7 +45,21 @@ function v({ img = [], ...rest }: VehicleInput): Vehicle {
     flags: [],
     ...rest,
     images: img.map((key) => ({ ...images[key] })),
+    ...withCopy(rest.slug),
   }
+}
+
+/** Copy lives in data/copy/vehicles.ts; `publish` there sets the status (the gate still applies). */
+function withCopy(slug: string) {
+  const c = vehicleCopy[slug]
+  return c
+    ? {
+        summary: c.summary,
+        intro: c.intro,
+        faqs: c.faqs,
+        status: c.publish ? ('published' as const) : ('draft' as const),
+      }
+    : { summary: null, intro: null, faqs: [] }
 }
 
 const car = { category: 'car' } as const
@@ -617,6 +632,7 @@ export const vehicles: Vehicle[] = [
   v({
     ...group,
     slug: 'tempo-traveller-13-seater',
+    seats: 13, // the model's name: a 13-seater
     name: 'Tempo traveller 13-seater',
     make: 'Force',
     model: 'Traveller',
@@ -634,6 +650,7 @@ export const vehicles: Vehicle[] = [
   v({
     ...group,
     slug: 'tempo-traveller-17-seater',
+    seats: 17, // the model's name: a 17-seater
     name: 'Tempo traveller 17-seater',
     make: 'Force',
     model: 'Traveller',
@@ -651,6 +668,7 @@ export const vehicles: Vehicle[] = [
   v({
     ...group,
     slug: 'tempo-traveller-20-seater',
+    seats: 20, // the model's name: a 20-seater
     name: 'Tempo traveller 20-seater',
     make: 'Force',
     model: 'Traveller',

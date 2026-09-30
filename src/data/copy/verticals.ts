@@ -8,8 +8,8 @@ import type { PageCopy } from './types'
  */
 export const verticalCopy: Record<string, PageCopy> = {
   'bus-rental': {
-    // Draft until a fitting vehicle is live (B3/F1); the vehicle gate also blocks it.
-    publish: false,
+    // Owner decision 2026-09-30: publishes once a fitting vehicle is live (the vehicle gate).
+    publish: true,
     summary:
       'Buses with a driver for weddings, pilgrimages, school trips and tours. Tell us the date, the route and how many people are travelling.',
     intro: `When a group is bigger than a tempo traveller can take, a bus keeps everyone together on one vehicle, with one driver and one plan. Buses are booked for wedding guests, pilgrim groups, school and college trips, staff outings and large family tours.
@@ -40,7 +40,7 @@ We reply with the bus that fits your group, the price and what it covers. For da
   },
 
   'self-drive-car-rental': {
-    // Draft until a fitting vehicle is live (B3/F1); the vehicle gate also blocks it.
+    // Draft: no vehicle is marked as available without a driver yet (OWNER_TODO E5).
     publish: false,
     summary:
       'Self-drive cars you drive yourself. Tell us the dates and the car you want; we confirm availability, documents and the deposit.',
@@ -72,8 +72,8 @@ If you would rather not drive on unfamiliar roads, any of these trips can be boo
   },
 
   'bike-rental': {
-    // Draft until a fitting vehicle is live (B3/F1); the vehicle gate also blocks it.
-    publish: false,
+    // Owner decision 2026-09-30: publishes once a fitting vehicle is live (the vehicle gate).
+    publish: true,
     summary:
       'Motorcycles and scooters on rent. Tell us the dates and the bike you want; we confirm availability, documents and the deposit.',
     intro: `A bike or scooter is the quickest way around a busy city, and the most fun way to see the countryside on a clear day. Rent one for a day of errands, a week of getting around, or a ride out of town.

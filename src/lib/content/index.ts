@@ -230,12 +230,15 @@ export function contentReport(): EntityReport[] {
     live: T[],
     id: (x: T) => string,
     gate: (x: T) => string[],
-  ) => ({
+  ) => {
+    const liveIds = new Set(live.map(id))
+    return {
     entity,
     total: all.length,
     published: live.length,
     drafts: all
-      .filter((x) => !live.includes(x))
+      // Compare by id: some live lists hold copies (e.g. shoot types with their service).
+      .filter((x) => !liveIds.has(id(x)))
       .map((x) => {
         const reasons = gate(x)
         return {
@@ -243,7 +246,8 @@ export function contentReport(): EntityReport[] {
           reasons: reasons.length ? reasons : ['status is draft (passes its gate)'],
         }
       }),
-  })
+  }
+  }
   return [
     report('vehicle classes', vehicleClasses, liveClasses, (c) => c.slug, vehicleClassGate),
     report(

@@ -50,10 +50,14 @@ export interface GateContext {
   isServicePublished: (slug: string) => boolean
 }
 
+/**
+ * Owner decision 2026-09-30: route pages publish with the old site's content,
+ * fact-checked, before distances are verified — an unverified distance is
+ * simply not shown and fares stay "Get a quote". Long-distance routes still
+ * need the owner to confirm Taxiverz runs them (E3).
+ */
 export function routeGate(route: Route, ctx: GateContext): string[] {
   const reasons: string[] = []
-  if (route.distanceKm === null || !route.verified.distance)
-    reasons.push('distance not verified (needs a reviewed row in docs/route-distances.csv)')
   if (isLongDistance(route) && !route.ownerConfirmed)
     reasons.push('long-distance route not confirmed by the owner (E3)')
   if (wordCount(route.content.intro) < 80) reasons.push('intro under 80 words')
@@ -113,14 +117,21 @@ export function vehicleClassGate(vc: VehicleClass): string[] {
   return vc.representativeModels.length ? [] : ['no representative models']
 }
 
+/** A picture that may be shown for the vehicle: no caption baked in, the right model. */
+export const isUsableImage = (i: Vehicle['images'][number]) => !i.bakedInText && !i.modelMismatch
+/** Not the owner's own photo: shown with a "representative image" label (owner decision 2026-09-30). */
+export const isRepresentative = (i: Vehicle['images'][number]) => i.source !== 'own'
+
+/**
+ * Owner decision 2026-09-30: vehicle pages publish with the old site's images
+ * (labelled "representative image" until the owner's own photos arrive, F1)
+ * and fact-checked copy. Unknown seats are hidden, not a blocker.
+ */
 export function vehicleGate(vehicle: Vehicle): string[] {
   const reasons: string[] = []
-  if (!vehicle.ownerConfirmed) reasons.push('not confirmed as part of the fleet (B3)')
-  const usable = vehicle.images.filter(
-    (i) => i.source === 'own' && !i.bakedInText && !i.modelMismatch,
-  )
-  if (usable.length === 0) reasons.push('no owner-confirmed photo of the vehicle (F1)')
-  if (vehicle.category !== 'bike' && vehicle.seats === null) reasons.push('seat count unknown')
+  if (!vehicle.images.some(isUsableImage)) reasons.push('no usable image (caption baked in or wrong model)')
+  if (!vehicle.summary) reasons.push('no summary (meta description)')
+  if (wordCount(vehicle.intro) < 100) reasons.push('description under 100 words')
   return reasons
 }
 

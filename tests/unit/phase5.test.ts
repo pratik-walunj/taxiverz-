@@ -53,7 +53,7 @@ describe('enquiry verticals', () => {
 })
 
 describe('Phase 5 publish set', () => {
-  it('publishes Nepal, corporate and the travel guides, and nothing vehicle-dependent', () => {
+  it('publishes Nepal, corporate, the guides and (since 2026-09-30) the vehicle verticals', () => {
     const paths = contentPaths()
     for (const p of [
       '/nepal-taxi/',
@@ -65,13 +65,11 @@ describe('Phase 5 publish set', () => {
       '/destinations/lumbini/best-time-to-visit/',
     ])
       expect(paths, p).toContain(p)
-    for (const p of [
-      '/wedding-cars/',
-      '/shoot-car-rental/',
-      '/bus-rental/',
-      '/packages/',
-      '/blog/',
-    ])
+    // Vehicle-dependent verticals publish now that their vehicles do (2026-09-30); self-drive
+    // has no self-drive vehicle, packages no verified price, the blog no owner approval.
+    for (const p of ['/wedding-cars/', '/shoot-car-rental/', '/bus-rental/', '/bike-rental/'])
+      expect(paths, p).toContain(p)
+    for (const p of ['/self-drive-car-rental/', '/packages/', '/blog/'])
       expect(paths, p).not.toContain(p)
   })
 })

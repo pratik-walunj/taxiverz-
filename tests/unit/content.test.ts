@@ -88,9 +88,14 @@ describe('gates', () => {
     faqs: Array.from({ length: 4 }, (_, i) => ({ q: `Q${i}`, a: `A${i}` })),
   }
 
-  it('lists every reason a legacy route is still a draft', () => {
-    expect(routeGate(draft, ctx)).toEqual([
-      'distance not verified (needs a reviewed row in docs/route-distances.csv)',
+  it('lists every reason a route without copy is a draft (distance no longer required, 2026-09-30)', () => {
+    const noCopy: Route = {
+      ...draft,
+      content: { intro: null, routeGuide: null, tips: [] },
+      stops: [],
+      faqs: [],
+    }
+    expect(routeGate(noCopy, ctx)).toEqual([
       'intro under 80 words',
       'route guide under 150 words',
       'fewer than 3 stops or sights',
@@ -116,15 +121,18 @@ describe('gates', () => {
     ).toEqual([])
   })
 
-  it('needs an owner-confirmed photo without a baked-in caption for a vehicle page', () => {
+  it('needs a usable picture and its own copy for a vehicle page (owner decision 2026-09-30)', () => {
     const base = vehicles.find((v) => v.slug === 'innova-crysta')!
-    const own = { ...base.images[0]!, source: 'own' as const }
-    const ok: Vehicle = { ...base, ownerConfirmed: true, seats: 7, images: [own] }
-    expect(vehicleGate(ok)).toEqual([])
-    expect(vehicleGate({ ...ok, images: [{ ...own, bakedInText: true }] })).toContain(
-      'no owner-confirmed photo of the vehicle (F1)',
-    )
-    expect(vehicleGate(base)).toContain('not confirmed as part of the fleet (B3)')
+    // Representative (not own) pictures are allowed now, labelled on the page.
+    expect(vehicleGate(base)).toEqual([])
+    expect(
+      vehicleGate({ ...base, images: base.images.map((i) => ({ ...i, bakedInText: true })) }),
+    ).toContain('no usable image (caption baked in or wrong model)')
+    const noCopy: Vehicle = { ...base, summary: null, intro: null }
+    expect(vehicleGate(noCopy)).toEqual([
+      'no summary (meta description)',
+      'description under 100 words',
+    ])
   })
 
   it('counts words', () => {
@@ -153,12 +161,21 @@ describe('publishing', () => {
     expect(getPublishedPaths().slice(0, 2)).toEqual(['/', '/book/'])
   })
 
-  it('keeps the /cabs/ directory unpublished until it lists three pages', () => {
-    expect(contentPaths()).not.toContain('/cabs/')
+  it('publishes the /cabs/ directory once it lists three or more pages', () => {
+    expect(contentPaths()).toContain('/cabs/')
   })
 
-  it('never publishes a vehicle or a route yet', () => {
-    expect(contentPaths().some((p) => /^\/fleet\/.+/.test(p))).toBe(false)
-    expect(routes.some((r) => contentPaths().includes(routePath(r)))).toBe(false)
+  it('publishes route and vehicle pages, but not long-distance routes or pictures with captions', () => {
+    const paths = contentPaths()
+    expect(paths).toContain('/cabs/gorakhpur/gorakhpur-to-ayodhya/')
+    expect(paths).toContain('/fleet/innova-crysta/')
+    // Long-distance routes wait for the owner (E3).
+    expect(paths).not.toContain('/cabs/gorakhpur/gorakhpur-to-goa/')
+    // Only picture has a caption baked in.
+    expect(paths).not.toContain('/fleet/audi-a4/')
+    // Not a real model name (held back in the copy).
+    expect(paths).not.toContain('/fleet/tvs-duet/')
+    for (const r of routes.filter((r) => paths.includes(routePath(r))))
+      expect(r.distanceKm === null || r.verified.distance, r.slug).toBe(true)
   })
 })

@@ -1,5 +1,6 @@
 import type { Route } from '@/lib/schemas/content'
 import { routeDistances } from '../route-distances.generated'
+import { routeCopy } from './copy'
 
 type RouteSeed = Pick<
   Route,
@@ -33,6 +34,20 @@ export function route(seed: RouteSeed): Route {
     relatedPackages: [],
     ...seed,
     ...verifiedDistance(seed.slug),
+    ...withCopy(seed.slug),
+  }
+}
+
+/** Route copy lives in ./copy/*.ts; `publish` there sets the status (the route gate still applies). */
+function withCopy(slug: string): Partial<Route> {
+  const c = routeCopy[slug]
+  if (!c) return {}
+  return {
+    status: c.publish ? 'published' : 'draft',
+    content: { intro: c.intro, routeGuide: c.routeGuide, tips: c.tips },
+    stops: c.stops,
+    faqs: c.faqs,
+    bestDepartureTime: c.bestDepartureTime ?? null,
   }
 }
 

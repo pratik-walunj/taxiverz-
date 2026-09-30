@@ -216,6 +216,10 @@ export const vehicleSchema = z.object({
     .nullable(),
   /** The owner has confirmed Taxiverz runs or reliably supplies it (RATE_CARD §6, B3). */
   ownerConfirmed: z.boolean(),
+  /** Page copy (data/copy/vehicles.ts): meta description, description, FAQs. */
+  summary,
+  intro: nullableText,
+  faqs: z.array(faqSchema),
   status,
   legacyUrls: z.array(z.string().startsWith('/')),
   /** Known problems carried over from the legacy site (docs/AUDIT.md §4). */

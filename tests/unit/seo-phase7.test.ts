@@ -72,7 +72,7 @@ describe('footer', () => {
     const links = publishedFooterGroups().flatMap((g) => g.links)
     expect(links.length).toBeLessThanOrEqual(FOOTER_LINK_LIMIT)
     expect(links.map((l) => l.href)).toContain('/outstation-cabs/')
-    expect(links.map((l) => l.href)).not.toContain('/wedding-cars/')
+    expect(links.map((l) => l.href)).not.toContain('/self-drive-car-rental/')
   })
 })
 
