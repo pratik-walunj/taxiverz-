@@ -41,6 +41,12 @@ The owner asked for every page and section of the old site, with the same conten
 - **Home page:** the legacy fleet showcase, model by model: everyday cars, luxury and vintage cars, tempo travellers, vans and buses, as scrollable rows.
 - Left out on purpose: legacy price tables (unverified, B-items), "What our customers say" (no verified reviews, F3), "24/7" and "best/#1" claims, and engine and feature specs we can't confirm for the car supplied.
 
+### Cards (owner request, 2026-10-01: "all cards like the fleet cards")
+- Shared `src/components/cards/CardParts.tsx` (frame, badge, icon spec tiles, fare line, Check fare / WhatsApp / Call / View details). Class, model, service, route and guide cards are built on it; the fleet page and travel guides use them. Prices on cards stay "shown online" or "quoted on enquiry" until the rate card is confirmed.
+- Vehicle pages redesigned: gradient hero with spec tiles, an "at a glance" booking card, highlight cards, a price panel, "more cars in this class".
+- To pass the near-duplicate check and keep pages light: shoot-type pages show their own shortlist of 6 cars (the hub shows all), and the home fleet rows show 6 per group with "see all". Card descriptions are off on service pages.
+- INP: on a quiet machine, opening the menu measured ~400 ms (from 728). The guard test (1,000 ms) is unreliable while other apps load the CPU (60–97% during the 2026-10-01 runs).
+
 ### Images
 - `scripts/migrate-images.ts` gains `cropCaption`: it finds the orange name bar along the bottom of the legacy renders and crops it off, failing if no bar is found. 20 pictures are now usable.
 - The "Jaguar XE" render is an XF (its plate and body match), so it is flagged as the wrong model.
