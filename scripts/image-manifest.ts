@@ -20,6 +20,8 @@ export interface ManifestEntry {
   alt: string
   source: Source
   bakedInText?: boolean
+  /** The caption is a bar along the bottom: crop it off at migration (then the image is clean). */
+  cropCaption?: boolean
   modelMismatch?: boolean
   note?: string
 }
@@ -48,7 +50,8 @@ const s = (
   source: 'stock',
   ...extra,
 })
-const cap = { bakedInText: true }
+/** Name bar along the bottom, cropped off by migrate-images (owner decision 2026-10-01). */
+const cap = { bakedInText: true, cropCaption: true }
 
 export const manifest: ManifestEntry[] = [
   // ---- standard cars
@@ -108,7 +111,11 @@ export const manifest: ManifestEntry[] = [
   r('s-class.png', 'fleet/mercedes-s-class-1', 'White Mercedes-Benz S-Class'),
   r('maybach.png', 'fleet/mercedes-maybach-1', 'White Mercedes-Maybach S-Class'),
   r('slk.png', 'fleet/mercedes-slk-1', 'White Mercedes-Benz SLK roadster'),
-  r('jaguar-xe.jpeg', 'fleet/jaguar-xe-1', 'White Jaguar XE', cap),
+  r('jaguar-xe.jpeg', 'fleet/jaguar-xe-1', 'White Jaguar XF', {
+    ...cap,
+    modelMismatch: true,
+    note: 'Shows an XF (plate and body match jaguar-xf.jpeg), not the XE.',
+  }),
   r('jaguar-xf.jpeg', 'fleet/jaguar-xf-1', 'White Jaguar XF', cap),
   r('jagua-xjl.jpeg', 'fleet/jaguar-xjl-1', 'White Jaguar XJ', cap),
   r('car11.jpeg', 'fleet/vintage-classic-car-1', 'White vintage saloon car', cap),

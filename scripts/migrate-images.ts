@@ -31,8 +31,11 @@ async function main() {
   for (const entry of manifest) {
     const out = join(OUT, `${entry.key}.webp`)
     mkdirSync(dirname(out), { recursive: true })
-    const info = await sharp(join(SRC, entry.file))
+    const input = join(SRC, entry.file)
+    const crop = entry.cropCaption ? await captionCrop(input) : null
+    const info = await sharp(input)
       .rotate()
+      .extract(crop ?? (await fullFrame(input)))
       .resize({ width: MAX, height: MAX, fit: 'inside', withoutEnlargement: true })
       .webp({ quality: 78, effort: 5 })
       .toFile(out)
@@ -42,10 +45,13 @@ async function main() {
       width: info.width,
       height: info.height,
       source: entry.source,
-      bakedInText: entry.bakedInText ?? false,
+      bakedInText: (entry.bakedInText ?? false) && !crop,
       modelMismatch: entry.modelMismatch ?? false,
     }
-    const flags = [entry.bakedInText && 'caption baked in', entry.modelMismatch && 'wrong model']
+    const flags = [
+      entry.bakedInText && (crop ? 'caption bar cropped' : 'caption baked in'),
+      entry.modelMismatch && 'wrong model',
+    ]
       .filter(Boolean)
       .join(', ')
     rows.push(
@@ -99,10 +105,53 @@ Also without any image: Jaguar F-Type, BMW X3, Ford Endeavour, Hindustan Ambassa
 
 The audit repeated the plan's claim that the Gypsy and Jeep **images** are swapped. Viewing them shows the **filenames** are swapped (\`jeep.png\` is a Gypsy, \`gypsy.jpeg\` is an open jeep) but each legacy page displays the right vehicle. The migration names them by what they show.
 `
-  writeFileSync('docs/IMAGE_MAP.md', md)
+  // Hand-written sections after the generated part (the Unsplash scenes) are kept.
+  const previous = readFileSync('docs/IMAGE_MAP.md', 'utf8')
+  const kept = previous.slice(previous.indexOf(KEEP_FROM))
+  writeFileSync(
+    'docs/IMAGE_MAP.md',
+    previous.includes(KEEP_FROM)
+      ? `${md}
+${kept}`
+      : md,
+  )
   console.log(
     `images:migrate OK — ${manifest.length} migrated, ${Object.keys(skipped).length} skipped.`,
   )
+}
+
+const KEEP_FROM = '## Scenery from Unsplash'
+
+async function fullFrame(file: string) {
+  const { width, height } = await sharp(file).rotate().metadata()
+  return { left: 0, top: 0, width: width!, height: height! }
+}
+
+/**
+ * The legacy renders carry an orange name bar along the bottom (sometimes with
+ * a thin white strip under it). Finds the bar's top edge and keeps everything
+ * above it. Fails if no bar is found in the bottom third, so a wrong flag is caught.
+ */
+async function captionCrop(file: string) {
+  const { data, info } = await sharp(file).rotate().removeAlpha().raw().toBuffer({
+    resolveWithObject: true,
+  })
+  const { width, height, channels } = info
+  const orangeShare = (y: number) => {
+    let n = 0
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * channels
+      const [r, g, b] = [data[i]!, data[i + 1]!, data[i + 2]!]
+      if (r > 200 && g > 70 && g < 180 && b < 100) n++
+    }
+    return n / width
+  }
+  let y = height - 1
+  while (y > height * 0.66 && orangeShare(y) < 0.5) y--
+  if (y <= height * 0.66) throw new Error(`${file}: cropCaption set but no caption bar found`)
+  // Rows through the white lettering are less orange, so the bar continues while any is left.
+  while (y > 0 && orangeShare(y) >= 0.15) y--
+  return { left: 0, top: 0, width, height: y - 2 }
 }
 
 function invertNameMap(): Record<string, string> {
