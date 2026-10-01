@@ -1,10 +1,10 @@
 import { ClassCard } from '@/components/cards/ClassCard'
+import { VehicleCard } from '@/components/cards/VehicleCard'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CtaBand } from '@/components/sections/CtaBand'
 import { Section } from '@/components/ui/Section'
-import { getVehicleClasses, getVehicles, vehiclePath } from '@/lib/content'
+import { getVehicleClasses, getVehicles } from '@/lib/content'
 import { buildMetadata, buildTitle } from '@/lib/seo/metadata'
-import Link from 'next/link'
 
 /**
  * Fleet hub. Fares are by class, so the hub lists classes; individual vehicle
@@ -72,19 +72,14 @@ export default function FleetPage() {
         )
       })}
       {vehicles.length > 0 && (
-        <Section labelledBy="vehicles-title">
+        <Section labelledBy="vehicles-title" className="cv-auto">
           <h2 id="vehicles-title" className="text-h2 font-bold">
             Individual vehicles
           </h2>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {vehicles.map((v) => (
               <li key={v.slug}>
-                <Link
-                  href={vehiclePath(v.slug)}
-                  className="text-brand-deep font-semibold underline"
-                >
-                  {v.name}
-                </Link>
+                <VehicleCard vehicle={v} />
               </li>
             ))}
           </ul>

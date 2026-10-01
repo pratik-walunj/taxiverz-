@@ -12,12 +12,12 @@ import {
 import { business } from '@/config/business'
 import { scenes } from '@/config/imagery'
 import { Button } from '@/components/ui/Button'
-import { Milestone } from '@/components/ui/Milestone'
 import { PhotoBand } from '@/components/ui/PhotoBand'
 import { Section } from '@/components/ui/Section'
+import { GuideCard } from '@/components/cards/GuideCard'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
-import { destinationPath, getCity, getDestinations, servicePath } from '@/lib/content'
+import { getDestinations, servicePath } from '@/lib/content'
 import { isPublished } from '@/lib/content/published'
 import { bookingPath } from '@/lib/nav'
 import { formatIndianPhone, telHref } from '@/lib/phone'
@@ -160,7 +160,7 @@ export function GuidesStrip() {
   const destinations = getDestinations()
   if (destinations.length === 0) return null
   return (
-    <Section labelledBy="guides-title">
+    <Section labelledBy="guides-title" className="cv-auto">
       <SectionHeading
         id="guides-title"
         eyebrow="Travel guides"
@@ -170,24 +170,23 @@ export function GuidesStrip() {
           isPublished('/destinations/') ? { href: '/destinations/', label: 'All guides' } : null
         }
       />
-      <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        {destinations.map((d) => {
-          const city = getCity(d.place)
-          return (
-            <li key={d.place}>
-              <Link
-                href={destinationPath(d.place)}
-                className="rounded-panel bg-mist group flex h-full flex-col items-center p-5 text-center transition hover:-translate-y-1 hover:bg-orange-50 hover:shadow-lg"
-              >
-                <Milestone nameEn={city?.name ?? d.place} nameHi={city?.nameHi ?? null} km={null} />
-                <span className="font-heading group-hover:text-brand-deep mt-3 font-bold">
-                  {city?.name ?? d.place} guide
-                </span>
-              </Link>
+      <div
+        role="region"
+        aria-label="Travel guides"
+        tabIndex={0}
+        className="-mx-4 mt-8 overflow-x-auto px-4 pb-4 sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0"
+      >
+        <ul className="flex snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {destinations.map((d) => (
+            <li
+              key={d.place}
+              className="w-[82%] max-w-80 shrink-0 snap-start sm:w-auto sm:max-w-none"
+            >
+              <GuideCard destination={d} />
             </li>
-          )
-        })}
-      </ul>
+          ))}
+        </ul>
+      </div>
     </Section>
   )
 }

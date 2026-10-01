@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import { BookOpen } from 'lucide-react'
+import { CardActions, CardBadge, CardFrame } from '@/components/cards/CardParts'
+import { tripToParams } from '@/lib/pricing/quote'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CtaBand } from '@/components/sections/CtaBand'
@@ -56,16 +59,37 @@ export default async function DestinationPage({ params }: { params: Params }) {
           {name} travel guide
         </h1>
         <Prose text={d.overview} className="mt-4 text-lg" />
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {guides.map((g) => (
             <li key={g.guide}>
-              <Link
-                href={guidePath(g)}
-                className="border-line hover:border-brand rounded-panel block h-full border p-4"
-              >
-                <h2 className="font-heading text-lg font-bold">{GUIDE_LABEL[g.guide]}</h2>
-                {g.summary && <p className="text-muted mt-1">{g.summary}</p>}
-              </Link>
+              <CardFrame>
+                <div className="from-brand/20 via-mist to-paper relative flex aspect-[3/1] items-center justify-center bg-gradient-to-br">
+                  <BookOpen
+                    aria-hidden="true"
+                    className="text-brand-deep size-12 transition-transform duration-500 group-hover/card:scale-110"
+                  />
+                  <CardBadge>Guide</CardBadge>
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h2 className="font-heading text-xl font-extrabold">{GUIDE_LABEL[g.guide]}</h2>
+                  <p className="text-brand-deep text-sm font-semibold">{g.title}</p>
+                  {g.summary && <p className="text-muted mt-3">{g.summary}</p>}
+                  <CardActions
+                    primary={{ href: guidePath(g), label: 'Read the guide' }}
+                    details={
+                      d.place === 'gorakhpur'
+                        ? { href: '/book/', label: 'Book a car in Gorakhpur' }
+                        : {
+                            href: `/book/?${tripToParams({ type: 'round-trip', from: 'gorakhpur', to: d.place })}`,
+                            label: `Cab to ${name}`,
+                          }
+                    }
+                    subject={g.title}
+                    whatsappMessage={`Hi Taxiverz, I'd like help planning a trip to ${name}.`}
+                    placement="guide-card"
+                  />
+                </div>
+              </CardFrame>
             </li>
           ))}
         </ul>

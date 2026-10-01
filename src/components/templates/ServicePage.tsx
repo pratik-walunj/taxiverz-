@@ -27,9 +27,23 @@ import {
 } from '@/lib/content'
 import type { City, Faq, Service, VehicleClass } from '@/lib/schemas/content'
 import { serviceJsonLd } from '@/lib/seo/jsonld'
+import { cx } from '@/lib/cx'
 import { inSentence } from '@/lib/sentence'
 import { formatIndianPhone, telHref } from '@/lib/phone'
 import { whatsappHref } from '@/lib/whatsapp'
+
+const SHORTLIST = 6
+
+/** A stable slice of the list that starts at a different place for each sub-page. */
+function shortlist<T>(list: readonly T[], key: string, n: number): T[] {
+  if (list.length <= n) return [...list]
+  let h = 0
+  for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) >>> 0
+  const start = h % list.length
+  return Array.from({ length: n }, (_, i) => list[(start + i * 3) % list.length]!).filter(
+    (v, i, a) => a.indexOf(v) === i,
+  )
+}
 
 /** Which vehicle classes a service shows. Group services show vans and buses; the rest show cars. */
 function classFilter(service: Service): (c: VehicleClass) => boolean {
@@ -86,7 +100,10 @@ export function ServicePage({
   const hub = !city && !subPage
   const localPages = hub ? getServiceCitiesFor(service.slug) : []
   const subPages = hub ? getSubPages(service.slug) : []
-  const vehicles = getVehiclesFor(service.slug)
+  const allVehicles = getVehiclesFor(service.slug)
+  // A shoot type shows its own shortlist (the hub shows them all): six pages listing
+  // the same twenty cars would read as copies of each other (near-duplicate check).
+  const vehicles = subPage ? shortlist(allVehicles, subPage.slug, SHORTLIST) : allVehicles
 
   return (
     <>
@@ -159,13 +176,26 @@ export function ServicePage({
           <h2 id="vehicles-title" className="text-h2 font-bold">
             Vehicles you can book
           </h2>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {vehicles.map((v) => (
               <li key={v.slug}>
                 <VehicleCard vehicle={v} dark={luxury} describe={false} />
               </li>
             ))}
           </ul>
+          {vehicles.length < allVehicles.length && (
+            <p className="mt-6">
+              <Link
+                href={`${servicePath(service.slug)}#vehicles-title`}
+                className={cx(
+                  'font-semibold underline',
+                  luxury ? 'text-champagne' : 'text-brand-deep',
+                )}
+              >
+                See all {allVehicles.length} cars for {inSentence(service.name)}
+              </Link>
+            </p>
+          )}
         </Section>
       )}
 

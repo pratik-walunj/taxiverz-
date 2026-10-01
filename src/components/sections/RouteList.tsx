@@ -1,12 +1,10 @@
-import Link from 'next/link'
-import { Milestone } from '@/components/ui/Milestone'
+import { RouteCard } from '@/components/cards/RouteCard'
 import { Section } from '@/components/ui/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { getCity, routePath } from '@/lib/content'
 import { isPublished } from '@/lib/content/published'
 import type { Route } from '@/lib/schemas/content'
 
-/** Published routes as milestone cards (DESIGN.md §6), optionally grouped. Hidden when empty. */
+/** Published routes as fleet-style cards with their milestone (DESIGN.md §6), optionally grouped. Hidden when empty. */
 export function RouteList({
   title,
   routes,
@@ -27,7 +25,7 @@ export function RouteList({
     groups.set(key, [...(groups.get(key) ?? []), r])
   }
   return (
-    <Section labelledBy={`${id}-title`}>
+    <Section labelledBy={`${id}-title`} className="cv-auto">
       <SectionHeading
         id={`${id}-title`}
         eyebrow={eyebrow}
@@ -37,29 +35,23 @@ export function RouteList({
       {[...groups].map(([group, list]) => (
         <div key={group || 'all'} className="mt-6">
           {group && <h3 className="text-h3 font-semibold">{group}</h3>}
-          <ul className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {list.map((r) => {
-              const to = getCity(r.destination)
-              const from = getCity(r.origin)
-              return (
-                <li key={r.slug}>
-                  <Link
-                    href={routePath(r)}
-                    className="rounded-panel group hover:bg-mist flex flex-col items-center gap-2 p-3 text-center transition hover:-translate-y-1"
-                  >
-                    <Milestone
-                      nameEn={to?.name ?? r.destination}
-                      nameHi={to?.nameHi ?? null}
-                      km={r.distanceKm}
-                    />
-                    <span className="group-hover:text-brand-deep font-semibold">
-                      {from?.name} to {to?.name}
-                    </span>
-                  </Link>
+          <div
+            role="region"
+            aria-label={group || title}
+            tabIndex={0}
+            className="-mx-4 mt-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0"
+          >
+            <ul className="flex snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {list.map((r) => (
+                <li
+                  key={r.slug}
+                  className="w-[82%] max-w-80 shrink-0 snap-start sm:w-auto sm:max-w-none"
+                >
+                  <RouteCard route={r} />
                 </li>
-              )
-            })}
-          </ul>
+              ))}
+            </ul>
+          </div>
         </div>
       ))}
     </Section>

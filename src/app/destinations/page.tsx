@@ -1,9 +1,9 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CtaBand } from '@/components/sections/CtaBand'
 import { Section } from '@/components/ui/Section'
-import { destinationPath, getCity, getDestinations } from '@/lib/content'
+import { GuideCard } from '@/components/cards/GuideCard'
+import { getDestinations } from '@/lib/content'
 import { isPublished } from '@/lib/content/published'
 import { buildMetadata, buildTitle } from '@/lib/seo/metadata'
 
@@ -26,18 +26,11 @@ export default function DestinationsHub() {
         <p className="text-muted mt-4 max-w-2xl text-lg">
           What to see and when to go, for places travellers often visit from Gorakhpur.
         </p>
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="sr-only">All guides</h2>
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {getDestinations().map((d) => (
             <li key={d.place}>
-              <Link
-                href={destinationPath(d.place)}
-                className="border-line hover:border-brand rounded-panel block h-full border p-4"
-              >
-                <h2 className="font-heading text-lg font-bold">
-                  {getCity(d.place)?.name ?? d.place}
-                </h2>
-                {d.summary && <p className="text-muted mt-1">{d.summary}</p>}
-              </Link>
+              <GuideCard destination={d} />
             </li>
           ))}
         </ul>
