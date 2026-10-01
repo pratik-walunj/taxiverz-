@@ -162,7 +162,7 @@ export function ServicePage({
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {vehicles.map((v) => (
               <li key={v.slug}>
-                <VehicleCard vehicle={v} dark={luxury} />
+                <VehicleCard vehicle={v} dark={luxury} describe={false} />
               </li>
             ))}
           </ul>

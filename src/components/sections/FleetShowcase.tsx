@@ -25,7 +25,7 @@ export function FleetShowcase() {
   })).filter((g) => g.vehicles.length > 0)
   if (groups.length === 0) return null
   return (
-    <Section labelledBy="showcase-title">
+    <Section labelledBy="showcase-title" className="cv-auto">
       <SectionHeading
         id="showcase-title"
         eyebrow="Our fleet"

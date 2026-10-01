@@ -104,3 +104,11 @@
 @utility animate-rise {
   animation: rise-in 240ms var(--ease-out-soft) both;
 }
+
+/* Long card sections below the fold: the browser skips their layout and paint
+   until they are near the viewport, so opening the menu or typing in the fare
+   box doesn't restyle hundreds of off-screen cards (INP). */
+@utility cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}

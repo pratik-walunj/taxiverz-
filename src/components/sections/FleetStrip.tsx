@@ -5,7 +5,7 @@ import { getVehicleClasses } from '@/lib/content'
 import { isPublished } from '@/lib/content/published'
 import type { VehicleClass } from '@/lib/schemas/content'
 
-/** Vehicle classes in a horizontal scroll-snap row (DESIGN.md: fleet by tier). */
+/** Vehicle classes: a scroll-snap row on phones, a grid from tablet up (DESIGN.md: fleet by tier). */
 export function FleetStrip({
   title = 'Cars and vans you can book',
   filter,
@@ -20,7 +20,7 @@ export function FleetStrip({
     .toSorted((a, b) => a.sortOrder - b.sortOrder)
   if (classes.length === 0) return null
   return (
-    <Section register="mist" labelledBy="fleet-title">
+    <Section register="mist" labelledBy="fleet-title" className="cv-auto">
       <SectionHeading
         id="fleet-title"
         eyebrow="The fleet"
@@ -29,16 +29,20 @@ export function FleetStrip({
         action={isPublished('/fleet/') ? { href: '/fleet/', label: 'See the whole fleet' } : null}
       />
 
-      {/* Scrollable, so it must be reachable by keyboard (axe: scrollable-region-focusable). */}
+      {/* Phones: a swipeable row (reachable by keyboard — axe: scrollable-region-focusable).
+          Wider screens: a grid, so every card and its details are in view. */}
       <div
         role="region"
         aria-label={title}
         tabIndex={0}
-        className="-mx-4 mt-8 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
+        className="-mx-4 mt-8 overflow-x-auto px-4 pb-4 sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0"
       >
-        <ul className="flex snap-x snap-mandatory gap-4">
+        <ul className="flex snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {classes.map((c) => (
-            <li key={c.slug} className="w-64 shrink-0 snap-start transition hover:-translate-y-1">
+            <li
+              key={c.slug}
+              className="w-[82%] max-w-80 shrink-0 snap-start sm:w-auto sm:max-w-none"
+            >
               <ClassCard vehicleClass={c} />
             </li>
           ))}
