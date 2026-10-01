@@ -2,6 +2,7 @@ import { business } from '@/config/business'
 import { heroSlides, scenes } from '@/config/imagery'
 import { FareWidget } from '@/components/booking/FareWidget'
 import { FaqSection } from '@/components/sections/FaqSection'
+import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { FleetStrip } from '@/components/sections/FleetStrip'
 import { HeroSlider, type HeroSlide } from '@/components/sections/HeroSlider'
 import {
@@ -74,6 +75,7 @@ export default function HomePage() {
       />
       <NepalBand />
       <LuxuryBand />
+      <FleetShowcase />
       <HowBooking />
       <WhyTaxiverz />
       <GuidesStrip />

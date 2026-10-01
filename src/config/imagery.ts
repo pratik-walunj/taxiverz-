@@ -186,6 +186,7 @@ export const classImages: Record<string, ImageKey> = {
   hatchback: 'fleet/wagonr-1',
   sedan: 'fleet/toyota-etios-2',
   'premium-sedan': 'fleet/hyundai-verna-1',
+  muv: 'fleet/maruti-ertiga-1',
   suv: 'fleet/mahindra-scorpio-1',
   mpv: 'fleet/innova-crysta-1',
   'premium-suv': 'fleet/toyota-fortuner-1',

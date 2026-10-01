@@ -172,6 +172,26 @@ export function getVehiclesFor(service: string): Vehicle[] {
   const fits = VERTICAL_VEHICLES[service]
   return fits ? liveVehicles.filter(fits) : []
 }
+/** Class-priced services a car or van can be booked under (the class decides the fare). */
+const CLASS_SERVICES: Record<'car' | 'lcv' | 'bus', string[]> = {
+  car: ['local-car-rental', 'outstation-cabs', 'one-way-cabs', 'airport-taxi'],
+  lcv: ['tempo-traveller', 'outstation-cabs'],
+  bus: ['tempo-traveller'],
+}
+
+/** The live services a vehicle can be hired under ("ways to hire" on its page). */
+export function getServicesForVehicle(v: Vehicle): Service[] {
+  const viaClass = v.classSlug
+    ? (CLASS_SERVICES[getVehicleClass(v.classSlug)?.tollClass ?? 'car'] ?? [])
+    : []
+  const viaVertical = Object.entries(VERTICAL_VEHICLES)
+    .filter(([, fits]) => fits(v))
+    .map(([slug]) => slug)
+  return [...new Set([...viaVertical, ...viaClass])]
+    .map((slug) => liveServices.find((s) => s.slug === slug))
+    .filter((s): s is Service => Boolean(s))
+}
+
 export const getServiceCity = (service: string, city: string): ServiceCity | undefined =>
   liveServiceCities.find((sc) => sc.service === service && sc.city === city)
 export const getServiceCitiesFor = (service: string): ServiceCity[] =>

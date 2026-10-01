@@ -14,4 +14,6 @@ export interface RouteCopy {
   tips: string[]
   faqs: Faq[]
   bestDepartureTime?: string | null
+  /** Long-distance routes (E3): the owner asked for every legacy route back (2026-10-01). */
+  ownerConfirmed?: boolean
 }

@@ -10,6 +10,8 @@ export interface VehicleCopy {
   publish: boolean
   summary: string
   intro: string
+  /** "Why choose" points from the legacy page (3–6), fact-checked: no prices, ratings or specs we can't confirm. */
+  highlights?: { title: string; text: string }[]
   faqs: Faq[]
 }
 

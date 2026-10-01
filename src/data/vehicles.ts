@@ -56,10 +56,11 @@ function withCopy(slug: string) {
     ? {
         summary: c.summary,
         intro: c.intro,
+        highlights: c.highlights ?? [],
         faqs: c.faqs,
         status: c.publish ? ('published' as const) : ('draft' as const),
       }
-    : { summary: null, intro: null, faqs: [] }
+    : { summary: null, intro: null, highlights: [], faqs: [] }
 }
 
 const car = { category: 'car' } as const
@@ -779,6 +780,8 @@ export const vehicles: Vehicle[] = [
     make: 'Bus',
     bodyType: 'bus',
     bookingMode: 'enquire',
+    // A coach from outside; the 3×2 layout is inside (representative image, 2026-10-01).
+    img: ['fleet/volvo-bus-1'],
     legacyUrls: ['/luxury3-2bus.html'],
     flags: [
       'Legacy prices identical to the 2×2 bus — likely copied.',

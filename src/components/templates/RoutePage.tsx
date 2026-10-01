@@ -11,7 +11,8 @@ import { Price } from '@/components/ui/Price'
 import { Prose } from '@/components/ui/Prose'
 import { HeroSection } from '@/components/ui/HeroSection'
 import { Section } from '@/components/ui/Section'
-import { cityPath, routePath } from '@/lib/content'
+import { cityPath, getGuide, guidePath, routePath } from '@/lib/content'
+import { RouteFeatures } from '@/components/sections/RouteFeatures'
 import { isPublished } from '@/lib/content/published'
 import { formatDuration, type FareRow, type RelatedRoutes } from '@/lib/pages/route'
 import { tripToParams } from '@/lib/pricing/quote'
@@ -51,6 +52,7 @@ export function RoutePage({
     route.roadNotes && { label: 'Road', value: route.roadNotes },
   ].filter((f): f is { label: string; value: string } => Boolean(f))
   const hubPublished = isPublished(cityPath(destination.slug))
+  const placesGuide = getGuide(destination.slug, 'places-to-visit')
   const anyPriced = fares.some(
     (f) => f.oneWay.status === 'priced' || f.roundTrip.status === 'priced',
   )
@@ -237,6 +239,22 @@ export function RoutePage({
           </ul>
         </Section>
       )}
+
+      {placesGuide && (
+        <Section labelledBy="places-title">
+          <h2 id="places-title" className="text-h2 font-bold">
+            Places to visit in {destination.name}
+          </h2>
+          <p className="mt-3 max-w-3xl">{placesGuide.summary}</p>
+          <p className="mt-4">
+            <Link href={guidePath(placesGuide)} className="text-brand-deep font-semibold underline">
+              Read our guide: {placesGuide.title}
+            </Link>
+          </p>
+        </Section>
+      )}
+
+      <RouteFeatures from={origin.name} to={destination.name} />
 
       <FaqSection faqs={route.faqs} title={`${origin.name} to ${destination.name}: questions`} />
 

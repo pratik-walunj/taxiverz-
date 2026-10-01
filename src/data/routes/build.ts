@@ -48,6 +48,7 @@ function withCopy(slug: string): Partial<Route> {
     stops: c.stops,
     faqs: c.faqs,
     bestDepartureTime: c.bestDepartureTime ?? null,
+    ...(c.ownerConfirmed !== undefined && { ownerConfirmed: c.ownerConfirmed }),
   }
 }
 

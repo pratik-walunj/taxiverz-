@@ -1,4 +1,5 @@
-import { Phone } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight, Check, Phone } from 'lucide-react'
 import { business } from '@/config/business'
 import { FareWidget } from '@/components/booking/FareWidget'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
@@ -10,7 +11,10 @@ import { Price } from '@/components/ui/Price'
 import { Section } from '@/components/ui/Section'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { Picture } from '@/components/ui/Picture'
-import { vehiclePath } from '@/lib/content'
+import { getServicesForVehicle, servicePath, vehiclePath } from '@/lib/content'
+import { cx } from '@/lib/cx'
+import { inSentence } from '@/lib/sentence'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 import { isUsableImage } from '@/lib/content/gates'
 import type { Vehicle, VehicleClass } from '@/lib/schemas/content'
 import { formatIndianPhone, telHref } from '@/lib/phone'
@@ -71,6 +75,7 @@ export function VehiclePage({
       ].filter((x): x is { label: string; amount: number } => Boolean(x))
     : []
   const message = `Hi Taxiverz, I'd like to enquire about the ${v.name}.`
+  const ways = getServicesForVehicle(v)
 
   return (
     <>
@@ -165,6 +170,65 @@ export function VehiclePage({
             About the {v.name}
           </h2>
           <Prose text={v.intro} className="mt-4" />
+        </Section>
+      )}
+
+      {v.highlights.length > 0 && (
+        <Section register={luxury ? 'luxury' : 'mist'} labelledBy="why-vehicle">
+          <SectionHeading
+            id="why-vehicle"
+            eyebrow="Why this one"
+            title={`Why choose the ${v.name}`}
+            dark={luxury}
+          />
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {v.highlights.map((h) => (
+              <li
+                key={h.title}
+                className={cx(
+                  'rounded-panel p-5',
+                  luxury ? 'border-champagne/30 border' : 'bg-paper shadow-sm',
+                )}
+              >
+                <Check
+                  aria-hidden="true"
+                  className={cx('size-6', luxury ? 'text-champagne' : 'text-brand-deep')}
+                />
+                <h3 className="font-heading mt-3 text-lg font-bold">{h.title}</h3>
+                <p className={cx('mt-1', luxury ? 'text-night-muted' : 'text-muted')}>{h.text}</p>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {ways.length > 0 && (
+        <Section labelledBy="hire-vehicle">
+          <SectionHeading
+            id="hire-vehicle"
+            eyebrow="Rental options"
+            title={`Ways to hire the ${v.name}`}
+          />
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {ways.map((s) => (
+              <li key={s.slug}>
+                <Link
+                  href={servicePath(s.slug)}
+                  className="group border-line hover:border-brand rounded-panel flex h-full flex-col border p-5 transition-colors"
+                >
+                  <span className="font-heading text-lg font-bold">{s.name}</span>
+                  {s.summary && <span className="text-muted mt-1 line-clamp-3">{s.summary}</span>}
+                  <span className="text-brand-deep mt-auto inline-flex items-center gap-1 pt-3 font-semibold">
+                    See {inSentence(s.name)}
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="size-4 transition-transform group-hover:translate-x-1"
+                    />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
 

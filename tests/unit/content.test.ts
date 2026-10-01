@@ -165,14 +165,16 @@ describe('publishing', () => {
     expect(contentPaths()).toContain('/cabs/')
   })
 
-  it('publishes route and vehicle pages, but not long-distance routes or pictures with captions', () => {
+  it('publishes every legacy route and vehicle page that has a usable picture', () => {
     const paths = contentPaths()
     expect(paths).toContain('/cabs/gorakhpur/gorakhpur-to-ayodhya/')
     expect(paths).toContain('/fleet/innova-crysta/')
-    // Long-distance routes wait for the owner (E3).
-    expect(paths).not.toContain('/cabs/gorakhpur/gorakhpur-to-goa/')
-    // Only picture has a caption baked in.
-    expect(paths).not.toContain('/fleet/audi-a4/')
+    // The owner asked for every legacy route back, long-distance included (2026-10-01).
+    expect(paths).toContain('/cabs/gorakhpur/gorakhpur-to-goa/')
+    // Its caption bar is cropped off at migration.
+    expect(paths).toContain('/fleet/audi-a4/')
+    // Its only picture shows a different model (an XF).
+    expect(paths).not.toContain('/fleet/jaguar-xe/')
     // Not a real model name (held back in the copy).
     expect(paths).not.toContain('/fleet/tvs-duet/')
     for (const r of routes.filter((r) => paths.includes(routePath(r))))

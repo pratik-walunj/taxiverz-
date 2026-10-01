@@ -206,4 +206,39 @@ Enter the trip in the fare box — Gorakhpur as pickup — and the group vehicle
       },
     ],
   },
+
+  'luxury-car-rental': {
+    publish: true,
+    summary:
+      'Chauffeur-driven luxury cars in Gorakhpur for weddings at city venues, VIP pickups at the Junction or airport, and hotel guests.',
+    intro: `In Gorakhpur, a luxury car is usually booked for one of three reasons: a wedding at one of the city's marriage lawns or banquet halls, an important guest arriving by train or plane, or a family occasion where the car is part of the welcome.
+
+Wedding bookings are the most common. The groom's car often sets out from a hotel or the family home and has to reach the venue at the right moment, then wait through the ceremonies and take the couple away after the vidaai. Give us the venue name and the muhurat when you write, and our driver plans the route through the city's evening traffic around it.
+
+Many guests reach Gorakhpur at the Junction, where our head office sits at Railway Station Gate No-1, so a luxury car can be waiting for them near the station entrance. Others land at Gorakhpur Airport (GOP); the civil terminal is inside the Air Force station, so share the flight number and the guest's name and we confirm the meeting point. Companies, hospitals and institutions in the city book the same way for visiting officials, doctors or speakers, and families book a car to take elderly relatives to the Gorakhnath Temple in comfort.
+
+Every luxury car comes with a driver and is booked by enquiry, not through the fare box. Send the date, the pickup point in Gorakhpur, the timings and the car you have in mind on WhatsApp or by phone at +91 85760 00083, or visit our office at the station. We reply with what is free that day, the price and what the booking includes.`,
+    faqs: [
+      {
+        q: 'Can a luxury car pick up a guest from Gorakhpur Junction?',
+        a: 'Yes. Our office is at Railway Station Gate No-1. Send the train number and coach, and the driver will meet the guest near the station entrance.',
+      },
+      {
+        q: 'Can you receive a VIP guest at Gorakhpur Airport?',
+        a: 'Yes. Share the flight number and the guest’s name when you enquire, and we will confirm where the driver will wait outside the terminal.',
+      },
+      {
+        q: 'Can the car wait at a wedding venue in Gorakhpur?',
+        a: 'Yes. Tell us the venue and the timings of the baraat and the vidaai, so the booking covers the hours the car stays with you.',
+      },
+      {
+        q: 'Can I drive the luxury car myself?',
+        a: 'No. Luxury cars in Gorakhpur are always booked with our driver.',
+      },
+      {
+        q: 'How do I book a luxury car in Gorakhpur?',
+        a: 'WhatsApp or call +91 85760 00083 with the date, pickup point and timings, or visit our office at Railway Station Gate No-1. We reply with the car, the price and what it includes.',
+      },
+    ],
+  },
 }
