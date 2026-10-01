@@ -267,6 +267,13 @@ In particular, confirm the sentences that describe how you work: pickup from Gor
 
 **L12 🟠 Please read the new route and vehicle text.** The route pages (`src/data/routes/copy/`) and vehicle pages (`src/data/copy/vehicles-*.ts`) were written from the old site and checked against known facts. Please read them on the local site and tell us anything that is wrong for how Taxiverz actually works: stops, timings, which cars you really run. Pictures are the old site's, labelled "Representative image", until your own photos arrive (F1).
 
+**L13 🟠 Seven old pages still need you.** Everything else from the old site is back (149 of 156 old URLs have their own page).
+- **BMW 520d, Jaguar XE:** the old pictures show a 3 Series and an XF. Send a photo of each car (or tell us you don't run it).
+- **Non-AC bus, sleeper bus:** there is no picture at all. Send a photo of each.
+- **Helicopter charter, Everest mountain flight:** who operates them, and at what price? Until then the old URLs open the Nepal page.
+- **Self-drive:** see L11.
+- **Please also check:** the "Why choose" points on the vehicle pages come from the old pages with prices and unconfirmed specs removed. Remove anything that isn't true of the cars you send. For example, ask yourself whether your Urbania and tempo travellers have the features named.
+
 ---
 
 ## K. Hosting (Phase 8)

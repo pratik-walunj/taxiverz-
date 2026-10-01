@@ -14,9 +14,42 @@ Phase plan: `docs/REBUILD_PLAN.md §7`. Open questions: `docs/OWNER_TODO.md`. Le
 | 6 — Trust and support | ✅ done 2026-09-29 — pushed; terms, refund, reviews and payment notice publish when the owner supplies H1/F3 |
 | 7 — SEO hardening, QA, performance | ✅ done 2026-09-29 — pushed; budgets met except LCP/performance score (reasons and fix plan below) |
 | 7.5 — Full site and redesign (owner request) | ✅ done 2026-09-30 — pushed; not deployed |
+| 7.6 — Every legacy page and section back (owner request) | ✅ done 2026-10-01 — pushed; 149 of 156 legacy URLs have their own page |
 | 8 | not started |
 
 ---
+
+---
+
+## 7.6 — Every legacy page and section back (owner request, 2026-10-01)
+
+The owner asked for every page and section of the old site, with the same content. An audit compared each of the 156 legacy pages with where its URL lands now and which of its headings have no counterpart.
+
+### Before → after
+- Legacy URLs landing on their own new page: **125 → 149** of 156. Rendered pages: 138 → 163.
+- Back: 11 long-distance routes (Agra, Dehradun, Delhi, Goa, Indore, Jaipur, Kolkata, Mumbai, Nashik, Ujjain, Delhi → Gorakhpur; owner confirmed E3 by asking for every legacy route), Swift Dzire, Honda City, Maruti Ertiga, Audi A4/A6/A8, BMW 320d and X1, Jaguar XF and XJ L, both vintage cars, the 3×2 bus and luxury car rental in Gorakhpur.
+- Still not on their own page (7):
+  - BMW 520d and Jaguar XE: the only pictures show other models;
+  - non-AC bus and sleeper bus: no picture at all;
+  - the helicopter charter and the Everest mountain flight: third-party services with no confirmed operator or price (D-items);
+  - self-drive: E5.
+  The text for the four vehicles is written and held back (`publish: false`) until photos arrive (OWNER_TODO L13).
+
+### Sections restored
+- **Vehicle pages:** "Why choose the …" (3–6 highlights per vehicle, from the legacy page, fact-checked, for all vehicles) and "Ways to hire the …" (the live services the vehicle is booked under: local, outstation, one-way, airport; or wedding, luxury and shoots; or bus).
+- **Route pages:** "Service features" (how every booking works, nothing promised about the car) and "Places to visit in …" with a link to the destination guide where one exists.
+- **Home page:** the legacy fleet showcase, model by model: everyday cars, luxury and vintage cars, tempo travellers, vans and buses, as scrollable rows.
+- Left out on purpose: legacy price tables (unverified, B-items), "What our customers say" (no verified reviews, F3), "24/7" and "best/#1" claims, and engine and feature specs we can't confirm for the car supplied.
+
+### Images
+- `scripts/migrate-images.ts` gains `cropCaption`: it finds the orange name bar along the bottom of the legacy renders and crops it off, failing if no bar is found. 20 pictures are now usable.
+- The "Jaguar XE" render is an XF (its plate and body match), so it is flagged as the wrong model.
+- The MUV class card uses the Ertiga. The 3×2 bus page uses the coach picture (representative).
+
+### Checks
+- `npm run check` passes (135 unit tests; qa on 163 pages, near-duplicate check passed).
+- links:check: 162 pages, 1,870 URLs. bundle: 194.5 KB maximum.
+- redirects: 158 legacy URLs in one hop. `--launch`: only the self-drive URL lands on `/` (L11).
 
 ---
 
